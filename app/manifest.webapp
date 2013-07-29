@@ -1,0 +1,12 @@
+{
+  "name": "Pgu-play",
+  "description": "Games",
+  "icons": {
+    "128": "/favicon.ico"
+  },
+  "developer": {
+    "name": "PGU",
+    "url": "http://pgu-play.appspot.com"
+  },
+  "default_locale": "en"
+}
