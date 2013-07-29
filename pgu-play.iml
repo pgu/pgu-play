@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module type="JAVA_MODULE" version="4">
   <component name="FacetManager">
-    <facet type="web" name="App">
+    <facet type="web" name="play-App">
       <configuration>
         <descriptors>
           <deploymentDescriptor name="web.xml" url="file://$MODULE_DIR$/app/WEB-INF/web.xml" />
@@ -11,6 +11,21 @@
         </webroots>
       </configuration>
       <facet type="google-app-engine" name="Google App Engine">
+        <configuration>
+          <sdk-home-path>$MODULE_DIR$/../../eclipse/perso_indigo_2/plugins/com.google.appengine.eclipse.sdkbundle_1.8.0/appengine-java-sdk-1.8.0</sdk-home-path>
+        </configuration>
+      </facet>
+    </facet>
+    <facet type="web" name="play-Dist">
+      <configuration>
+        <descriptors>
+          <deploymentDescriptor name="web.xml" url="file://$MODULE_DIR$/dist/WEB-INF/web.xml" />
+        </descriptors>
+        <webroots>
+          <root url="file://$MODULE_DIR$/dist" relative="/" />
+        </webroots>
+      </configuration>
+      <facet type="google-app-engine" name="Google App Engine2">
         <configuration>
           <sdk-home-path>$MODULE_DIR$/../../eclipse/perso_indigo_2/plugins/com.google.appengine.eclipse.sdkbundle_1.8.0/appengine-java-sdk-1.8.0</sdk-home-path>
         </configuration>
