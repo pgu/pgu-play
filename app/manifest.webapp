@@ -1,6 +1,8 @@
 {
+  "version": "0.1",
   "name": "Pgu-play",
   "description": "Games",
+  "launch_path": "/index.html",
   "icons": {
     "128": "/favicon.ico"
   },

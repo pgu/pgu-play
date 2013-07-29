@@ -7,5 +7,10 @@
   <p>installed.</p>
   <h3>Enjoy coding! - Yeoman</h3>
 
-  <button class="btn btn-large btn-primary" id="install" ng-click="installOnFirefoxOs()" ng-show="!isAppAlreadyInstalled">Install on FirefoxOS</button>
+  <button class="btn btn-large btn-primary" ng-click="installOnFirefoxOs()" ng-show="!isAppInstalled">Install on FirefoxOS</button>
+
+  <ul>
+      <li ng-repeat="info in infos">{{ info }}</li>
+  </ul>
+
 </div>
