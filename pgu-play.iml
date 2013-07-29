@@ -10,6 +10,11 @@
           <root url="file://$MODULE_DIR$/app" relative="/" />
         </webroots>
       </configuration>
+      <facet type="google-app-engine" name="Google App Engine">
+        <configuration>
+          <sdk-home-path>$MODULE_DIR$/../../eclipse/perso_indigo_2/plugins/com.google.appengine.eclipse.sdkbundle_1.8.0/appengine-java-sdk-1.8.0</sdk-home-path>
+        </configuration>
+      </facet>
     </facet>
   </component>
   <component name="NewModuleRootManager" inherit-compiler-output="true">
