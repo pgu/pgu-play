@@ -40,7 +40,7 @@ angular.module('pguPlayApp').controller('CardsCtrl', //
 
                 var selectedLg = _.findWhere(LanguagesSrv.languages, {name: nameOfLg});
 
-                itemsOfGameSource = _.clone([selectedLg.data[0], selectedLg.data[1], selectedLg.data[2]]);
+                itemsOfGameSource = _.clone(selectedLg.data);
                 itemsOfGame = _.clone(itemsOfGameSource);
 
                 $scope.selectedLg = selectedLg;
