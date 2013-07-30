@@ -70,6 +70,9 @@ angular.module('pguPlayApp').controller('CardsCtrl', //
 
             $scope.selectAnswer = function(answer) {
                 answer.state = answer.value === $scope.itemToGuess.value ? 'success' : 'error';
+
+
+
             }
 
         }]);
