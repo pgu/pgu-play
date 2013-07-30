@@ -12,9 +12,7 @@ angular.module('pguPlayApp').controller('CardsCtrl', //
             $scope.namesOfLg = [];
 
             var getNamesOfLanguages = function() {
-                return _.map(LanguagesSrv.languages, function (v) {
-                    return v.name;
-                });
+                return _.pluck(LanguagesSrv.languages, 'name');
             };
 
             $scope.namesOfLg = getNamesOfLanguages();
@@ -117,9 +115,7 @@ angular.module('pguPlayApp').controller('CardsCtrl', //
 
                 // build answers
                 var sortedItems = [selectedItem, wrongItem1, wrongItem2];
-                var sortedAnswers = _.map(sortedItems, function(item) {
-                    return item[1];
-                });
+                var sortedAnswers = _.pluck(sortedItems, 1);
                 var randomAnswers = [];
 
                 for (var i = 0; i < sortedItems.length; i++) {
