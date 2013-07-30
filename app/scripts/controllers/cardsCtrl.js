@@ -7,6 +7,7 @@ angular.module('pguPlayApp').controller('CardsCtrl', //
             var itemToGuess = undefined;
             var itemsOfGame = [];
             var itemsOfGameSource = [];
+            var startTime = 0;
 
             $scope.namesOfLg = [];
 
@@ -24,9 +25,13 @@ angular.module('pguPlayApp').controller('CardsCtrl', //
                 $scope.itemToGuessDisplay = undefined;
                 $scope.answers = [];
 
+                $scope.showCongratulations = false;
+                $scope.timeElapsedOfGame = 0;
+
                 itemToGuess = undefined;
                 itemsOfGame = [];
                 itemsOfGameSource = [];
+                startTime = 0;
             }
 
             $scope.selectLanguageAndPlay = function (nameOfLg) {
@@ -40,6 +45,7 @@ angular.module('pguPlayApp').controller('CardsCtrl', //
 
                 $scope.selectedLg = selectedLg;
 
+                startTime = Date.now();
                 playGame();
             };
 
@@ -58,11 +64,34 @@ angular.module('pguPlayApp').controller('CardsCtrl', //
                 return Math.floor(Math.random() * (max - min) + min);
             };
 
+            var formatTime = function(timeMs) {
+
+                if (timeMs > 10*60*1000) {
+                    return 'more than 10 minutes!';
+
+                } else {
+
+                    var totalSeconds = timeMs / 1000;
+                    var minutes = Math.floor(totalSeconds / 60);
+                    var seconds = Math.floor(totalSeconds - (minutes * 60));
+
+                    if (minutes < 10) {minutes = "0"+minutes;}
+                    if (seconds < 10) {seconds = "0"+seconds;}
+                    return minutes + ' min : ' + seconds + ' sec';
+                }
+            }
+
             var playGame = function() {
 
                 var gameIsOver = itemsOfGame.length === 0;
                 if (gameIsOver) {
+                    var _startTime = startTime;
                     resetGame();
+
+                    var timeMs = Date.now() - _startTime;
+
+                    $scope.timeElapsedOfGame = formatTime(timeMs);
+                    $scope.showCongratulations = true;
                     return;
                 }
 

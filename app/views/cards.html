@@ -1,12 +1,21 @@
 <p></p>
-<div class="row-fluid">
-    <div class="well well-large">{{ itemToGuessDisplay }}</div>
+
+<div class="row-fluid" ng-show="!selectedLg && showCongratulations">
+    <p></p>
+    <div class="alert alert-block alert-success">Congratulations! Done in {{ timeElapsedOfGame }}</div>
 </div>
 
-<p></p>
-<div class="row-fluid">
-    <div class="btn-group">
-        <button ng-class="{'clean':'btn btn-large', error:'btn btn-large btn-danger disabled', success:'btn btn-large btn-success disabled'}[answer.state]" ng-repeat="answer in answers" ng-click="selectAnswer(answer)">{{ answer.value }}</button>
+<div class="row-fluid" ng-show="selectedLg">
+    <p></p>
+    <div class="row-fluid">
+        <div class="well well-large">{{ itemToGuessDisplay }}</div>
+    </div>
+
+    <p></p>
+    <div class="row-fluid">
+        <div class="btn-group">
+            <button ng-class="{'clean':'btn btn-large', error:'btn btn-large btn-danger disabled', success:'btn btn-large btn-success disabled'}[answer.state]" ng-repeat="answer in answers" ng-click="selectAnswer(answer)">{{ answer.value }}</button>
+        </div>
     </div>
 </div>
 
