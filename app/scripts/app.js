@@ -1,10 +1,20 @@
 'use strict';
 
 angular.module('pguPlayApp', []).config(function ($routeProvider) {
-        $routeProvider.when('/', {
+        $routeProvider
+            .when('/', {
                 templateUrl: 'views/main.html',
                 controller: 'MainCtrl'
-            }).otherwise({
+            })
+            .when('/cards', {
+                templateUrl: 'views/cards.html',
+                controller: 'CardsCtrl'
+            })
+            .when('/memo', {
+                templateUrl: 'views/memo.html',
+                controller: 'MemoCtrl'
+            })
+            .otherwise({
                 redirectTo: '/'
             });
     });

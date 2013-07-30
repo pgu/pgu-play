@@ -1,16 +1,21 @@
 <div class="hero-unit">
-  <h1>'Allo, 'Allo!</h1>
-  <p>You now have</p>
-  <ul>
-      <li ng-repeat="thing in awesomeThings">{{thing}}</li>
-  </ul>
-  <p>installed.</p>
-  <h3>Enjoy coding! - Yeoman</h3>
+    <h3>Play</h3>
+    <p>
+        <a type="button" class="btn btn-large btn-primary" ng-href="cards">Cards</a>
+        <a type="button" class="btn btn-large btn-primary" ng-href="memo">Memo</a>
+    </p>
 
-  <button class="btn btn-large btn-primary" ng-click="installOnFirefoxOs()" ng-show="!isAppInstalled">Install on FirefoxOS</button>
+    <p>
+        <div ng-show="isInFF">
+            <button class="btn btn-large btn-success" ng-click="installOnFirefoxOs()" ng-show="!isAppInstalled">
+                Install on FirefoxOS
+            </button>
+            <ul>
+                <li ng-repeat="info in infos">{{ info }}</li>
+            </ul>
+        </div>
+    </p>
 
-  <ul>
-      <li ng-repeat="info in infos">{{ info }}</li>
-  </ul>
 
 </div>
+
