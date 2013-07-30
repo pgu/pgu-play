@@ -29,11 +29,29 @@ angular.module('pguPlayApp').controller('CardsCtrl', //
 
                 var selectedLg = _.findWhere(LanguagesSrv.languages, {name: nameOfLg});
 
-                var itemsOfGame = _.clone(selectedLg.data);
+                itemsOfGame = _.clone(selectedLg.data);
+
+                $scope.selectedLg = selectedLg;
+
+                playGame();
+            };
+
+            $scope.selectAnswer = function(answer) {
+                answer.state = answer.value === itemToGuess[1] ? 'success' : 'error';
+
+                if (answer.state === 'success') {
+                    playGame();
+                }
+
+            };
+
+            var playGame = function() {
 
                 // select to symbol to guess
                 var selectedIdx = getRandomInt(0, itemsOfGame.length);
-                var selectedItem = itemsOfGame[selectedIdx];
+                var selectedItem = _.clone(itemsOfGame[selectedIdx]);
+
+                itemsOfGame.splice(selectedIdx, 1); // clean the game for the next round
 
                 // select wrong answers
                 var itemsForWrongAnswers = _.clone(itemsOfGame);
@@ -65,19 +83,9 @@ angular.module('pguPlayApp').controller('CardsCtrl', //
 
                 itemToGuess = selectedItem;
 
-                $scope.selectedLg = selectedLg;
                 $scope.answers = randomAnswers;
                 $scope.itemToGuessDisplay = itemToGuess[0];
 
             };
-
-            $scope.selectAnswer = function(answer) {
-                answer.state = answer.value === itemToGuess[1] ? 'success' : 'error';
-
-                if (answer.state === 'success') {
-
-                }
-
-            }
 
         }]);
