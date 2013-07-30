@@ -1,4 +1,16 @@
-<div>
-      {{ name }}
+<p></p>
+<div class="row-fluid">
+    <a type="button" class="btn btn-large btn-primary" href="/">Home</a>
 </div>
-<a type="button" class="btn btn-large btn-primary" href="/">Home</a>
+
+<p></p>
+<div class="row-fluid">
+    <div class="btn-group">
+        <button ng-class="(selectedLg.name === nameOfLg) ? 'btn btn-large btn-inverse' : 'btn btn-large'" ng-repeat="nameOfLg in namesOfLg" ng-click="selectLanguage(nameOfLg)">{{ nameOfLg }}</button>
+    </div>
+</div>
+
+<p></p>
+<div class="row-fluid">
+    <div class="well well-large">{{ selectedLg.name }}</div>
+</div>
