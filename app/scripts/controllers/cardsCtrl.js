@@ -4,14 +4,11 @@ angular.module('pguPlayApp').controller('CardsCtrl', //
     [ '$scope', 'LanguagesSrv', '$timeout', //
         function ($scope, LanguagesSrv, $timeout) { //
 
-            $scope.namesOfLg = [];
-            $scope.selectedLg = undefined;
-            $scope.selectedItem = undefined;
-            $scope.itemToGuessDisplay = undefined;
-
             var itemToGuess = undefined;
             var itemsOfGame = [];
             var itemsOfGameSource = [];
+
+            $scope.namesOfLg = [];
 
             var getNamesOfLanguages = function() {
                 return _.map(LanguagesSrv.languages, function (v, k, list) {
@@ -21,11 +18,20 @@ angular.module('pguPlayApp').controller('CardsCtrl', //
 
             $scope.namesOfLg = getNamesOfLanguages();
 
-            var getRandomInt = function (min, max) { // max: exclusion; min: inclusion
-                return Math.floor(Math.random() * (max - min) + min);
-            };
+            function resetGame() {
+                $scope.selectedLg = undefined;
+                $scope.selectedItem = undefined;
+                $scope.itemToGuessDisplay = undefined;
+                $scope.answers = [];
 
-            $scope.selectLanguage = function (nameOfLg) {
+                itemToGuess = undefined;
+                itemsOfGame = [];
+                itemsOfGameSource = [];
+            }
+
+            $scope.selectLanguageAndPlay = function (nameOfLg) {
+
+                resetGame();
 
                 var selectedLg = _.findWhere(LanguagesSrv.languages, {name: nameOfLg});
 
@@ -48,20 +54,15 @@ angular.module('pguPlayApp').controller('CardsCtrl', //
 
             };
 
-            var playGame = function() {
+            var getRandomInt = function (min, max) { // max: exclusion; min: inclusion
+                return Math.floor(Math.random() * (max - min) + min);
+            };
 
-                console.log(itemsOfGame);
+            var playGame = function() {
 
                 var gameIsOver = itemsOfGame.length === 0;
                 if (gameIsOver) {
-
-                    $scope.selectedLg = undefined;
-                    $scope.selectedItem = undefined;
-                    $scope.itemToGuessDisplay = undefined;
-
-                    itemToGuess = undefined;
-                    itemsOfGame = [];
-
+                    resetGame();
                     return;
                 }
 
