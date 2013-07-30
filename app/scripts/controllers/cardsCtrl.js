@@ -26,7 +26,7 @@ angular.module('pguPlayApp').controller('CardsCtrl', //
                 $scope.answers = [];
 
                 $scope.showCongratulations = false;
-                $scope.timeElapsedOfGame = 0;
+                $scope.timeElapsedOfGame = '';
 
                 itemToGuess = undefined;
                 itemsOfGame = [];
@@ -85,10 +85,9 @@ angular.module('pguPlayApp').controller('CardsCtrl', //
 
                 var gameIsOver = itemsOfGame.length === 0;
                 if (gameIsOver) {
-                    var _startTime = startTime;
-                    resetGame();
+                    var timeMs = Date.now() - startTime;
 
-                    var timeMs = Date.now() - _startTime;
+                    resetGame();
 
                     $scope.timeElapsedOfGame = formatTime(timeMs);
                     $scope.showCongratulations = true;
