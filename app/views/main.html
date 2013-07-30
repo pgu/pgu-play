@@ -1,12 +1,12 @@
 <div class="hero-unit">
     <h3>Play</h3>
     <p>
-        <a type="button" class="btn btn-large btn-primary" ng-href="cards">Cards</a>
-        <a type="button" class="btn btn-large btn-primary" ng-href="memo">Memo</a>
+        <a type="button" class="btn btn-large btn-primary" href="/#/cards">Cards</a>
+        <a type="button" class="btn btn-large btn-primary" href="/#/memo">Memo</a>
     </p>
 
     <p>
-        <div ng-show="isInFF">
+        <div ng-if="isInFF">
             <button class="btn btn-large btn-success" ng-click="installOnFirefoxOs()" ng-show="!isAppInstalled">
                 Install on FirefoxOS
             </button>

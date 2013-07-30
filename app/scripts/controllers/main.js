@@ -7,8 +7,6 @@ angular.module('pguPlayApp').controller('MainCtrl', function ($scope) {
     ];
 
     $scope.isInFF = _.isObject(navigator.mozApps);
-    console.log('$scope.isInFF');
-    console.log($scope.isInFF);
 
     if ($scope.isInFF) {
 
