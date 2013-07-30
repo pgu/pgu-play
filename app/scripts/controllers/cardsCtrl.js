@@ -8,7 +8,10 @@ angular.module('pguPlayApp').controller('CardsCtrl', //
             $scope.namesOfLg = [];
             $scope.selectedLg = undefined;
             $scope.selectedItem = undefined;
-            $scope.itemToGuess = undefined;
+            $scope.itemToGuessDisplay = undefined;
+
+            var itemToGuess = undefined;
+            var itemsOfGame = [];
 
             var getNamesOfLanguages = function() {
                 return _.map(LanguagesSrv.languages, function (v, k, list) {
@@ -30,7 +33,7 @@ angular.module('pguPlayApp').controller('CardsCtrl', //
 
                 // select to symbol to guess
                 var selectedIdx = getRandomInt(0, itemsOfGame.length);
-                var itemToGuess = itemsOfGame[selectedIdx];
+                var selectedItem = itemsOfGame[selectedIdx];
 
                 // select wrong answers
                 var itemsForWrongAnswers = _.clone(itemsOfGame);
@@ -42,7 +45,7 @@ angular.module('pguPlayApp').controller('CardsCtrl', //
                 itemsForWrongAnswers.splice(wrongItem1Idx, 1);
                 var wrongItem2 = itemsForWrongAnswers[getRandomInt(0, itemsForWrongAnswers.length)];
 
-                var sortedItems = [itemToGuess, wrongItem1, wrongItem2];
+                var sortedItems = [selectedItem, wrongItem1, wrongItem2];
                 var sortedAnswers = _.map(sortedItems, function(item) {
                     return item[1];
                 });
@@ -60,18 +63,20 @@ angular.module('pguPlayApp').controller('CardsCtrl', //
                     sortedAnswers.splice(idxToPush, 1);
                 }
 
+                itemToGuess = selectedItem;
+
                 $scope.selectedLg = selectedLg;
                 $scope.answers = randomAnswers;
-                $scope.itemToGuess = {
-                    display: itemToGuess[0],
-                    value: itemToGuess[1]
-                };
+                $scope.itemToGuessDisplay = itemToGuess[0];
+
             };
 
             $scope.selectAnswer = function(answer) {
-                answer.state = answer.value === $scope.itemToGuess.value ? 'success' : 'error';
+                answer.state = answer.value === itemToGuess[1] ? 'success' : 'error';
 
+                if (answer.state === 'success') {
 
+                }
 
             }
 
