@@ -12,5 +12,12 @@
 
 <p></p>
 <div class="row-fluid">
-    <div class="well well-large">{{ selectedLg.name }}</div>
+    <div class="well well-large">{{ itemToGuessDisplayed }}</div>
+</div>
+
+<p></p>
+<div class="row-fluid">
+    <div class="btn-group">
+        <button ng-repeat="nameOfLg in namesOfLg" ng-click="selectLanguage(nameOfLg)">{{ nameOfLg }}</button>
+    </div>
 </div>
