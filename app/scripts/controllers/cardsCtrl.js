@@ -4,9 +4,11 @@ angular.module('pguPlayApp').controller('CardsCtrl', //
     [ '$scope', 'LanguagesSrv', //
         function ($scope, LanguagesSrv) { //
 
+
             $scope.namesOfLg = [];
             $scope.selectedLg = undefined;
             $scope.selectedItem = undefined;
+            $scope.itemToGuess = undefined;
 
             var getNamesOfLanguages = function() {
                 return _.map(LanguagesSrv.languages, function (v, k, list) {
@@ -14,8 +16,10 @@ angular.module('pguPlayApp').controller('CardsCtrl', //
                 });
             }
 
-            var getRandomInt = function (min, max) {
-                return Math.floor(Math.random() * (max - min + 1) + min);
+            $scope.namesOfLg = getNamesOfLanguages();
+
+            var getRandomInt = function (min, max) { // max: exclusion; min: inclusion
+                return Math.floor(Math.random() * (max - min) + min);
             };
 
             $scope.selectLanguage = function (nameOfLg) {
@@ -27,8 +31,6 @@ angular.module('pguPlayApp').controller('CardsCtrl', //
                 // select to symbol to guess
                 var selectedIdx = getRandomInt(0, itemsOfGame.length);
                 var itemToGuess = itemsOfGame[selectedIdx];
-
-                var itemToGuessDisplayed = itemToGuess[0];
 
                 // select wrong answers
                 var itemsForWrongAnswers = _.clone(itemsOfGame);
@@ -48,16 +50,26 @@ angular.module('pguPlayApp').controller('CardsCtrl', //
 
                 for (var i = 0; i < sortedItems.length; i++) {
                     var idxToPush = getRandomInt(0, sortedAnswers.length);
-                    randomAnswers.push(sortedAnswers[idxToPush]);
+
+                    var answerUI = {
+                        value: sortedAnswers[idxToPush],
+                        state: 'clean'
+                    };
+                    randomAnswers.push(answerUI);
 
                     sortedAnswers.splice(idxToPush, 1);
                 }
 
-                $scope.itemToGuessDisplayed = itemToGuessDisplayed;
                 $scope.selectedLg = selectedLg;
                 $scope.answers = randomAnswers;
+                $scope.itemToGuess = {
+                    display: itemToGuess[0],
+                    value: itemToGuess[1]
+                };
             };
 
-            $scope.namesOfLg = getNamesOfLanguages();
+            $scope.selectAnswer = function(answer) {
+                answer.state = answer.value === $scope.itemToGuess.value ? 'success' : 'error';
+            }
 
         }]);

@@ -12,12 +12,12 @@
 
 <p></p>
 <div class="row-fluid">
-    <div class="well well-large">{{ itemToGuessDisplayed }}</div>
+    <div class="well well-large">{{ itemToGuess.display }}</div>
 </div>
 
 <p></p>
 <div class="row-fluid">
     <div class="btn-group">
-        <button ng-repeat="nameOfLg in namesOfLg" ng-click="selectLanguage(nameOfLg)">{{ nameOfLg }}</button>
+        <button ng-class="{'clean':'btn btn-large', error:'btn btn-large btn-danger', success:'btn btn-large btn-success'}[answer.state]" ng-repeat="answer in answers" ng-click="selectAnswer(answer)">{{ answer.value }}</button>
     </div>
 </div>
