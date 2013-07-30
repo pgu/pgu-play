@@ -1,6 +1,8 @@
 'use strict';
 
-angular.module('pguPlayApp').controller('MainCtrl', function ($scope) {
+angular.module('pguPlayApp').controller('MainCtrl',
+    [ '$scope',
+        function ($scope) {
 
     $scope.awesomeThings = [
         'HTML5 Boilerplate', 'AngularJS', 'Karma'
@@ -45,4 +47,4 @@ angular.module('pguPlayApp').controller('MainCtrl', function ($scope) {
         };
     }
 
-});
+}]);
