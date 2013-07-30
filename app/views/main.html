@@ -1,21 +1,17 @@
-<div class="hero-unit">
-    <h3>Play</h3>
-    <p>
-        <a type="button" class="btn btn-large btn-primary" href="/#/cards">Cards</a>
-        <a type="button" class="btn btn-large btn-primary" href="/#/memo">Memo</a>
-    </p>
+<h3>Play</h3>
+<p>
+    <a type="button" class="btn btn-large btn-primary" href="/#/cards">Cards</a>
+    <a type="button" class="btn btn-large btn-primary" href="/#/memo">Memo</a>
+</p>
 
-    <p>
-        <div ng-if="isInFF">
-            <button class="btn btn-large btn-success" ng-click="installOnFirefoxOs()" ng-show="!isAppInstalled">
-                Install on FirefoxOS
-            </button>
-            <ul>
-                <li ng-repeat="info in infos">{{ info }}</li>
-            </ul>
-        </div>
-    </p>
-
-
-</div>
+<p>
+    <div ng-if="isInFF">
+        <button class="btn btn-large btn-success" ng-click="installOnFirefoxOs()" ng-show="!isAppInstalled">
+            Install on FirefoxOS
+        </button>
+        <ul>
+            <li ng-repeat="info in infos">{{ info }}</li>
+        </ul>
+    </div>
+</p>
 
