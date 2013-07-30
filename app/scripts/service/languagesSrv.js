@@ -13,7 +13,7 @@ angular.module('pguPlayApp').factory('LanguagesSrv', function () {
      ['や', 'ya'], ['ゆ',  'yu'], ['よ',  'yo'], //
      ['ら', 'ra'], ['り',  'ri'], ['る',  'ru'], ['れ', 're'], ['ろ', 'ro'], //
      ['わ', 'wa'], ['を',  'wo'], ['ん',   'n'] //
-    ]
+    ];
 
     var katakana = [ //
         ['ア',  'a'], ['イ',   'i'], ['ウ',   'u'], ['エ',  'e'], ['オ',  'o'], //
@@ -26,7 +26,7 @@ angular.module('pguPlayApp').factory('LanguagesSrv', function () {
         ['ヤ', 'ya'], ['ユ',  'yu'], ['ヨ',  'yo'], //
         ['ラ', 'ra'], ['リ',  'ri'], ['ル',  'ru'], ['レ', 're'], ['ロ', 'ro'], //
         ['ワ', 'wa'], ['ヲ',  'wo'], ['ン',   'n'] //
-    ]
+    ];
 
     return {
         languages: {

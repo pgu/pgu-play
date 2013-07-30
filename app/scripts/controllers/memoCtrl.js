@@ -5,5 +5,6 @@ angular.module('pguPlayApp').controller('MemoCtrl',
         function ($scope, LanguagesSrv) {
 
     $scope.name = 'memo';
+    $scope.tmp = LanguagesSrv.languages;
 
 }]);

@@ -4,7 +4,7 @@ angular.module('pguPlayApp').controller('CardsCtrl', //
     [ '$scope', 'LanguagesSrv', '$timeout', //
         function ($scope, LanguagesSrv, $timeout) { //
 
-            var itemToGuess = undefined;
+            var itemToGuess = null;
             var itemsOfGame = [];
             var itemsOfGameSource = [];
             var startTime = 0;
@@ -12,23 +12,23 @@ angular.module('pguPlayApp').controller('CardsCtrl', //
             $scope.namesOfLg = [];
 
             var getNamesOfLanguages = function() {
-                return _.map(LanguagesSrv.languages, function (v, k, list) {
+                return _.map(LanguagesSrv.languages, function (v) {
                     return v.name;
                 });
-            }
+            };
 
             $scope.namesOfLg = getNamesOfLanguages();
 
             function resetGame() {
-                $scope.selectedLg = undefined;
-                $scope.selectedItem = undefined;
-                $scope.itemToGuessDisplay = undefined;
+                $scope.selectedLg = null;
+                $scope.selectedItem = null;
+                $scope.itemToGuessDisplay = null;
                 $scope.answers = [];
 
                 $scope.showCongratulations = false;
                 $scope.timeElapsedOfGame = '';
 
-                itemToGuess = undefined;
+                itemToGuess = null;
                 itemsOfGame = [];
                 itemsOfGameSource = [];
                 startTime = 0;
@@ -75,11 +75,11 @@ angular.module('pguPlayApp').controller('CardsCtrl', //
                     var minutes = Math.floor(totalSeconds / 60);
                     var seconds = Math.floor(totalSeconds - (minutes * 60));
 
-                    if (minutes < 10) {minutes = "0"+minutes;}
-                    if (seconds < 10) {seconds = "0"+seconds;}
+                    if (minutes < 10) {minutes = '0' + minutes;}
+                    if (seconds < 10) {seconds = '0' + seconds;}
                     return minutes + ' min : ' + seconds + ' sec';
                 }
-            }
+            };
 
             var playGame = function() {
 
