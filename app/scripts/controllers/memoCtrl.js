@@ -15,7 +15,7 @@ angular.module('pguPlayApp').controller('MemoCtrl', //
 
             var resetGame = function() {
                 $scope.selectedLg = null;
-                $scope.cards = [];
+                $scope.memoCards = [];
 
                 $scope.showCongratulations = false;
                 $scope.timeElapsedOfGame = '';
@@ -52,11 +52,9 @@ angular.module('pguPlayApp').controller('MemoCtrl', //
 
                     itemsOfGameSource.splice(idxToPush, 1);
                 });
-                console.log(itemsOfGame);
 
                 $scope.selectedLg = selectedLg;
 
-                startTime = Date.now();
                 playGame(itemsOfGame);
             };
 
@@ -70,7 +68,7 @@ angular.module('pguPlayApp').controller('MemoCtrl', //
                     return solutions;
                 }, {});
 
-                $scope.memoCards = _.chain(itemsOfGame)
+                 var cards = _.chain(itemsOfGame)
                                     .flatten()
                                     .map(function(itemValue) {
                                         return {
@@ -79,6 +77,18 @@ angular.module('pguPlayApp').controller('MemoCtrl', //
                                         };
                                     })
                                     .value();
+
+                 var randomCards = [];
+                 _.times(_.clone(cards.length), function() {
+
+                     var idxToPush = HelperSrv.getRandomInt(0, cards.length);
+                     randomCards.push(cards[idxToPush]);
+
+                     cards.splice(idxToPush, 1);
+                 });
+
+                 startTime = Date.now();
+                 $scope.memoCards = randomCards;
             };
 
             $scope.selectCard = function(idxOfMemoCard) {
