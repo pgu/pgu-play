@@ -1,10 +1,12 @@
+<div ng-show="!selectedLg && showCongratulations">
+    <p></p>
+    <div class="alert alert-block alert-success"><strong>Congratulations!</strong> <p>Done in {{ timeElapsedOfGame }}</p></div>
+</div>
+
 <div ng-show="selectedLg">
     <div class="btn-group btn-group-justified" ng-repeat="row in underscore.range(nbRows)">
-        <a class="btn btn-large btn-default" ng-repeat="cell in underscore.range(nbCellsByRow)">{{ memoCards[row * nbCellsByRow + cell] }}</a>
+        <a ng-class="{clean:'btn btn-large btn-default', selected:'btn btn-large btn-primary disabled', error:'btn btn-large btn-danger disabled', success:'btn btn-large btn-success disabled'}[memoCards[row * nbCellsByRow + cell].state]" ng-repeat="cell in underscore.range(nbCellsByRow)" ng-click="selectCard(row * nbCellsByRow + cell)">{{ memoCards[row * nbCellsByRow + cell].value }}</a>
     </div>
-
-    <p></p>
-    <p style="text-align: center;">1/10</p>
 </div>
 
 <p></p>

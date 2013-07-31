@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('pguPlayApp').controller('MemoCtrl', //
-    [ '$scope', 'LanguagesSrv', //
-        function ($scope, LanguagesSrv) { //
+    [ '$scope', 'LanguagesSrv', 'HelperSrv', '$timeout', //
+        function ($scope, LanguagesSrv, HelperSrv, $timeout) { //
 
             var startTime = 0;
 
@@ -14,6 +14,9 @@ angular.module('pguPlayApp').controller('MemoCtrl', //
             var resetGame = function() {
                 $scope.selectedLg = null;
                 $scope.cards = [];
+
+                $scope.showCongratulations = false;
+                $scope.timeElapsedOfGame = '';
 
                 startTime = 0;
             };
@@ -30,8 +33,94 @@ angular.module('pguPlayApp').controller('MemoCtrl', //
                 playGame();
             };
 
+            var items = [['A', 'AA'], ['B', 'BB'], ['C', 'CC'], ['A', 'aa']];
+
+            var addSolution = function(cache, k, v) {
+                if (!_.has(cache, k)) {
+                    cache[k] = [];
+                }
+
+                if (!_.contains(cache[k], v)) {
+                    cache[k].push(v);
+                }
+            };
+
+            var solutions = _.reduce(items, function(solutions, item) {
+
+                    addSolution(solutions, item[0], item[1]);
+                    addSolution(solutions, item[1], item[0]);
+
+                    return solutions;
+                }, {});
+
+            console.log(solutions);
+
             var playGame = function () {
-                $scope.memoCards = ['A', 'B', 'C', 'D', 'AA', 'BB', 'CC', 'DD'];
+                var cards = _.flatten(items);
+                $scope.memoCards = _.map(cards, function(card) {
+                    return {
+                        value: card,
+                        state: 'clean'
+                    };
+                });
+            };
+
+            var firstCard = null;
+
+            $scope.selectCard = function(idxOfMemoCard) {
+
+                var memoCard = $scope.memoCards[idxOfMemoCard];
+
+                // first selection
+                if (_.isNull(firstCard)) {
+                    firstCard = memoCard;
+                    memoCard.state = 'selected';
+                    return;
+                }
+
+                // second selection
+                var corrects = solutions[memoCard.value];
+
+                var hasFoundThePair = _.contains(corrects, firstCard.value);
+                if (hasFoundThePair) { // success
+
+                    firstCard.state = 'success';
+                    memoCard.state = 'success';
+
+                    firstCard = null; // reset
+
+                    // game over?
+                    var gameIsOver = _.every($scope.memoCards, function(memoCard) {
+                        return memoCard.state === 'success';
+                    });
+                    if (gameIsOver) {
+                        var timeMs = Date.now() - startTime;
+
+                        resetGame();
+
+                        $scope.timeElapsedOfGame = HelperSrv.formatTime(timeMs);
+                        $scope.showCongratulations = true;
+                        return;
+                    }
+
+                } else { // error: wrong pair
+
+                    firstCard.state = 'error';
+                    memoCard.state = 'error';
+
+                    var tmp1 = firstCard;
+                    var tmp2 = memoCard;
+
+                    $timeout(function () {
+                        tmp1.state = 'clean';
+                        tmp2.state = 'clean';
+                    }, 300);
+
+                    firstCard = null; // reset
+                    return;
+                }
+
+
             };
 
         }]);
