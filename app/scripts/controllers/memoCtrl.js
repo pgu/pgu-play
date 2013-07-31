@@ -1,8 +1,8 @@
 'use strict';
 
-angular.module('pguPlayApp').controller('MemoCtrl',
-    [ '$scope', 'LanguagesSrv',
-        function ($scope, LanguagesSrv) {
+angular.module('pguPlayApp').controller('MemoCtrl', //
+    [ '$scope', 'LanguagesSrv', //
+        function ($scope, LanguagesSrv) { //
 
             $scope.selectedLg = null;
 
