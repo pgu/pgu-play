@@ -4,7 +4,13 @@ angular.module('pguPlayApp').controller('MemoCtrl',
     [ '$scope', 'LanguagesSrv',
         function ($scope, LanguagesSrv) {
 
-    $scope.name = 'memo';
-    $scope.tmp = LanguagesSrv.languages;
+            $scope.selectedLg = null;
 
-}]);
+            $scope.namesOfLg = LanguagesSrv.getNamesOfLanguages();
+
+            $scope.selectLanguageAndPlay = function(nameOfLg) {
+
+            };
+
+
+        }]);

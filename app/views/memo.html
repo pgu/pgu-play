@@ -1,65 +1,79 @@
 <div class="row-fluid">
-    <ul class="thumbnails">
-        <li class="span6">
-            <div class="thumbnail">
-                <div style="height: 65px;text-align: center;font-size: 32px; line-height: 2;">ABCDE</div>
-            </div>
-        </li>
-        <li class="span6">
-            <div class="thumbnail">
-                <div style="height: 65px;text-align: center;font-size: 32px; line-height: 2;">B</div>
-            </div>
-        </li>
-    </ul>
+    <div class="row-fluid">
+        <ul class="thumbnails">
+            <li class="span6">
+                <div class="thumbnail">
+                    <div style="height: 65px;text-align: center;font-size: 32px; line-height: 2;">ABCDE</div>
+                </div>
+            </li>
+            <li class="span6">
+                <div class="thumbnail">
+                    <div style="height: 65px;text-align: center;font-size: 32px; line-height: 2;">B</div>
+                </div>
+            </li>
+        </ul>
+    </div>
+
+    <div class="row-fluid">
+        <ul class="thumbnails">
+            <li class="span6">
+                <div class="thumbnail">
+                    <div style="height: 65px;text-align: center;font-size: 32px; line-height: 2;">A</div>
+                </div>
+            </li>
+            <li class="span6">
+                <div class="thumbnail">
+                    <div style="height: 65px;text-align: center;font-size: 32px; line-height: 2;">B</div>
+                </div>
+            </li>
+        </ul>
+    </div>
+
+    <div class="row-fluid">
+        <ul class="thumbnails">
+            <li class="span6">
+                <div class="thumbnail">
+                    <div style="height: 65px;text-align: center;font-size: 32px; line-height: 2;">A</div>
+                </div>
+            </li>
+            <li class="span6">
+                <div class="thumbnail">
+                    <div style="height: 65px;text-align: center;font-size: 32px; line-height: 2;">B</div>
+                </div>
+            </li>
+        </ul>
+    </div>
+
+    <div class="row-fluid">
+        <ul class="thumbnails">
+            <li class="span6">
+                <div class="thumbnail">
+                    <div style="height: 65px;text-align: center;font-size: 32px; line-height: 2;">A</div>
+                </div>
+            </li>
+            <li class="span6">
+                <div class="thumbnail">
+                    <div style="height: 65px;text-align: center;font-size: 32px; line-height: 2;">B</div>
+                </div>
+            </li>
+        </ul>
+    </div>
+
 </div>
 
 <div class="row-fluid">
-    <ul class="thumbnails">
-        <li class="span6">
-            <div class="thumbnail">
-                <div style="height: 65px;text-align: center;font-size: 32px; line-height: 2;">A</div>
-            </div>
-        </li>
-        <li class="span6">
-            <div class="thumbnail">
-                <div style="height: 65px;text-align: center;font-size: 32px; line-height: 2;">B</div>
-            </div>
-        </li>
-    </ul>
-</div>
-
-<div class="row-fluid">
-    <ul class="thumbnails">
-        <li class="span6">
-            <div class="thumbnail">
-                <div style="height: 65px;text-align: center;font-size: 32px; line-height: 2;">A</div>
-            </div>
-        </li>
-        <li class="span6">
-            <div class="thumbnail">
-                <div style="height: 65px;text-align: center;font-size: 32px; line-height: 2;">B</div>
-            </div>
-        </li>
-    </ul>
-</div>
-
-<div class="row-fluid">
-    <ul class="thumbnails">
-        <li class="span6">
-            <div class="thumbnail">
-                <div style="height: 65px;text-align: center;font-size: 32px; line-height: 2;">A</div>
-            </div>
-        </li>
-        <li class="span6">
-            <div class="thumbnail">
-                <div style="height: 65px;text-align: center;font-size: 32px; line-height: 2;">B</div>
-            </div>
-        </li>
-    </ul>
-</div>
-
-<div class="row-fluid">
+    <p></p>
     <p style="text-align: center;">1/10</p>
+</div>
+
+<div class="row-fluid">
+    <p></p>
+    <div class="btn-group">
+        <button ng-class="(selectedLg.name === nameOfLg) ? 'btn btn-large btn-inverse disabled' : 'btn btn-large'" ng-repeat="nameOfLg in namesOfLg" ng-click="selectLanguageAndPlay(nameOfLg)">{{ nameOfLg }}</button>
+    </div>
+</div>
+
+<div class="row-fluid">
     <p></p>
     <a type="button" class="btn btn-large btn-primary" href="/">Home</a>
 </div>

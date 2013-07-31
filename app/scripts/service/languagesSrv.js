@@ -38,6 +38,9 @@ angular.module('pguPlayApp').factory('LanguagesSrv', function () {
                 name: 'Katakana',
                 data: katakana
             }
+        },
+        getNamesOfLanguages : function() {
+            return _.pluck(this.languages, 'name');
         }
     };
 });

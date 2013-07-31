@@ -9,13 +9,7 @@ angular.module('pguPlayApp').controller('CardsCtrl', //
             var itemsOfGameSource = [];
             var startTime = 0;
 
-            $scope.namesOfLg = [];
-
-            var getNamesOfLanguages = function() {
-                return _.pluck(LanguagesSrv.languages, 'name');
-            };
-
-            $scope.namesOfLg = getNamesOfLanguages();
+            $scope.namesOfLg = LanguagesSrv.getNamesOfLanguages();
 
             function resetGame() {
                 $scope.selectedLg = null;
