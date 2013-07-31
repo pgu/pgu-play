@@ -41,7 +41,7 @@ angular.module('pguPlayApp').controller('CardsCtrl', //
                 playGame();
             };
 
-            $scope.selectAnswer = function(answer) {
+            $scope.selectAnswer = function (answer) {
                 answer.state = answer.value === itemToGuess[1] ? 'success' : 'error';
 
                 if (answer.state === 'success') {
@@ -56,9 +56,9 @@ angular.module('pguPlayApp').controller('CardsCtrl', //
                 return Math.floor(Math.random() * (max - min) + min);
             };
 
-            var formatTime = function(timeMs) {
+            var formatTime = function (timeMs) {
 
-                if (timeMs > 10*60*1000) {
+                if (timeMs > 10 * 60 * 1000) {
                     return 'more than 10 minutes!';
 
                 } else {
@@ -67,13 +67,17 @@ angular.module('pguPlayApp').controller('CardsCtrl', //
                     var minutes = Math.floor(totalSeconds / 60);
                     var seconds = Math.floor(totalSeconds - (minutes * 60));
 
-                    if (minutes < 10) {minutes = '0' + minutes;}
-                    if (seconds < 10) {seconds = '0' + seconds;}
+                    if (minutes < 10) {
+                        minutes = '0' + minutes;
+                    }
+                    if (seconds < 10) {
+                        seconds = '0' + seconds;
+                    }
                     return minutes + ' min : ' + seconds + ' sec';
                 }
             };
 
-            var playGame = function() {
+            var playGame = function () {
 
                 var gameIsOver = itemsOfGame.length === 0;
                 if (gameIsOver) {
@@ -97,7 +101,7 @@ angular.module('pguPlayApp').controller('CardsCtrl', //
                 itemsOfGame.splice(selectedIdx, 1); // clean the game for the next round
 
                 // select wrong answers
-                var itemsForWrongAnswers = _.filter(itemsOfGameSource, function(item) {
+                var itemsForWrongAnswers = _.filter(itemsOfGameSource, function (item) {
                     return item[0] !== selectedItem[0] || item[1] !== selectedItem[1];
                 });
 
