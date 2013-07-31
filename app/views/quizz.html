@@ -1,30 +1,22 @@
-<div class="row" ng-show="!selectedLg && showCongratulations">
+<div ng-show="!selectedLg && showCongratulations">
     <p></p>
     <div class="alert alert-block alert-success">Congratulations! Done in {{ timeElapsedOfGame }}</div>
 </div>
 
 <div ng-show="selectedLg">
-    <div class="row">
-        <p></p>
-        <div class="well well-large quizz-item-display">{{ itemToGuessDisplay }}</div>
-    </div>
-
-    <div class="row">
-        <p></p>
-        <div class="btn-group">
-            <button ng-class="{'clean':'btn btn-large btn-default', error:'btn btn-large btn-danger disabled', success:'btn btn-large btn-success disabled'}[answer.state]" ng-repeat="answer in answers" ng-click="selectAnswer(answer)">{{ answer.value }}</button>
-        </div>
-    </div>
-</div>
-
-<div class="row">
     <p></p>
-    <div class="btn-group">
-        <button ng-class="(selectedLg.name === nameOfLg) ? 'btn btn-large btn-primary disabled' : 'btn btn-large btn-default'" ng-repeat="nameOfLg in namesOfLg" ng-click="selectLanguageAndPlay(nameOfLg)">{{ nameOfLg }}</button>
+    <div class="well well-large quizz-item-display">{{ itemToGuessDisplay }}</div>
+
+    <p></p>
+    <div class="btn-group btn-group-justified">
+        <a ng-class="{'clean':'btn btn-large btn-default', error:'btn btn-large btn-danger disabled', success:'btn btn-large btn-success disabled'}[answer.state]" ng-repeat="answer in answers" ng-click="selectAnswer(answer)">{{ answer.value }}</a>
     </div>
 </div>
 
-<div class="row">
-    <p></p>
-    <a type="button" class="btn btn-large btn-primary" href="/">Home</a>
+<p></p>
+<div class="btn-group">
+    <button ng-class="(selectedLg.name === nameOfLg) ? 'btn btn-large btn-primary disabled' : 'btn btn-large btn-default'" ng-repeat="nameOfLg in namesOfLg" ng-click="selectLanguageAndPlay(nameOfLg)">{{ nameOfLg }}</button>
 </div>
+
+<p></p>
+<a type="button" class="btn btn-large btn-primary" href="/">Home</a>

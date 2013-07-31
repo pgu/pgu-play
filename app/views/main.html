@@ -1,24 +1,18 @@
-<div class="row">
-    <h3>Play</h3>
+<h3>Play</h3>
+
+<p></p>
+<div class="btn-group btn-group-justified">
+    <a type="button" class="btn btn-large btn-default" href="/#/quizz">Quizz</a>
+    <a type="button" class="btn btn-large btn-default" href="/#/memo">Memo</a>
 </div>
 
-<div class="row">
-    <p></p>
-    <div class="btn-group btn-group-justified">
-        <a type="button" class="btn btn-large btn-default" href="/#/quizz">Quizz</a>
-        <a type="button" class="btn btn-large btn-default" href="/#/memo">Memo</a>
-    </div>
-</div>
-
-<div class="row">
-    <p></p>
-    <div ng-if="isInFF">
-        <button class="btn btn-large btn-success" ng-click="installOnFirefoxOs()" ng-show="!isAppInstalled">
-            Install on FirefoxOS
-        </button>
-        <ul>
-            <li ng-repeat="info in infos">{{ info }}</li>
-        </ul>
-    </div>
+<p></p>
+<div ng-if="isInFF">
+    <button class="btn btn-large btn-success" ng-click="installOnFirefoxOs()" ng-show="!isAppInstalled">
+        Install on FirefoxOS
+    </button>
+    <ul>
+        <li ng-repeat="info in infos">{{ info }}</li>
+    </ul>
 </div>
 
