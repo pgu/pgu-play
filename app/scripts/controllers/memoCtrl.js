@@ -4,10 +4,12 @@ angular.module('pguPlayApp').controller('MemoCtrl', //
     [ '$scope', 'LanguagesSrv', 'HelperSrv', '$timeout', //
         function ($scope, LanguagesSrv, HelperSrv, $timeout) { //
 
+            var solutions = {};
             var startTime = 0;
+            var firstCard = null;
 
             $scope.underscore = _;
-            $scope.nbRows = 4;
+            $scope.nbRows = 6;
             $scope.nbCellsByRow = 2;
             $scope.namesOfLg = LanguagesSrv.getNamesOfLanguages();
 
@@ -18,23 +20,11 @@ angular.module('pguPlayApp').controller('MemoCtrl', //
                 $scope.showCongratulations = false;
                 $scope.timeElapsedOfGame = '';
 
+                solutions = {};
                 startTime = 0;
+                firstCard = null;
             };
             resetGame();
-
-            $scope.selectLanguageAndPlay = function(nameOfLg) {
-
-                resetGame();
-
-                var selectedLg = _.findWhere(LanguagesSrv.languages, {name: nameOfLg});
-
-                $scope.selectedLg = selectedLg;
-
-                startTime = Date.now();
-                playGame();
-            };
-
-            var items = [['A', 'AA'], ['B', 'BB'], ['C', 'CC'], ['A', 'aa']];
 
             var addSolution = function(cache, k, v) {
                 if (!_.has(cache, k)) {
@@ -46,7 +36,33 @@ angular.module('pguPlayApp').controller('MemoCtrl', //
                 }
             };
 
-            var solutions = _.reduce(items, function(solutions, item) {
+            $scope.selectLanguageAndPlay = function(nameOfLg) {
+
+                resetGame();
+
+                var selectedLg = _.findWhere(LanguagesSrv.languages, {name: nameOfLg});
+
+                var itemsOfGameSource = _.clone(selectedLg.data);
+                var itemsOfGame = [];
+
+                _.times($scope.nbRows, function() {
+
+                    var idxToPush = HelperSrv.getRandomInt(0, itemsOfGameSource.length);
+                    itemsOfGame.push(itemsOfGameSource[idxToPush]);
+
+                    itemsOfGameSource.splice(idxToPush, 1);
+                });
+                console.log(itemsOfGame);
+
+                $scope.selectedLg = selectedLg;
+
+                startTime = Date.now();
+                playGame(itemsOfGame);
+            };
+
+            var playGame = function (itemsOfGame) {
+
+                solutions = _.reduce(itemsOfGame, function(solutions, item) {
 
                     addSolution(solutions, item[0], item[1]);
                     addSolution(solutions, item[1], item[0]);
@@ -54,19 +70,16 @@ angular.module('pguPlayApp').controller('MemoCtrl', //
                     return solutions;
                 }, {});
 
-            console.log(solutions);
-
-            var playGame = function () {
-                var cards = _.flatten(items);
-                $scope.memoCards = _.map(cards, function(card) {
-                    return {
-                        value: card,
-                        state: 'clean'
-                    };
-                });
+                $scope.memoCards = _.chain(itemsOfGame)
+                                    .flatten()
+                                    .map(function(itemValue) {
+                                        return {
+                                            value: itemValue,
+                                            state: 'clean'
+                                        };
+                                    })
+                                    .value();
             };
-
-            var firstCard = null;
 
             $scope.selectCard = function(idxOfMemoCard) {
 
@@ -88,12 +101,13 @@ angular.module('pguPlayApp').controller('MemoCtrl', //
                     firstCard.state = 'success';
                     memoCard.state = 'success';
 
-                    firstCard = null; // reset
+                    firstCard = null; // reset for next move
 
                     // game over?
                     var gameIsOver = _.every($scope.memoCards, function(memoCard) {
                         return memoCard.state === 'success';
                     });
+
                     if (gameIsOver) {
                         var timeMs = Date.now() - startTime;
 

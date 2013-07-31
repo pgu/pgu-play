@@ -2,7 +2,7 @@
 
 angular.module('pguPlayApp').factory('LanguagesSrv', function () {
 
-    var hiragana = [ //
+    var hiragana = Object.freeze([ //
      ['あ',  'a'], ['い',   'i'], ['う',   'u'], ['え',  'e'], ['お',  'o'], //
      ['か', 'ka'], ['き',  'ki'], ['く',  'ku'], ['け', 'ke'], ['こ', 'ko'], //
      ['さ', 'sa'], ['し', 'shi'], ['す',  'su'], ['せ', 'se'], ['そ', 'so'], //
@@ -13,9 +13,9 @@ angular.module('pguPlayApp').factory('LanguagesSrv', function () {
      ['や', 'ya'], ['ゆ',  'yu'], ['よ',  'yo'], //
      ['ら', 'ra'], ['り',  'ri'], ['る',  'ru'], ['れ', 're'], ['ろ', 'ro'], //
      ['わ', 'wa'], ['を',  'wo'], ['ん',   'n'] //
-    ];
+    ]);
 
-    var katakana = [ //
+    var katakana = Object.freeze([ //
         ['ア',  'a'], ['イ',   'i'], ['ウ',   'u'], ['エ',  'e'], ['オ',  'o'], //
         ['カ', 'ka'], ['キ',  'ki'], ['ク',  'ku'], ['ケ', 'ke'], ['コ', 'ko'], //
         ['サ', 'sa'], ['シ', 'shi'], ['ス',  'su'], ['セ', 'se'], ['ソ', 'so'], //
@@ -26,7 +26,7 @@ angular.module('pguPlayApp').factory('LanguagesSrv', function () {
         ['ヤ', 'ya'], ['ユ',  'yu'], ['ヨ',  'yo'], //
         ['ラ', 'ra'], ['リ',  'ri'], ['ル',  'ru'], ['レ', 're'], ['ロ', 'ro'], //
         ['ワ', 'wa'], ['ヲ',  'wo'], ['ン',   'n'] //
-    ];
+    ]);
 
     return {
         languages: {
