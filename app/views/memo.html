@@ -1,27 +1,19 @@
 <div ng-show="selectedLg">
-    <div class="row">
-        <div class="btn-group btn-group-justified" ng-repeat="row in underscore.range(nbRows)">
-            <a class="btn btn-large btn-default" ng-repeat="cell in underscore.range(nbCellsByRow)">{{ memoCards[row * nbCellsByRow + cell] }}</a>
-        </div>
+    <div class="btn-group btn-group-justified" ng-repeat="row in underscore.range(nbRows)">
+        <a class="btn btn-large btn-default" ng-repeat="cell in underscore.range(nbCellsByRow)">{{ memoCards[row * nbCellsByRow + cell] }}</a>
     </div>
 
-    <div class="row">
-        <p></p>
-        <p style="text-align: center;">1/10</p>
-    </div>
-</div>
-
-<div class="row">
     <p></p>
-    <div class="btn-group">
-        <button ng-class="(selectedLg.name === nameOfLg) ? 'btn btn-large btn-primary disabled' : 'btn btn-large btn-default'" ng-repeat="nameOfLg in namesOfLg" ng-click="selectLanguageAndPlay(nameOfLg)">{{ nameOfLg }}</button>
-    </div>
+    <p style="text-align: center;">1/10</p>
 </div>
 
-<div class="row">
-    <p></p>
-    <a type="button" class="btn btn-large btn-primary" href="/">Home</a>
+<p></p>
+<div class="btn-group btn-group-justified">
+    <a ng-class="(selectedLg.name === nameOfLg) ? 'btn btn-large btn-primary disabled' : 'btn btn-large btn-default'" ng-repeat="nameOfLg in namesOfLg" ng-click="selectLanguageAndPlay(nameOfLg)">{{ nameOfLg }}</a>
 </div>
+
+<p></p>
+<a type="button" class="btn btn-large btn-primary" href="/">Home</a>
 
 
 
