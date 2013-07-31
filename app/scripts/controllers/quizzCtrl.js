@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('pguPlayApp').controller('CardsCtrl', //
+angular.module('pguPlayApp').controller('QuizzCtrl', //
     [ '$scope', 'LanguagesSrv', '$timeout', //
         function ($scope, LanguagesSrv, $timeout) { //
 

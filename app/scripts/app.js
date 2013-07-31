@@ -6,9 +6,9 @@ angular.module('pguPlayApp', []).config([ '$routeProvider', function ($routeProv
         templateUrl: 'views/main.html',
         controller: 'MainCtrl'
 
-    }).when('/cards', {
-            templateUrl: 'views/cards.html',
-            controller: 'CardsCtrl'
+    }).when('/quizz', {
+            templateUrl: 'views/quizz.html',
+            controller: 'QuizzCtrl'
 
     }).when('/memo', {
         templateUrl: 'views/memo.html',
