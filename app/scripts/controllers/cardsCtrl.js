@@ -11,7 +11,7 @@ angular.module('pguPlayApp').controller('CardsCtrl', //
 
             $scope.namesOfLg = LanguagesSrv.getNamesOfLanguages();
 
-            function resetGame() {
+            var resetGame = function() {
                 $scope.selectedLg = null;
                 $scope.selectedItem = null;
                 $scope.itemToGuessDisplay = null;
@@ -24,7 +24,7 @@ angular.module('pguPlayApp').controller('CardsCtrl', //
                 itemsOfGame = [];
                 itemsOfGameSource = [];
                 startTime = 0;
-            }
+            };
 
             $scope.selectLanguageAndPlay = function (nameOfLg) {
 
