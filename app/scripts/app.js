@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('pguPlayApp', []).config([ '$routeProvider', function ($routeProvider) {
+angular.module('pguPlayApp', ['homeBtnModule']).config([ '$routeProvider', function ($routeProvider) {
 
     $routeProvider.when('/', {
         templateUrl: 'views/main.html',
