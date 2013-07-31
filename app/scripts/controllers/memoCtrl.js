@@ -20,6 +20,7 @@ angular.module('pguPlayApp').controller('MemoCtrl', //
 
                 startTime = 0;
             };
+            resetGame();
 
             $scope.selectLanguageAndPlay = function(nameOfLg) {
 

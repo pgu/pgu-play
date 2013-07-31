@@ -25,6 +25,7 @@ angular.module('pguPlayApp').controller('QuizzCtrl', //
                 itemsOfGameSource = [];
                 startTime = 0;
             };
+            resetGame();
 
             $scope.selectLanguageAndPlay = function (nameOfLg) {
 
@@ -32,9 +33,9 @@ angular.module('pguPlayApp').controller('QuizzCtrl', //
 
                 var selectedLg = _.findWhere(LanguagesSrv.languages, {name: nameOfLg});
 
-//                itemsOfGameSource = _.clone([selectedLg.data[0],selectedLg.data[1],selectedLg.data[2]]);
+                itemsOfGameSource = _.clone([selectedLg.data[0],selectedLg.data[1],selectedLg.data[2]]);
 
-                itemsOfGameSource = _.clone(selectedLg.data);
+//                itemsOfGameSource = _.clone(selectedLg.data);
                 itemsOfGame = _.clone(itemsOfGameSource);
 
                 $scope.selectedLg = selectedLg;
