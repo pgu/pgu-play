@@ -1,12 +1,8 @@
 <div ng-show="selectedLg">
-    <div class="row" ng-repeat="row in underscore.range(nbRows)">
-        <ul class="thumbnails">
-            <li class=".col-6" ng-repeat="cell in underscore.range(nbCellsByRow)">
-                <div class="thumbnail">
-                    <div class="memo-card">{{ memoCards[row * nbCellsByRow + cell] }}</div>
-                </div>
-            </li>
-        </ul>
+    <div class="row">
+        <div class="btn-group btn-group-justified" ng-repeat="row in underscore.range(nbRows)">
+            <a class="btn btn-large btn-default" ng-repeat="cell in underscore.range(nbCellsByRow)">{{ memoCards[row * nbCellsByRow + cell] }}</a>
+        </div>
     </div>
 
     <div class="row">
