@@ -114,4 +114,8 @@ angular.module('pguPlayApp').controller('QuizzCtrl', //
 
             };
 
+            $scope.clickOnHome = function() {
+                resetGame();
+            };
+
         }]);
