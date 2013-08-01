@@ -148,4 +148,9 @@ angular.module('pguPlayApp').controller('MemoCtrl', //
 
             };
 
+            $scope.clickOnHome = function() {
+                console.log('click on home');
+                resetGame();
+            };
+
         }]);

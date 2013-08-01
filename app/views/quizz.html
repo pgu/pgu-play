@@ -1,9 +1,9 @@
-<div ng-show="showCongratulations">
+<div ng-show="showCongratulations" ng-animate="{show:'fade'}">
     <p></p>
     <div class="alert alert-block alert-success"><strong>Congratulations!</strong> <p>Done in {{ timeElapsedOfGame }}</p></div>
 </div>
 
-<div ng-show="selectedLg">
+<div ng-show="selectedLg" ng-animate="{show:'fade'}">
     <p></p>
     <div class="well well-large quizz-item-display">{{ itemToGuessDisplay }}</div>
 
