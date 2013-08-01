@@ -9,9 +9,10 @@ angular.module('pguPlayApp').controller('MemoCtrl', //
             var firstCard = null;
 
             $scope.underscore = _;
-            $scope.nbRows = 6;
+            $scope.nbRows = 6; //6
             $scope.nbCellsByRow = 2;
             $scope.namesOfLg = LanguagesSrv.getNamesOfLanguages();
+            $scope.showRules = null;
 
             var resetGame = function() {
                 $scope.selectedLg = null;
@@ -87,11 +88,19 @@ angular.module('pguPlayApp').controller('MemoCtrl', //
                      cards.splice(idxToPush, 1);
                  });
 
+                 if ($scope.showRules === null) {
+                     $scope.showRules = true;
+                 }
+
                  startTime = Date.now();
                  $scope.memoCards = randomCards;
             };
 
             $scope.selectCard = function(idxOfMemoCard) {
+
+                if ($scope.showRules) {
+                    $scope.showRules = false;
+                }
 
                 var memoCard = $scope.memoCards[idxOfMemoCard];
 
