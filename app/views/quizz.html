@@ -22,15 +22,8 @@
     </div>
 </div>
 
-<p></p>
-<div class="btn-group btn-group-justified">
-    <a ng-class="(selectedLg.name === nameOfLg) ? 'btn btn-large btn-primary disabled' : 'btn btn-large btn-default'" ng-repeat="nameOfLg in namesOfLg" ng-click="selectLanguageAndPlay(nameOfLg)">{{ nameOfLg }}</a>
-</div>
+<categories-widget names="namesOfLg" selected-name="selectedNameOfLg" on-select-name="selectLanguageAndPlay()"></categories-widget>
 
-<p></p>
-<div class="alert alert-info text-center" ng-show="!selectedLg" ng-animate="'fade'">
-    Select a category
-</div>
-
-<p></p>
 <home-btn ng-click="clickOnHome()"></home-btn>
+
+
