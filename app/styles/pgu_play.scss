@@ -7,10 +7,10 @@
 
 .fade-show,
 .fade-hide {
-    -webkit-transition:all linear 0.5s;
-    -moz-transition:all linear 0.5s;
-    -o-transition:all linear 0.5s;
-    transition:all linear 0.5s;
+    -webkit-transition:all linear 1s;
+    -moz-transition:all linear 1s;
+    -o-transition:all linear 1s;
+    transition:all linear 1s;
 }
 .fade-show,
 .fade-hide.fade-hide-active {

@@ -1,21 +1,36 @@
-<div ng-show="showCongratulations" ng-animate="{show:'fade'}">
+<div ng-class="showCongratulations? '' : 'hide'">
     <p></p>
-    <div class="alert alert-block alert-success"><strong>Congratulations!</strong> <p>Done in {{ timeElapsedOfGame }}</p></div>
+    <div ng-show="showCongratulations" ng-animate="'fade'" class="alert alert-block alert-success text-center"><strong>Congratulations!</strong> <p>Done in {{ timeElapsedOfGame }}</p></div>
 </div>
 
-<div ng-show="selectedLg" ng-animate="{show:'fade'}">
-    <p></p>
-    <div class="well well-large"><h1 class="text-center">{{ itemToGuessDisplay }}</h1></div>
+<div ng-class="selectedLg? '' : 'hide'">
+    <div ng-show="selectedLg" ng-animate="'fade'">
+        <p></p>
+        <div class="well well-large"><h1 class="text-center">{{ itemToGuessDisplay }}</h1></div>
 
-    <p></p>
-    <div class="btn-group btn-group-justified">
-        <a ng-class="{'clean':'btn btn-large btn-default', error:'btn btn-large btn-danger disabled', success:'btn btn-large btn-success disabled'}[answer.state]" ng-repeat="answer in answers" ng-click="selectAnswer(answer)">{{ answer.value }}</a>
+        <p></p>
+        <div class="btn-group btn-group-justified">
+            <a ng-class="{'clean':'btn btn-large btn-default', error:'btn btn-large btn-danger disabled', success:'btn btn-large btn-success disabled'}[answer.state]" ng-repeat="answer in answers" ng-click="selectAnswer(answer)">{{ answer.value }}</a>
+        </div>
     </div>
 </div>
+
+<div ng-class="selectedLg? '' : 'hide'">
+    <p></p>
+    <div class="alert alert-info text-center" ng-show="showRules" ng-animate="'fade'">
+        Select the right pair
+    </div>
+</div>
+
 
 <p></p>
 <div class="btn-group btn-group-justified">
     <a ng-class="(selectedLg.name === nameOfLg) ? 'btn btn-large btn-primary disabled' : 'btn btn-large btn-default'" ng-repeat="nameOfLg in namesOfLg" ng-click="selectLanguageAndPlay(nameOfLg)">{{ nameOfLg }}</a>
+</div>
+
+<p></p>
+<div class="alert alert-info text-center" ng-show="!selectedLg" ng-animate="'fade'">
+    Select a category
 </div>
 
 <p></p>

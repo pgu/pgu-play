@@ -10,6 +10,7 @@ angular.module('pguPlayApp').controller('QuizzCtrl', //
             var startTime = 0;
 
             $scope.namesOfLg = LanguagesSrv.getNamesOfLanguages();
+            $scope.showRules = null;
 
             var resetGame = function() {
                 $scope.selectedLg = null;
@@ -33,9 +34,9 @@ angular.module('pguPlayApp').controller('QuizzCtrl', //
 
                 var selectedLg = _.findWhere(LanguagesSrv.languages, {name: nameOfLg});
 
-//                itemsOfGameSource = _.clone([selectedLg.data[0],selectedLg.data[1],selectedLg.data[2]]);
+                itemsOfGameSource = _.clone([selectedLg.data[0],selectedLg.data[1],selectedLg.data[2]]);
 
-                itemsOfGameSource = _.clone(selectedLg.data);
+//                itemsOfGameSource = _.clone(selectedLg.data);
                 itemsOfGame = _.clone(itemsOfGameSource);
 
                 $scope.selectedLg = selectedLg;
@@ -45,6 +46,11 @@ angular.module('pguPlayApp').controller('QuizzCtrl', //
             };
 
             $scope.selectAnswer = function (answer) {
+
+                if ($scope.showRules) {
+                    $scope.showRules = false;
+                }
+
                 answer.state = answer.value === itemToGuess[1] ? 'success' : 'error';
 
                 if (answer.state === 'success') {
@@ -56,6 +62,10 @@ angular.module('pguPlayApp').controller('QuizzCtrl', //
             };
 
             var playGame = function () {
+
+                if ($scope.showRules === null) {
+                    $scope.showRules = true;
+                }
 
                 var gameIsOver = itemsOfGame.length === 0;
                 if (gameIsOver) {
