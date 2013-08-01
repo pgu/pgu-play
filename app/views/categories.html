@@ -1,3 +1,18 @@
-<div></div>
+<home-btn on-go-home="onGoHome()"></home-btn>
 
-<home-btn ng-click="clickOnHome()"></home-btn>
+<categories-widget names="namesOfLg" selected-name="selectedNameOfLg" on-select-name="expandLanguage()"></categories-widget>
+
+<div ng-class="selectedNameOfLg? '' : 'hide'">
+    <div ng-show="selectedNameOfLg" ng-animate="'fade'">
+        <p></p>
+        <table class="table table-bordered">
+            <tbody>
+            <tr ng-repeat="row in underscore.range(nbRows)">
+                <td ng-class="((row * nbCellsByRow + cell) % 2 === 0) ? 'text-primary text-right' : ''" ng-repeat="cell in underscore.range(nbCellsByRow)">{{ symbols[row * nbCellsByRow + cell] }}</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+

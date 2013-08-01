@@ -9,7 +9,7 @@ angular.module('pguPlayApp').controller('MemoCtrl', //
             var firstCard = null;
 
             $scope.underscore = _;
-            $scope.nbRows = 1; //6
+            $scope.nbRows = 6; //6
             $scope.nbCellsByRow = 2;
 
             $scope.selectedNameOfLg = null; // info from the directive of categories
