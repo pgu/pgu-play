@@ -127,6 +127,7 @@ angular.module('pguPlayApp').controller('QuizzCtrl', //
 
             $scope.clickOnHome = function() {
                 resetGame();
+                $scope.selectedNameOfLg = null; // reset the directive of categories
             };
 
         }]);

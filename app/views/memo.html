@@ -3,32 +3,22 @@
     <div ng-show="showCongratulations" ng-animate="'fade'" class="alert alert-block alert-success"><strong>Congratulations!</strong> <p>Done in {{ timeElapsedOfGame }}</p></div>
 </div>
 
-<div ng-class="selectedLg? '' : 'hide'">
-    <div ng-show="selectedLg" ng-animate="'fade'">
+<div ng-class="selectedNameOfLg? '' : 'hide'">
+    <div ng-show="selectedNameOfLg" ng-animate="'fade'">
         <div class="btn-group btn-group-justified" ng-repeat="row in underscore.range(nbRows)">
             <a ng-class="{clean:'btn btn-large btn-default', selected:'btn btn-large btn-primary disabled', error:'btn btn-large btn-danger disabled', success:'btn btn-large btn-success disabled'}[memoCards[row * nbCellsByRow + cell].state]" ng-repeat="cell in underscore.range(nbCellsByRow)" ng-click="selectCard(row * nbCellsByRow + cell)">{{ memoCards[row * nbCellsByRow + cell].value }}</a>
         </div>
     </div>
 </div>
 
-<div ng-class="selectedLg? '' : 'hide'">
+<div ng-class="selectedNameOfLg? '' : 'hide'">
     <p></p>
     <div class="alert alert-info text-center" ng-show="showRules" ng-animate="'fade'">
         Associate the pairs
     </div>
 </div>
 
-<p></p>
-<div class="btn-group btn-group-justified">
-    <a ng-class="(selectedLg.name === nameOfLg) ? 'btn btn-large btn-primary disabled' : 'btn btn-large btn-default'" ng-repeat="nameOfLg in namesOfLg" ng-click="selectLanguageAndPlay(nameOfLg)">{{ nameOfLg }}</a>
-</div>
-
-<p></p>
-<div class="alert alert-info text-center" ng-show="!selectedLg" ng-animate="'fade'">
-    Select a category
-</div>
-
-<!--<categories-widget names="namesOfLg" selected-name="selectedNameOfLg" on-select-name="selectLanguageAndPlay()"></categories-widget>-->
+<categories-widget names="namesOfLg" selected-name="selectedNameOfLg" on-select-name="selectLanguageAndPlay()"></categories-widget>
 
 <home-btn ng-click="clickOnHome()"></home-btn>
 
