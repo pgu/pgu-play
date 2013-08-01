@@ -158,7 +158,7 @@ angular.module('pguPlayApp').controller('MemoCtrl', //
 
             };
 
-            $scope.clickOnHome = function() {
+            $scope.onGoHome = function() {
                 resetGame();
                 $scope.selectedNameOfLg = null; // reset the directive of categories
             };

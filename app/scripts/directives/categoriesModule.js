@@ -5,12 +5,10 @@ angular.module('categoriesModule', []);
 angular.module('categoriesModule').controller('categoriesCtrl', ['$scope', function($scope) {
 
     $scope.selectName = function(name) {
-        console.log('select ' + name);
         $scope.selectedName = name;
     };
 
     $scope.$watch('selectedName', function() {
-        console.log('watch ' + $scope.selectedName);
         if ($scope.selectedName === null) {
             return;
         }

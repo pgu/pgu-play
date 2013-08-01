@@ -125,7 +125,7 @@ angular.module('pguPlayApp').controller('QuizzCtrl', //
 
             };
 
-            $scope.clickOnHome = function() {
+            $scope.onGoHome = function() {
                 resetGame();
                 $scope.selectedNameOfLg = null; // reset the directive of categories
             };
