@@ -1,17 +1,16 @@
 'use strict';
 
 angular.module('pguPlayApp').controller('QuizzCtrl', //
-    [ '$scope', 'LanguagesSrv', 'HelperSrv', '$timeout', //
-        function ($scope, LanguagesSrv, HelperSrv, $timeout) { //
+    [ '$scope', 'HelperSrv', '$timeout', //
+        function ($scope, HelperSrv, $timeout) { //
 
             var itemToGuess = null;
             var itemsOfGame = [];
             var itemsOfGameSource = [];
             var startTime = 0;
 
-            $scope.selectedNameOfLg = null; // info from the directive of categories
+            $scope.selectedLanguage = null;
 
-            $scope.namesOfLg = LanguagesSrv.getNamesOfLanguages();
             $scope.showRules = null;
 
             var resetGame = function() {
@@ -30,20 +29,22 @@ angular.module('pguPlayApp').controller('QuizzCtrl', //
             };
             resetGame();
 
-            $scope.selectLanguageAndPlay = function () {
+            $scope.$watch('selectedLanguage', function () {
+
+                if (_.isNull($scope.selectedLanguage)) {
+                    return;
+                }
 
                 resetGame();
 
-                var selectedLg = _.findWhere(LanguagesSrv.languages, {name: $scope.selectedNameOfLg});
+//                itemsOfGameSource = _.clone([$scope.selectedLanguage.data[0],$scope.selectedLanguage.data[1],$scope.selectedLanguage.data[2]]); // TEST
 
-//                itemsOfGameSource = _.clone([selectedLg.data[0],selectedLg.data[1],selectedLg.data[2]]); // TEST
-
-                itemsOfGameSource = _.clone(selectedLg.data);
+                itemsOfGameSource = _.clone($scope.selectedLanguage.data);
                 itemsOfGame = _.clone(itemsOfGameSource);
 
                 startTime = Date.now();
                 playGame();
-            };
+            });
 
             $scope.selectAnswer = function (answer) {
 
@@ -72,7 +73,7 @@ angular.module('pguPlayApp').controller('QuizzCtrl', //
                     var timeMs = Date.now() - startTime;
 
                     resetGame();
-                    $scope.selectedNameOfLg = null; // reset the directive of categories
+                    $scope.selectedLanguage = null;
 
                     $scope.timeElapsedOfGame = HelperSrv.formatTime(timeMs);
                     $scope.showCongratulations = true;
@@ -127,7 +128,7 @@ angular.module('pguPlayApp').controller('QuizzCtrl', //
 
             $scope.onGoHome = function() {
                 resetGame();
-                $scope.selectedNameOfLg = null; // reset the directive of categories
+                $scope.selectedLanguage = null;
             };
 
         }]);

@@ -5,7 +5,7 @@ angular.module('pguPlayApp').controller('LanguagesCtrl', //
         function ($scope) { //
 
             $scope.underscore = _;
-            $scope.selectedLanguage = null; // info from the directive of categories
+            $scope.selectedLanguage = null;
 
             var resetSelection = function() {
                 $scope.nbRows = 0;
@@ -33,6 +33,6 @@ angular.module('pguPlayApp').controller('LanguagesCtrl', //
 
             $scope.onGoHome = function() {
                 resetSelection();
-                $scope.selectedLanguage = null; // reset the directive of categories
+                $scope.selectedLanguage = null;
             };
         }]);

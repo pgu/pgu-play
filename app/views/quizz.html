@@ -3,8 +3,8 @@
     <div ng-show="showCongratulations" ng-animate="'fade'" class="alert alert-block alert-success text-center"><strong>Congratulations!</strong> <p>Done in {{ timeElapsedOfGame }}</p></div>
 </div>
 
-<div ng-class="selectedNameOfLg? '' : 'hide'">
-    <div ng-show="selectedNameOfLg" ng-animate="'fade'">
+<div ng-class="selectedLanguage? '' : 'hide'">
+    <div ng-show="selectedLanguage" ng-animate="'fade'">
         <p></p>
         <div class="well well-large"><h1 class="text-center">{{ itemToGuessDisplay }}</h1></div>
 
@@ -15,14 +15,14 @@
     </div>
 </div>
 
-<div ng-class="selectedNameOfLg? '' : 'hide'">
+<div ng-class="selectedLanguage? '' : 'hide'">
     <p></p>
     <div class="alert alert-info text-center" ng-show="showRules" ng-animate="'fade'">
         Select the right pair
     </div>
 </div>
 
-<languages-toolbar names="namesOfLg" selected-name="selectedNameOfLg" on-select-name="selectLanguageAndPlay()"></languages-toolbar>
+<languages-toolbar selected-language="selectedLanguage"></languages-toolbar>
 
 <home-btn on-go-home="onGoHome()"></home-btn>
 
