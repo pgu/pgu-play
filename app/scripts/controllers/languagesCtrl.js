@@ -7,8 +7,6 @@ angular.module('pguPlayApp').controller('LanguagesCtrl', //
             $scope.underscore = _;
             $scope.selectedNameOfLg = null; // info from the directive of categories
 
-            $scope.namesOfLg = LanguagesSrv.getNamesOfLanguages();
-
             var resetSelection = function() {
                 $scope.nbRows = 0;
                 $scope.nbCellsByRow = 4;
@@ -18,7 +16,7 @@ angular.module('pguPlayApp').controller('LanguagesCtrl', //
 
             $scope.expandLanguage = function() {
 
-                var selectedLg = _.findWhere(LanguagesSrv.languages, {name: $scope.selectedNameOfLg});
+                var selectedLg = $scope.selectedNameOfLg;
                 var items = _.flatten(selectedLg.data);
 
                 var nbRows = items.length / $scope.nbCellsByRow;

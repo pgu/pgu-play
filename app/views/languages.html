@@ -1,6 +1,6 @@
 <home-btn on-go-home="onGoHome()"></home-btn>
 
-<languages-toolbar names="namesOfLg" selected-name="selectedNameOfLg" on-select-name="expandLanguage()"></languages-toolbar>
+<languages-toolbar selected-language="selectedNameOfLg" on-select-language="expandLanguage()"></languages-toolbar>
 
 <div ng-class="selectedNameOfLg? '' : 'hide'">
     <div ng-show="selectedNameOfLg" ng-animate="'fade'">

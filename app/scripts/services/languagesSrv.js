@@ -45,24 +45,28 @@ angular.module('pguPlayApp').factory('LanguagesSrv', function () {
     ]);
 
     return {
-        languages: {
-            hiragana: {
+        languages: [
+            {
+                key: 'hiragana',
                 name: 'Hiragana',
                 data: hiragana
             },
-            katakana: {
+            {
+                key: 'katakana',
                 name: 'Katakana',
                 data: katakana
             },
-            russianUpper: {
+            {
+                key: 'russianUpper',
                 name: 'Russian [+]',
                 data: russianUpper
             },
-            russianLower: {
+            {
+                key: 'russianLower',
                 name: 'Russian [-]',
                 data: russianLower
             }
-        },
+        ],
         getNamesOfLanguages : function() {
             return _.pluck(this.languages, 'name');
         }
