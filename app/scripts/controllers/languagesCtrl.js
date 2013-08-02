@@ -23,11 +23,7 @@ angular.module('pguPlayApp').controller('LanguagesCtrl', //
 
                 var items = _.flatten($scope.selectedLanguage.data);
 
-                var nbRows = items.length / $scope.nbCellsByRow;
-                if (items.length % $scope.nbCellsByRow > 0) {
-                    nbRows++;
-                }
-                $scope.nbRows = nbRows;
+                $scope.nbRows = items.length / $scope.nbCellsByRow;
                 $scope.symbols = items;
             });
 

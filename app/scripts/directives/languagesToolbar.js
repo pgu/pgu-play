@@ -12,12 +12,7 @@ angular.module('pguPlayApp').controller('languagesToolbarCtrl', //
 
     //
     // build the 'grid'
-    var nbLanguages = $scope.languages.length;
-    var nbRows = nbLanguages / $scope.nbCellsByRow;
-    if (nbLanguages % $scope.nbCellsByRow > 0) {
-        nbRows++;
-    }
-    $scope.nbRows = nbRows;
+    $scope.nbRows = $scope.languages.length / $scope.nbCellsByRow;
 
     //
     //
@@ -26,6 +21,10 @@ angular.module('pguPlayApp').controller('languagesToolbarCtrl', //
     };
 
     $scope.markup = function(name) {
+        if (_.isUndefined(name)) {
+            return '';
+        }
+
         if (name.indexOf('[+]') !== -1) {
             return name.replace('[+]', '') + '<i class="glyphicon glyphicon-arrow-up"></i>';
         }
