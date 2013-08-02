@@ -85,6 +85,12 @@ angular.module('pguPlayApp').factory('LanguagesSrv', function () {
       ['ﻻ', 'la'], ['ﻼ', 'la'] //
     ]);
 
+    var kanji = Object.freeze([ //
+        ['一', 'ichi'], ['一', 'one'], //
+        ['二', 'ni'], ['二', 'two'], //
+        ['三', 'san'], ['三', 'three']
+    ]);
+
     return {
         languages: [
             {
@@ -116,6 +122,11 @@ angular.module('pguPlayApp').factory('LanguagesSrv', function () {
                 key: 'arabicLong',
                 name: 'Arabic [+]',
                 data: arabicLong
+            },
+            {
+                key: 'kanji',
+                name: 'Kanji',
+                data: kanji
             }
         ],
         getNamesOfLanguages : function() {
