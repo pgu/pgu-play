@@ -46,6 +46,13 @@ angular.module('pguPlayApp').factory('LanguagesSrv', function () {
         ['э', '/ɛ/'], ['ю',   'u'], ['я',   'ya'] //
     ]);
 
+    var arabicShort = Object.freeze([ //
+      ['ﺍ', 'a'], ['ﺏ',  'b'], ['ﺕ', 't'], ['ﺙ', 'th'], ['ﺝ', 'j'], ['ﺡ',  'ḥ'], ['ﺥ', 'kh'], //
+      ['ﺩ', 'd'], ['ﺫ', 'dh'], ['ﺭ', 'r'], ['ﺯ',  'z'], ['ﺱ', 's'], ['ﺵ', 'sh'], ['ﺹ',  'ṣ'], ['ﺽ', 'ḍ'], //
+      ['ﻁ', 'ṭ'], ['ﻅ',  'ẓ'], ['ﻉ', '‘'], ['ﻍ', 'gh'], ['ﻑ', 'f'], ['ﻕ',  'q'], ['ﻙ',  'k'], ['ﻝ', 'l'], //
+      ['ﻡ', 'm'], ['ﻥ',  'n'], ['ﻩ', 'h'], ['ﻭ',  'w'], ['ﻱ', 'y'], ['ﻻ', 'la'] //
+    ]);
+
     return {
         languages: [
             {
@@ -67,6 +74,11 @@ angular.module('pguPlayApp').factory('LanguagesSrv', function () {
                 key: 'russianLower',
                 name: 'Russian [-]',
                 data: russianLower
+            },
+            {
+                key: 'arabicShort',
+                name: 'Arabic [-]',
+                data: arabicShort
             }
         ],
         getNamesOfLanguages : function() {
