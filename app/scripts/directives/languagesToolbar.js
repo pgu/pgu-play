@@ -1,8 +1,8 @@
 'use strict';
 
-angular.module('categoriesModule', []);
-
-angular.module('categoriesModule').controller('categoriesCtrl', ['$scope', function($scope) {
+angular.module('pguPlayApp').controller('languagesToolbarCtrl', //
+    ['$scope', 'LanguagesSrv', //
+        function($scope, LanguagesSrv) { //
 
     $scope.underscore = _;
     $scope.nbRows = 0;
@@ -32,7 +32,7 @@ angular.module('categoriesModule').controller('categoriesCtrl', ['$scope', funct
 
 }]);
 
-angular.module('categoriesModule').directive('categoriesWidget', function() {
+angular.module('pguPlayApp').directive('languagesToolbar', function() {
     return {
         restrict: 'E',
         replace: true,
@@ -58,6 +58,6 @@ angular.module('categoriesModule').directive('categoriesWidget', function() {
             selectedName: '=',
             onSelectName: '&'
         },
-        controller: 'categoriesCtrl'
+        controller: 'languagesToolbarCtrl'
     };
 });

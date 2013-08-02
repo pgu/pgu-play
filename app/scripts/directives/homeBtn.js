@@ -1,8 +1,6 @@
 'use strict';
 
-angular.module('homeBtnModule', []);
-
-angular.module('homeBtnModule').directive('homeBtn', function() {
+angular.module('pguPlayApp').directive('homeBtn', function() {
     return {
         restrict: 'E',
         replace: true,

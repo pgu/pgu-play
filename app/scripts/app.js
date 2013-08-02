@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('pguPlayApp', ['homeBtnModule', 'categoriesModule']).config([ '$routeProvider', function ($routeProvider) {
+angular.module('pguPlayApp', []).config([ '$routeProvider', function ($routeProvider) {
 
     $routeProvider.when('/', {
         templateUrl: 'views/main.html',
@@ -14,9 +14,9 @@ angular.module('pguPlayApp', ['homeBtnModule', 'categoriesModule']).config([ '$r
         templateUrl: 'views/memo.html',
         controller: 'MemoCtrl'
 
-    }).when('/categories', {
-        templateUrl: 'views/categories.html',
-        controller: 'CategoriesCtrl'
+    }).when('/languages', {
+        templateUrl: 'views/languages.html',
+        controller: 'LanguagesCtrl'
 
     }).otherwise({
         redirectTo: '/'

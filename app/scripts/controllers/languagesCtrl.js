@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('pguPlayApp').controller('CategoriesCtrl', //
+angular.module('pguPlayApp').controller('LanguagesCtrl', //
     [ '$scope', 'LanguagesSrv', //
         function ($scope, LanguagesSrv) { //
 
