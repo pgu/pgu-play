@@ -28,12 +28,15 @@ angular.module('pguPlayApp').factory('LanguagesSrv', function () {
         ['ワ', 'wa'], ['ヲ',  'wo'], ['ン',   'n'] //
     ]);
 
-    var russian = Object.freeze([ //
+    var russianUpper = Object.freeze([ //
         ['A',   'A'], ['Б',  'B'], ['В',   'V'], ['Г', 'G'], ['Д',  'D'], ['Е', 'YE'], //
         ['Ё',  'YO'], ['Ж',  'J'], ['З',   'Z'], ['Ы', 'I'], ['Й',  'Y'], ['К',  'K'], //
         ['Л',   'L'], ['М',  'M'], ['Н',   'N'], ['О', 'O'], ['П',  'P'], ['Р',  'R'], //
         ['С',   'S'], ['T',  'T'], ['У',   'U'], ['Ф', 'F'], ['Х',  'H'], ['Ц', 'TS'], //
-        ['Ч', 'TCH'], ['Ш', 'SH'], ['Щ', 'SHH'], ['Э', 'E'], ['Ю', 'YU'], ['Я', 'YA'], //
+        ['Ч', 'TCH'], ['Ш', 'SH'], ['Щ', 'SHH'], ['Э', 'E'], ['Ю', 'YU'], ['Я', 'YA'] //
+    ]);
+
+    var russianLower = Object.freeze([ //
         ['а',   'a'], ['б',  'b'], ['в',   'v'], ['г', 'g'], ['д',  'd'], ['е', 'ye'], //
         ['ё',  'yo'], ['ж',  'j'], ['з',   'z'], ['ы', 'i'], ['й',  'y'], ['к',  'k'], //
         ['л',   'l'], ['м',  'm'], ['н',   'n'], ['о', 'o'], ['п',  'p'], ['р',  'r'], //
@@ -50,11 +53,15 @@ angular.module('pguPlayApp').factory('LanguagesSrv', function () {
             katakana: {
                 name: 'Katakana',
                 data: katakana
+            },
+            russianUpper: {
+                name: 'Russian [+]',
+                data: russianUpper
+            },
+            russianLower: {
+                name: 'Russian [-]',
+                data: russianLower
             }
-//            russian: {
-//                name: 'Russian',
-//                data: russian
-//            }
         },
         getNamesOfLanguages : function() {
             return _.pluck(this.languages, 'name');

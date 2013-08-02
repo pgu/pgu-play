@@ -24,15 +24,18 @@ angular.module('categoriesModule').directive('categoriesWidget', function() {
         replace: true,
         template:
             '<div>' +
+            '' +
+            '<p></p>' +
+            '<div class="alert alert-info text-center" ng-show="!selectedName" ng-animate="\'fade\'">' +
+            '    Select a category' +
+            '</div>' +
+            '' +
             '<p></p>' +
             '<div class="btn-group btn-group-justified">' +
             '   <a ng-class="(selectedName === name) ? \'btn btn-large btn-primary disabled\' : \'btn btn-large btn-default\'" ng-repeat="name in names" ng-click="selectName(name)">{{ name }}</a>' +
             '</div>' +
             '' +
             '<p></p>' +
-            '<div class="alert alert-info text-center" ng-show="!selectedName" ng-animate="\'fade\'">' +
-            '    Select a category' +
-            '</div>' +
             '</div>' ,
         scope: {
             names: '=',
