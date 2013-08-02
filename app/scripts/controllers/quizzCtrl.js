@@ -92,7 +92,7 @@ angular.module('pguPlayApp').controller('QuizzCtrl', //
 
                 // select wrong answers
                 var itemsForWrongAnswers = _.filter(itemsOfGameSource, function (item) {
-                    return item[0] !== selectedItem[0] || item[1] !== selectedItem[1];
+                    return item[1] !== selectedItem[1];
                 });
 
                 var wrongItem1Idx = HelperSrv.getRandomInt(0, itemsForWrongAnswers.length);

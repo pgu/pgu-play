@@ -98,14 +98,14 @@ angular.module('pguPlayApp').factory('LanguagesSrv', function () {
                 data: katakana
             },
             {
-                key: 'russianUpper',
-                name: 'Russian [+]',
-                data: russianUpper
-            },
-            {
                 key: 'russianLower',
                 name: 'Russian [-]',
                 data: russianLower
+            },
+            {
+                key: 'russianUpper',
+                name: 'Russian [+]',
+                data: russianUpper
             },
             {
                 key: 'arabicShort',
