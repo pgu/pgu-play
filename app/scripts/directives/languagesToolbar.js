@@ -22,17 +22,9 @@ angular.module('pguPlayApp').controller('languagesToolbarCtrl', //
 
     //
     //
-    $scope.selectLanguage = function(language) {
-        $scope.selectedLanguage = language;
+    $scope.selectLanguage = function(idxOfLanguage) {
+        $scope.selectedLanguage = $scope.languages[idxOfLanguage];
     };
-
-    $scope.$watch('selectedLanguage', function() {
-        if ($scope.selectedLanguage === null) {
-            return;
-        }
-
-        $scope.onSelectLanguage();
-    });
 
 }]);
 
@@ -51,15 +43,15 @@ angular.module('pguPlayApp').directive('languagesToolbar', function() {
             '<div ng-repeat="row in underscore.range(nbRows)">' +
             '  <p></p>' +
             '  <div class="btn-group btn-group-justified">' +
-            '     <a ng-class="(selectedLanguage.key === languages[row * nbCellsByRow + cell].key) ? \'btn btn-large btn-primary disabled\' : \'btn btn-large btn-default\'" ng-repeat="cell in underscore.range(nbCellsByRow)" ng-click="selectLanguage(languages[row * nbCellsByRow + cell])" ng-disabled="!languages[row * nbCellsByRow + cell]">{{ languages[row * nbCellsByRow + cell].name }}</a>' +
+            '     <a ng-class="(selectedLanguage.key === languages[row * nbCellsByRow + cell].key) ? \'btn btn-large btn-primary disabled\' : \'btn btn-large btn-default\'" ng-repeat="cell in underscore.range(nbCellsByRow)" ng-click="selectLanguage(row * nbCellsByRow + cell)" ng-disabled="!languages[row * nbCellsByRow + cell]">{{ languages[row * nbCellsByRow + cell].name }}</a>' +
             '  </div>' +
             '</div>' +
             '' +
             '<p></p>' +
             '</div>' ,
         scope: {
-            selectedLanguage: '=',
-            onSelectLanguage: '&'
+            selectedLanguage: '='
+//            onSelectLanguage: '&'
         },
         controller: 'languagesToolbarCtrl'
     };

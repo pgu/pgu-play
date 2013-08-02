@@ -1,11 +1,11 @@
 'use strict';
 
 angular.module('pguPlayApp').controller('LanguagesCtrl', //
-    [ '$scope', 'LanguagesSrv', //
-        function ($scope, LanguagesSrv) { //
+    [ '$scope', //
+        function ($scope) { //
 
             $scope.underscore = _;
-            $scope.selectedNameOfLg = null; // info from the directive of categories
+            $scope.selectedLanguage = null; // info from the directive of categories
 
             var resetSelection = function() {
                 $scope.nbRows = 0;
@@ -14,10 +14,14 @@ angular.module('pguPlayApp').controller('LanguagesCtrl', //
             };
             resetSelection();
 
-            $scope.expandLanguage = function() {
+            $scope.$watch('selectedLanguage', function() {
 
-                var selectedLg = $scope.selectedNameOfLg;
-                var items = _.flatten(selectedLg.data);
+                if (_.isNull($scope.selectedLanguage)) {
+                    resetSelection();
+                    return;
+                }
+
+                var items = _.flatten($scope.selectedLanguage.data);
 
                 var nbRows = items.length / $scope.nbCellsByRow;
                 if (items.length % $scope.nbCellsByRow > 0) {
@@ -26,10 +30,14 @@ angular.module('pguPlayApp').controller('LanguagesCtrl', //
                 $scope.nbRows = nbRows;
 
                 $scope.symbols = items;
-            };
+            });
+
+//            $scope.expandLanguage = function() {
+//
+//            };
 
             $scope.onGoHome = function() {
                 resetSelection();
-                $scope.selectedNameOfLg = null; // reset the directive of categories
+                $scope.selectedLanguage = null; // reset the directive of categories
             };
         }]);
