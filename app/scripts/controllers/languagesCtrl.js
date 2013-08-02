@@ -28,13 +28,8 @@ angular.module('pguPlayApp').controller('LanguagesCtrl', //
                     nbRows++;
                 }
                 $scope.nbRows = nbRows;
-
                 $scope.symbols = items;
             });
-
-//            $scope.expandLanguage = function() {
-//
-//            };
 
             $scope.onGoHome = function() {
                 resetSelection();

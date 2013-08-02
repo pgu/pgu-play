@@ -9,7 +9,6 @@ angular.module('pguPlayApp').controller('languagesToolbarCtrl', //
     $scope.nbCellsByRow = 2;
 
     $scope.languages = LanguagesSrv.languages;
-    $scope.selectedLanguage = null;
 
     //
     // build the 'grid'
@@ -24,6 +23,18 @@ angular.module('pguPlayApp').controller('languagesToolbarCtrl', //
     //
     $scope.selectLanguage = function(idxOfLanguage) {
         $scope.selectedLanguage = $scope.languages[idxOfLanguage];
+    };
+
+    $scope.markup = function(name) {
+        if (name.indexOf('[+]') !== -1) {
+            return name.replace('[+]', '') + '<i class="glyphicon glyphicon-arrow-up"></i>';
+        }
+
+        if (name.indexOf('[-]') !== -1) {
+            return name.replace('[-]', '') + '<i class="glyphicon glyphicon-arrow-down"></i>';
+        }
+
+        return name;
     };
 
 }]);
@@ -43,7 +54,7 @@ angular.module('pguPlayApp').directive('languagesToolbar', function() {
             '<div ng-repeat="row in underscore.range(nbRows)">' +
             '  <p></p>' +
             '  <div class="btn-group btn-group-justified">' +
-            '     <a ng-class="(selectedLanguage.key === languages[row * nbCellsByRow + cell].key) ? \'btn btn-large btn-primary disabled\' : \'btn btn-large btn-default\'" ng-repeat="cell in underscore.range(nbCellsByRow)" ng-click="selectLanguage(row * nbCellsByRow + cell)" ng-disabled="!languages[row * nbCellsByRow + cell]">{{ languages[row * nbCellsByRow + cell].name }}</a>' +
+            '     <a ng-class="(selectedLanguage.key === languages[row * nbCellsByRow + cell].key) ? \'btn btn-large btn-primary disabled\' : \'btn btn-large btn-default\'" ng-repeat="cell in underscore.range(nbCellsByRow)" ng-click="selectLanguage(row * nbCellsByRow + cell)" ng-disabled="!languages[row * nbCellsByRow + cell]" ng-bind-html-unsafe="markup(languages[row * nbCellsByRow + cell].name)"></a>' +
             '  </div>' +
             '</div>' +
             '' +
@@ -51,7 +62,6 @@ angular.module('pguPlayApp').directive('languagesToolbar', function() {
             '</div>' ,
         scope: {
             selectedLanguage: '='
-//            onSelectLanguage: '&'
         },
         controller: 'languagesToolbarCtrl'
     };
