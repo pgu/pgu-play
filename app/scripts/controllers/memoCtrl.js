@@ -9,12 +9,11 @@ angular.module('pguPlayApp').controller('MemoCtrl', //
             var firstCard = null;
 
             $scope.underscore = _;
-            $scope.nbRows = 6; //6
+            $scope.nbRows = 1; //6
             $scope.nbCellsByRow = 2;
 
-            $scope.selectedNameOfLg = null; // info from the directive of categories
+            $scope.selectedLanguage = null;
 
-            $scope.namesOfLg = LanguagesSrv.getNamesOfLanguages();
             $scope.showRules = null;
 
             var resetGame = function() {
@@ -39,13 +38,15 @@ angular.module('pguPlayApp').controller('MemoCtrl', //
                 }
             };
 
-            $scope.selectLanguageAndPlay = function() {
+            $scope.$watch('selectedLanguage', function () {
+
+                if (_.isNull($scope.selectedLanguage)) {
+                    return;
+                }
 
                 resetGame();
 
-                var selectedLg = _.findWhere(LanguagesSrv.languages, {name: $scope.selectedNameOfLg});
-
-                var itemsOfGameSource = _.clone(selectedLg.data);
+                var itemsOfGameSource = _.clone($scope.selectedLanguage.data);
                 var itemsOfGame = [];
 
                 _.times($scope.nbRows, function() {
@@ -57,7 +58,7 @@ angular.module('pguPlayApp').controller('MemoCtrl', //
                 });
 
                 playGame(itemsOfGame);
-            };
+            });
 
             var playGame = function (itemsOfGame) {
 
@@ -131,7 +132,7 @@ angular.module('pguPlayApp').controller('MemoCtrl', //
                         var timeMs = Date.now() - startTime;
 
                         resetGame();
-                        $scope.selectedNameOfLg = null; // reset the directive of categories
+                        $scope.selectedLanguage = null;
 
                         $scope.timeElapsedOfGame = HelperSrv.formatTime(timeMs);
                         $scope.showCongratulations = true;
@@ -160,7 +161,7 @@ angular.module('pguPlayApp').controller('MemoCtrl', //
 
             $scope.onGoHome = function() {
                 resetGame();
-                $scope.selectedNameOfLg = null; // reset the directive of categories
+                $scope.selectedLanguage = null;
             };
 
         }]);
