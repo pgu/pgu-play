@@ -4,17 +4,17 @@
 </div>
 
 <div ng-class="selectedLanguage? '' : 'hide'">
-    <div ng-show="selectedLanguage" ng-animate="'fade'">
-        <div class="btn-group btn-group-justified" ng-repeat="row in underscore.range(nbRows)">
-            <a ng-class="{clean:'btn btn-large btn-default', selected:'btn btn-large btn-primary disabled', error:'btn btn-large btn-danger disabled', success:'btn btn-large btn-success disabled'}[memoCards[row * nbCellsByRow + cell].state]" ng-repeat="cell in underscore.range(nbCellsByRow)" ng-click="selectCard(row * nbCellsByRow + cell)">{{ memoCards[row * nbCellsByRow + cell].value }}</a>
-        </div>
+    <p></p>
+    <div class="alert alert-info text-center" ng-show="showRules" ng-animate="'fade'">
+        Associate the pairs
     </div>
 </div>
 
 <div ng-class="selectedLanguage? '' : 'hide'">
-    <p></p>
-    <div class="alert alert-info text-center" ng-show="showRules" ng-animate="'fade'">
-        Associate the pairs
+    <div ng-show="selectedLanguage" ng-animate="'fade'">
+        <div class="btn-group btn-group-justified" ng-repeat="row in underscore.range(nbRows)">
+            <a ng-class="{clean:'btn btn-large btn-default', selected:'btn btn-large btn-primary disabled', error:'btn btn-large btn-danger disabled', success:'btn btn-large btn-success disabled'}[memoCards[row * nbCellsByRow + cell].state]" ng-repeat="cell in underscore.range(nbCellsByRow)" ng-click="selectCard(row * nbCellsByRow + cell)">{{ memoCards[row * nbCellsByRow + cell].value }}</a>
+        </div>
     </div>
 </div>
 
