@@ -4,7 +4,22 @@ angular.module('categoriesModule', []);
 
 angular.module('categoriesModule').controller('categoriesCtrl', ['$scope', function($scope) {
 
+    $scope.underscore = _;
+    $scope.nbRows = 0;
+
+    $scope.nbCellsByRow = 2;
+
+    $scope.$watch('names', function() {
+        var nbRows = $scope.names.length / $scope.nbCellsByRow;
+        if ($scope.names % $scope.nbCellsByRow > 0) {
+            nbRows++;
+        }
+
+        $scope.nbRows = nbRows;
+    });
+
     $scope.selectName = function(name) {
+        console.log(name);
         $scope.selectedName = name;
     };
 
@@ -30,9 +45,11 @@ angular.module('categoriesModule').directive('categoriesWidget', function() {
             '    Select a category' +
             '</div>' +
             '' +
-            '<p></p>' +
-            '<div class="btn-group btn-group-justified">' +
-            '   <a ng-class="(selectedName === name) ? \'btn btn-large btn-primary disabled\' : \'btn btn-large btn-default\'" ng-repeat="name in names" ng-click="selectName(name)">{{ name }}</a>' +
+            '<div ng-repeat="row in underscore.range(nbRows)">' +
+            '  <p></p>' +
+            '  <div class="btn-group btn-group-justified">' +
+            '     <a ng-class="(selectedName === names[row * nbCellsByRow + cell]) ? \'btn btn-large btn-primary disabled\' : \'btn btn-large btn-default\'" ng-repeat="cell in underscore.range(nbCellsByRow)" ng-click="selectName(names[row * nbCellsByRow + cell])" ng-disabled="!names[row * nbCellsByRow + cell]">{{ names[row * nbCellsByRow + cell] }}</a>' +
+            '  </div>' +
             '</div>' +
             '' +
             '<p></p>' +
