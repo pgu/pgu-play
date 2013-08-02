@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('pguPlayApp').controller('MemoCtrl', //
-    [ '$scope', 'LanguagesSrv', 'HelperSrv', '$timeout', //
-        function ($scope, LanguagesSrv, HelperSrv, $timeout) { //
+    [ '$scope', 'HelperSrv', '$timeout', //
+        function ($scope, HelperSrv, $timeout) { //
 
             var solutions = {};
             var startTime = 0;
