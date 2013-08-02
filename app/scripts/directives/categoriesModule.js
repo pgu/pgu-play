@@ -19,7 +19,6 @@ angular.module('categoriesModule').controller('categoriesCtrl', ['$scope', funct
     });
 
     $scope.selectName = function(name) {
-        console.log(name);
         $scope.selectedName = name;
     };
 
