@@ -37,13 +37,21 @@ angular.module('pguPlayApp').controller('QuizzCtrl', //
 
                 resetGame();
 
-//                itemsOfGameSource = _.clone([$scope.selectedLanguage.data[0],$scope.selectedLanguage.data[1],$scope.selectedLanguage.data[2]]); // TEST
-
-                //
-
-
                 itemsOfGameSource = _.clone($scope.selectedLanguage.data);
-                itemsOfGame = _.clone(itemsOfGameSource);
+
+                var itemsOfGamePool = _.clone($scope.selectedLanguage.data);
+                itemsOfGame = [];
+
+                var nbQuestions = 20; // 20
+                _.times(nbQuestions, function() {
+
+                    var itemIdx = HelperSrv.getRandomInt(0, itemsOfGamePool.length);
+                    var item = itemsOfGamePool[itemIdx];
+
+                    itemsOfGame.push(item);
+
+                    itemsOfGamePool.splice(itemIdx, 1);
+                });
 
                 startTime = Date.now();
                 playGame();
