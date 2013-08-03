@@ -39,6 +39,9 @@ angular.module('pguPlayApp').controller('QuizzCtrl', //
 
 //                itemsOfGameSource = _.clone([$scope.selectedLanguage.data[0],$scope.selectedLanguage.data[1],$scope.selectedLanguage.data[2]]); // TEST
 
+                //
+
+
                 itemsOfGameSource = _.clone($scope.selectedLanguage.data);
                 itemsOfGame = _.clone(itemsOfGameSource);
 
