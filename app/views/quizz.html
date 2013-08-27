@@ -9,6 +9,12 @@
         <p></p>
         <div class="well well-lg"><h1 class="text-center">{{ itemToGuessDisplay }}</h1></div>
 
+        <p></p>
+        <div class="btn-group btn-group-justified">
+            <a ng-class="{'clean':'btn btn-lg btn-default', error:'btn btn-lg btn-danger disabled', success:'btn btn-lg btn-success disabled'}[answer.state]" ng-repeat="answer in answers" ng-click="selectAnswer(answer)">{{ answer.value }}</a>
+        </div>
+
+        <p></p>
         <div ng-class="selectedLanguage? '' : 'hide'">
             <p></p>
             <div class="alert alert-info text-center" ng-show="showRules" ng-animate="'fade'">
@@ -16,15 +22,15 @@
             </div>
         </div>
 
-        <p></p>
-        <div class="btn-group btn-group-justified">
-            <a ng-class="{'clean':'btn btn-lg btn-default', error:'btn btn-lg btn-danger disabled', success:'btn btn-lg btn-success disabled'}[answer.state]" ng-repeat="answer in answers" ng-click="selectAnswer(answer)">{{ answer.value }}</a>
-        </div>
+        <hr class="featurette-divider">
+
     </div>
 </div>
 
+
 <languages-toolbar selected-language="selectedLanguage"></languages-toolbar>
 
+<hr class="featurette-divider">
 <home-btn on-go-home="onGoHome()"></home-btn>
 
 

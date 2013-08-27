@@ -4,22 +4,25 @@
 </div>
 
 <div ng-class="selectedLanguage? '' : 'hide'">
-    <p></p>
-    <div class="alert alert-info text-center" ng-show="showRules" ng-animate="'fade'">
-        Associate the pairs
-    </div>
-</div>
-
-<div ng-class="selectedLanguage? '' : 'hide'">
     <div ng-show="selectedLanguage" ng-animate="'fade'">
+
+        <p></p>
         <div class="btn-group btn-group-justified" ng-repeat="row in underscore.range(nbRows)">
             <a ng-class="{clean:'btn btn-lg btn-default', selected:'btn btn-lg btn-primary disabled', error:'btn btn-lg btn-danger disabled', success:'btn btn-lg btn-success disabled'}[memoCards[row * nbCellsByRow + cell].state]" ng-repeat="cell in underscore.range(nbCellsByRow)" ng-click="selectCard(row * nbCellsByRow + cell)">{{ memoCards[row * nbCellsByRow + cell].value }}</a>
         </div>
+
+        <p></p>
+        <div class="alert alert-info text-center" ng-show="showRules" ng-animate="'fade'">
+            Associate the pairs
+        </div>
+
+        <hr class="featurette-divider">
     </div>
 </div>
 
 <languages-toolbar selected-language="selectedLanguage"></languages-toolbar>
 
+<hr class="featurette-divider">
 <home-btn on-go-home="onGoHome()"></home-btn>
 
 
