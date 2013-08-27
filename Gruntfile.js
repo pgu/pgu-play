@@ -252,8 +252,6 @@ module.exports = function (grunt) {
             '.htaccess',
             'manifest.webapp',
             'components/**/*',
-            'fonts/*',
-            'styles/bootstrap*',
             'images/{,*/}*.{gif,webp}',
             'styles/fonts/*',
             'WEB-INF/**/*'
