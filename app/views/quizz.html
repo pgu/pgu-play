@@ -7,7 +7,7 @@
 <div ng-class="selectedLanguage? '' : 'hide'">
     <div ng-show="selectedLanguage" ng-animate="'fade'">
         <p></p>
-        <div class="well well-large"><h1 class="text-center">{{ itemToGuessDisplay }}</h1></div>
+        <div class="well well-lg"><h1 class="text-center">{{ itemToGuessDisplay }}</h1></div>
 
         <div ng-class="selectedLanguage? '' : 'hide'">
             <p></p>
@@ -18,7 +18,7 @@
 
         <p></p>
         <div class="btn-group btn-group-justified">
-            <a ng-class="{'clean':'btn btn-large btn-default', error:'btn btn-large btn-danger disabled', success:'btn btn-large btn-success disabled'}[answer.state]" ng-repeat="answer in answers" ng-click="selectAnswer(answer)">{{ answer.value }}</a>
+            <a ng-class="{'clean':'btn btn-lg btn-default', error:'btn btn-lg btn-danger disabled', success:'btn btn-lg btn-success disabled'}[answer.state]" ng-repeat="answer in answers" ng-click="selectAnswer(answer)">{{ answer.value }}</a>
         </div>
     </div>
 </div>

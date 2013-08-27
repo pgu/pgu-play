@@ -13,7 +13,7 @@
 <div ng-class="selectedLanguage? '' : 'hide'">
     <div ng-show="selectedLanguage" ng-animate="'fade'">
         <div class="btn-group btn-group-justified" ng-repeat="row in underscore.range(nbRows)">
-            <a ng-class="{clean:'btn btn-large btn-default', selected:'btn btn-large btn-primary disabled', error:'btn btn-large btn-danger disabled', success:'btn btn-large btn-success disabled'}[memoCards[row * nbCellsByRow + cell].state]" ng-repeat="cell in underscore.range(nbCellsByRow)" ng-click="selectCard(row * nbCellsByRow + cell)">{{ memoCards[row * nbCellsByRow + cell].value }}</a>
+            <a ng-class="{clean:'btn btn-lg btn-default', selected:'btn btn-lg btn-primary disabled', error:'btn btn-lg btn-danger disabled', success:'btn btn-lg btn-success disabled'}[memoCards[row * nbCellsByRow + cell].state]" ng-repeat="cell in underscore.range(nbCellsByRow)" ng-click="selectCard(row * nbCellsByRow + cell)">{{ memoCards[row * nbCellsByRow + cell].value }}</a>
         </div>
     </div>
 </div>
