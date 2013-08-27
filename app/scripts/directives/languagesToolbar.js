@@ -26,11 +26,13 @@ angular.module('pguPlayApp').controller('languagesToolbarCtrl', //
         }
 
         if (name.indexOf('[+]') !== -1) {
-            return name.replace('[+]', '') + '<i class="glyphicon glyphicon-arrow-up"></i>';
+            return name.replace('[+]', '') + '<i class="glyphicon glyphicon-plus"></i>';
+//            return name.replace('[+]', '') + '<i class="glyphicon glyphicon-arrow-up"></i>';
         }
 
         if (name.indexOf('[-]') !== -1) {
-            return name.replace('[-]', '') + '<i class="glyphicon glyphicon-arrow-down"></i>';
+            return name.replace('[-]', '');
+//            return name.replace('[-]', '') + '<i class="glyphicon glyphicon-arrow-down"></i>';
         }
 
         return name;
