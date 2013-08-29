@@ -112,22 +112,26 @@ angular.module('pguPlayApp').factory('LanguagesSrv', ['KanjiSrv', function (Kanj
             {
                 key: 'russianLower',
                 name: 'Russian [-]',
-                data: russianLower
+                data: russianLower,
+                info: 'Source from http://en.wikipedia.org/wiki/Russian_alphabet'
             },
             {
                 key: 'russianUpper',
                 name: 'Russian [+]',
-                data: russianUpper
+                data: russianUpper,
+                info: 'Source from http://en.wikipedia.org/wiki/Russian_alphabet'
             },
             {
                 key: 'arabicShort',
                 name: 'Arabic [-]',
-                data: arabicShort
+                data: arabicShort,
+                info: 'Source from http://en.wikipedia.org/wiki/Arabic_alphabet'
             },
             {
                 key: 'arabicLong',
                 name: 'Arabic [+]',
-                data: arabicLong
+                data: arabicLong,
+                info: 'Source from http://en.wikipedia.org/wiki/Arabic_alphabet'
             },
             {
                 key: 'korean',
@@ -137,7 +141,8 @@ angular.module('pguPlayApp').factory('LanguagesSrv', ['KanjiSrv', function (Kanj
             {
                 key: 'kanji',
                 name: 'Kanji',
-                data: KanjiSrv.kanji
+                data: KanjiSrv.kanji,
+                info: '160 Kanji from the first book of Japanese in Mangaland'
             }
         ],
         getNamesOfLanguages : function() {

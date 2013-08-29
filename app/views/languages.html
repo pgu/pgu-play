@@ -4,6 +4,10 @@
 
 <div ng-class="selectedLanguage? '' : 'hide'">
     <div ng-show="selectedLanguage" ng-animate="'fade'">
+
+        <p></p>
+        <div class="alert alert-info text-center" ng-show="selectedLanguage.info">{{ selectedLanguage.info }}</div>
+
         <p></p>
         <table class="table table-bordered">
             <tbody>
@@ -12,6 +16,7 @@
             </tr>
             </tbody>
         </table>
+
     </div>
 </div>
 
