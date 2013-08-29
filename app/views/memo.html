@@ -8,8 +8,14 @@
 
         <p></p>
         <div class="btn-group btn-group-justified" ng-repeat="row in underscore.range(nbRows)">
-            <a ng-class="{clean:'btn btn-lg btn-default', selected:'btn btn-lg btn-primary disabled', error:'btn btn-lg btn-danger disabled', success:'btn btn-lg btn-success disabled'}[memoCards[row * nbCellsByRow + cell].state]" ng-repeat="cell in underscore.range(nbCellsByRow)" ng-click="selectCard(row * nbCellsByRow + cell)">{{ memoCards[row * nbCellsByRow + cell].value }}</a>
+            <a ng-class="{clean:'btn btn-lg btn-default', selected:'btn btn-lg btn-primary disabled', error:'btn btn-lg btn-danger disabled', success:'btn btn-lg btn-success disabled'}[memoCards[row * nbCellsByRow + cell].state]" ng-repeat="cell in underscore.range(nbCellsByRow)" ng-click="selectCard(row * nbCellsByRow + cell)" ng-bind-html-unsafe="memoCards[row * nbCellsByRow + cell].displayedValue"></a>
         </div>
+
+        <p></p>
+        <p class="text-right">
+            <span class="text-info">Toggle the items' visibility</span>
+            <button type="button" ng-class="isGameDisplayed? 'btn btn-lg btn-primary glyphicon glyphicon-eye-open' : 'btn btn-lg btn-primary glyphicon glyphicon-eye-close active'" ng-click="toggleVisibilityMode()"></button>
+        </p>
 
         <p></p>
         <div class="alert alert-info text-center" ng-show="showRules" ng-animate="'fade'">

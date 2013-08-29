@@ -4,6 +4,13 @@ angular.module('pguPlayApp').controller('MemoCtrl', //
     [ '$scope', 'HelperSrv', '$timeout', //
         function ($scope, HelperSrv, $timeout) { //
 
+            var HIDDEN_DISPLAY = '&nbsp;';
+
+            var STATE_CLEAN = 'clean';
+            var STATE_SUCCESS = 'success';
+            var STATE_SELECTED = 'selected';
+            var STATE_ERROR = 'error';
+
             var solutions = {};
             var startTime = 0;
             var firstCard = null;
@@ -15,6 +22,7 @@ angular.module('pguPlayApp').controller('MemoCtrl', //
             $scope.selectedLanguage = null;
 
             $scope.showRules = null;
+            $scope.isGameDisplayed = true; // by default, show the symbols
 
             var resetGame = function() {
                 $scope.memoCards = [];
@@ -73,10 +81,14 @@ angular.module('pguPlayApp').controller('MemoCtrl', //
                  var cards = _.chain(itemsOfGame)
                                     .flatten()
                                     .map(function(itemValue) {
-                                        return {
+                                        var card = {
                                             value: itemValue,
-                                            state: 'clean'
+                                            state: STATE_CLEAN,
+                                            displayedValue: undefined
                                         };
+
+                                        $scope.updateDisplayedItem(card);
+                                        return card;
                                     })
                                     .value();
 
@@ -105,10 +117,15 @@ angular.module('pguPlayApp').controller('MemoCtrl', //
 
                 var memoCard = $scope.memoCards[idxOfMemoCard];
 
+                if (!$scope.isGameDisplayed) {
+                    memoCard.displayedValue = memoCard.value;
+                }
+
                 // first selection
                 if (_.isNull(firstCard)) {
                     firstCard = memoCard;
-                    memoCard.state = 'selected';
+                    memoCard.state = STATE_SELECTED;
+                    // hidden mode: let the item displayed
                     return;
                 }
 
@@ -118,14 +135,15 @@ angular.module('pguPlayApp').controller('MemoCtrl', //
                 var hasFoundThePair = _.contains(corrects, firstCard.value);
                 if (hasFoundThePair) { // success
 
-                    firstCard.state = 'success';
-                    memoCard.state = 'success';
+                    firstCard.state = STATE_SUCCESS;
+                    memoCard.state = STATE_SUCCESS;
 
                     firstCard = null; // reset for next move
+                    // hidden mode: let the item displayed
 
                     // game over?
                     var gameIsOver = _.every($scope.memoCards, function(memoCard) {
-                        return memoCard.state === 'success';
+                        return memoCard.state === STATE_SUCCESS;
                     });
 
                     if (gameIsOver) {
@@ -141,27 +159,47 @@ angular.module('pguPlayApp').controller('MemoCtrl', //
 
                 } else { // error: wrong pair
 
-                    firstCard.state = 'error';
-                    memoCard.state = 'error';
+                    firstCard.state = STATE_ERROR;
+                    memoCard.state = STATE_ERROR;
 
                     var tmp1 = firstCard;
                     var tmp2 = memoCard;
 
                     $timeout(function () {
-                        tmp1.state = 'clean';
-                        tmp2.state = 'clean';
+                        tmp1.state = STATE_CLEAN;
+                        tmp2.state = STATE_CLEAN;
+
+                        if (!$scope.isGameDisplayed) {
+                            tmp1.displayedValue = HIDDEN_DISPLAY;
+                            tmp2.displayedValue = HIDDEN_DISPLAY;
+                        }
+
                     }, 300);
 
                     firstCard = null; // reset
                     return;
                 }
 
-
             };
 
             $scope.onGoHome = function() {
                 resetGame();
                 $scope.selectedLanguage = null;
+            };
+
+            $scope.updateDisplayedItem = function(memoCard) {
+                if (memoCard.state === STATE_CLEAN) {
+                    memoCard.displayedValue = $scope.isGameDisplayed ? memoCard.value : HIDDEN_DISPLAY;
+                }
+                // else in other states, let's the item displayed
+            };
+
+            $scope.toggleVisibilityMode = function() {
+                $scope.isGameDisplayed = !$scope.isGameDisplayed;
+
+                _.each($scope.memoCards, function(memoCard) {
+                    $scope.updateDisplayedItem(memoCard);
+                });
             };
 
         }]);
