@@ -4,6 +4,14 @@ angular.module('pguPlayApp').controller('QuizzCtrl', //
     [ '$scope', 'HelperSrv', '$timeout', //
         function ($scope, HelperSrv, $timeout) { //
 
+            var NB_OF_QUESTIONS = 20; // 20
+
+            var STATE_CLEAN = 'clean';
+            var STATE_ERROR = 'error';
+            var STATE_SUCCESS = 'success';
+
+            $scope.progress_width_in_pct = (100 / NB_OF_QUESTIONS) + '%';
+
             var itemToGuess = null;
             var itemsOfGame = [];
             var itemsOfGameSource = [];
@@ -12,6 +20,8 @@ angular.module('pguPlayApp').controller('QuizzCtrl', //
             $scope.selectedLanguage = null;
 
             $scope.showRules = null;
+
+            $scope.challenges = [];
 
             var resetGame = function() {
 
@@ -36,14 +46,14 @@ angular.module('pguPlayApp').controller('QuizzCtrl', //
                 }
 
                 resetGame();
+                $scope.challenges = [];
 
                 itemsOfGameSource = _.clone($scope.selectedLanguage.data);
 
                 var itemsOfGamePool = _.clone($scope.selectedLanguage.data);
                 itemsOfGame = [];
 
-                var nbQuestions = 20; // 20
-                _.times(nbQuestions, function() {
+                _.times(NB_OF_QUESTIONS, function() {
 
                     var itemIdx = HelperSrv.getRandomInt(0, itemsOfGamePool.length);
                     var item = itemsOfGamePool[itemIdx];
@@ -63,9 +73,21 @@ angular.module('pguPlayApp').controller('QuizzCtrl', //
                     $scope.showRules = false;
                 }
 
-                answer.state = answer.value === itemToGuess[1] ? 'success' : 'error';
+                answer.state = answer.value === itemToGuess[1] ? STATE_SUCCESS : STATE_ERROR;
 
-                if (answer.state === 'success') {
+                if (answer.state === STATE_SUCCESS) {
+
+                    var hasAtLeastOneWrongAnswer = _.some($scope.answers, function(answer) {
+                        return answer.state === STATE_ERROR;
+                    });
+
+                    var challenge = {
+                        isDoneWithoutWrongs: !hasAtLeastOneWrongAnswer,
+                        symbol: _.clone(itemToGuess[0]),
+                        answer: _.clone(itemToGuess[1])
+                    };
+                    $scope.challenges.push(challenge);
+
                     $timeout(function () {
                         playGame();
                     }, 300);
@@ -122,7 +144,7 @@ angular.module('pguPlayApp').controller('QuizzCtrl', //
 
                     var answerForView = {
                         value: sortedAnswers[idxToPush],
-                        state: 'clean'
+                        state: STATE_CLEAN
                     };
                     randomAnswers.push(answerForView);
 
@@ -140,6 +162,7 @@ angular.module('pguPlayApp').controller('QuizzCtrl', //
             $scope.onGoHome = function() {
                 resetGame();
                 $scope.selectedLanguage = null;
+                $scope.challenges = [];
             };
 
         }]);
