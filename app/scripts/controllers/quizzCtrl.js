@@ -10,7 +10,7 @@ angular.module('pguPlayApp').controller('QuizzCtrl', //
             var STATE_ERROR = 'error';
             var STATE_SUCCESS = 'success';
 
-            $scope.progress_width_in_pct = (100 / NB_OF_QUESTIONS) + '%';
+            $scope.progressWidthInPct = (100 / NB_OF_QUESTIONS) + '%';
 
             var itemToGuess = null;
             var itemsOfGame = [];
