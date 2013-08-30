@@ -85,7 +85,7 @@ angular.module('pguPlayApp').factory('LanguagesSrv', ['KanjiSrv', function (Kanj
       ['ﻻ', 'la'], ['ﻼ', 'la'] //
     ]);
 
-    var korean = Object.freeze([ //
+    var hangul = Object.freeze([ //
         ['ㄱ',  'g'], ['ㄴ',   'n'], ['ㄷ',   'd'], ['ㄹ',   'l'], ['ㅁ',  'm'], //
         ['ㅂ',  'b'], ['ㅅ',   's'], ['ㅇ',  'ng'], ['ㅈ',   'j'], ['ㅊ', 'ch'], //
         ['ㅋ',  'k'], ['ㅌ',   't'], ['ㅍ',   'p'], ['ㅎ',   'h'], //
@@ -99,51 +99,31 @@ angular.module('pguPlayApp').factory('LanguagesSrv', ['KanjiSrv', function (Kanj
 
     return {
         languages: [
-            {
-                key: 'hiragana',
-                name: 'Hiragana',
-                data: hiragana
-            },
-            {
-                key: 'katakana',
-                name: 'Katakana',
-                data: katakana
-            },
-            {
-                key: 'russianLower',
-                name: 'Russian [-]',
-                data: russianLower,
-                info: 'Source from http://en.wikipedia.org/wiki/Russian_alphabet'
-            },
-            {
-                key: 'russianUpper',
-                name: 'Russian [+]',
-                data: russianUpper,
-                info: 'Source from http://en.wikipedia.org/wiki/Russian_alphabet'
-            },
-            {
-                key: 'arabicShort',
-                name: 'Arabic [-]',
-                data: arabicShort,
-                info: 'Source from http://en.wikipedia.org/wiki/Arabic_alphabet'
-            },
-            {
-                key: 'arabicLong',
-                name: 'Arabic [+]',
-                data: arabicLong,
-                info: 'Source from http://en.wikipedia.org/wiki/Arabic_alphabet'
-            },
-            {
-                key: 'korean',
-                name: 'Korean',
-                data: korean
-            },
-            {
-                key: 'kanji',
-                name: 'Kanji',
-                data: KanjiSrv.kanji,
-                info: '160 Kanji from the first book of Japanese in Mangaland'
-            }
+            // roots
+            {key: 'japanese', name: 'Japanese'},
+            {key: 'russian', name: 'Russian'},
+            {key: 'arabic', name: 'Arabic'},
+            {key: 'korean', name: 'Korean'},
+            // sub levels
+            {key: 'japanese|kana', name: 'Kana'},
+            {key: 'japanese|kanji', name: 'Kanji'},
+            {key: 'russian|alphabet', name: 'Alphabet'},
+            {key: 'arabic|alphabet', name: 'Alphabet'},
+            {key: 'korean|alphabet', name: 'Alphabet'},
+            //
+            // leafs
+            //
+            {key: 'japanese|kana|hiragana', name: 'Hiragana', data: hiragana},
+            {key: 'japanese|kana|katakana', name: 'Katakana', data: katakana},
+            {key: 'japanese|kanji|mangaland_160', name: 'Mangaland (160)', data: KanjiSrv.kanji, info: '160 Kanji from the first book of Japanese in Mangaland'},
+            //
+            {key: 'russian|alphabet|lowercase', name: 'lowercase', data: russianLower, info: 'Source from http://en.wikipedia.org/wiki/Russian_alphabet'},
+            {key: 'russian|alphabet|uppercase', name: 'Uppercase', data: russianUpper, info: 'Source from http://en.wikipedia.org/wiki/Russian_alphabet'},
+            //
+            {key: 'arabic|alphabet|isolated', name: 'Isolated', data: arabicShort, info: 'Source from http://en.wikipedia.org/wiki/Arabic_alphabet'},
+            {key: 'arabic|alphabet|all_forms', name: 'All forms', data: arabicLong, info: 'Source from http://en.wikipedia.org/wiki/Arabic_alphabet'},
+            //
+            {key: 'korean|alphabet|hangul', name: 'Hangul', data: hangul}
         ],
         getNamesOfLanguages : function() {
             return _.pluck(this.languages, 'name');

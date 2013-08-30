@@ -1,0 +1,20 @@
+<div>
+    <p></p>
+    <div class="alert alert-info text-center" ng-show="!selectedLanguage" ng-animate="'fade'">Select a category</div>
+
+    <div ng-repeat="languageLevel in languageLevels">
+        <hr>
+        <div ng-repeat="row in underscore.range(languageLevel.length / nbCellsByRow)">
+            <div class="btn-group btn-group-justified">
+                <a ng-init="opt = languageLevel[row * nbCellsByRow + cell]; _css = 'btn btn-lg '"
+                   ng-class="_css + (opt.isSelected ? 'btn-primary disabled' : 'btn-default')"
+                   ng-repeat="cell in underscore.range(nbCellsByRow)"
+                   ng-click="selectLanguage(opt)"
+                   ng-disabled="!opt"
+                   ng-bind-html-unsafe="opt.option.name"></a>
+            </div>
+        </div>
+    </div>
+
+    <p></p>
+</div>

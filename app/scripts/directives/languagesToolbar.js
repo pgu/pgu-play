@@ -5,37 +5,73 @@ angular.module('pguPlayApp').controller('languagesToolbarCtrl', //
         function($scope, LanguagesSrv) { //
 
     $scope.underscore = _;
-    $scope.nbRows = 0;
     $scope.nbCellsByRow = 2;
+    $scope.languageLevels = [];
 
-    $scope.languages = LanguagesSrv.languages;
-
-    //
-    // build the 'grid'
-    $scope.nbRows = $scope.languages.length / $scope.nbCellsByRow;
-
-    //
-    //
-    $scope.selectLanguage = function(idxOfLanguage) {
-        $scope.selectedLanguage = $scope.languages[idxOfLanguage];
+    var convertToOptions = function(items, idx) {
+        return _.map(items, function(item) {
+            return {
+                option: item,
+                isSelected: false,
+                idx: idx
+            };
+        });
     };
 
-    $scope.markup = function(name) {
-        if (_.isUndefined(name)) {
-            return '';
+    var initLanguages = function() {
+        var roots = _.filter(LanguagesSrv.languages, function(lg) {
+            return !_.contains(lg.key, '|');
+        });
+
+        var rootOptions = convertToOptions(roots, $scope.languageLevels.length);
+        $scope.languageLevels.push(rootOptions);
+    };
+
+    initLanguages();
+
+    $scope.selectLanguage = function(languageOption) { // option is an item of a level
+
+        //
+        // clean other selection
+        //
+        // - clean sub-sub-levels <=> keep first levels only
+        $scope.languageLevels = _.first($scope.languageLevels, languageOption.idx + 1);
+        // - deselect adjacent level
+        _.each($scope.languageLevels[languageOption.idx], function(option) {
+           option.isSelected = false;
+        });
+
+        //
+        // select
+        //
+        languageOption.isSelected = true;
+
+        // get the sub-level
+        var baseKey = languageOption.option.key + '|';
+
+        var directSubLanguages = _.filter(LanguagesSrv.languages, function(lg) {
+            if (lg.key.indexOf(baseKey) !== -1) { // <!> _.contains does not work with 'xxx|' <!>
+
+                var isDirectSubLanguage = lg.key.replace(baseKey, '').indexOf('|') === -1;
+                return isDirectSubLanguage;
+            }
+            return false;
+        });
+
+        if (_.isEmpty(directSubLanguages)) { // it's a leaf
+            $scope.selectedLanguage = languageOption.option;
+
+        } else { // new level
+            $scope.selectedLanguage = null;
+
+            var languageSubLevel = convertToOptions(directSubLanguages, $scope.languageLevels.length);
+            $scope.languageLevels.push(languageSubLevel);
+
+            if (_.size(languageSubLevel) === 1) { // there is only one option, let's select it automatically
+                $scope.selectLanguage(languageSubLevel[0]);
+            }
         }
 
-        if (name.indexOf('[+]') !== -1) {
-            return name.replace('[+]', '') + '<i class="glyphicon glyphicon-plus"></i>';
-//            return name.replace('[+]', '') + '<i class="glyphicon glyphicon-arrow-up"></i>';
-        }
-
-        if (name.indexOf('[-]') !== -1) {
-            return name.replace('[-]', '');
-//            return name.replace('[-]', '') + '<i class="glyphicon glyphicon-arrow-down"></i>';
-        }
-
-        return name;
     };
 
 }]);
@@ -44,23 +80,7 @@ angular.module('pguPlayApp').directive('languagesToolbar', function() {
     return {
         restrict: 'E',
         replace: true,
-        template:
-            '<div>' +
-            '' +
-            '<p></p>' +
-            '<div class="alert alert-info text-center" ng-show="!selectedLanguage" ng-animate="\'fade\'">' +
-            '    Select a category' +
-            '</div>' +
-            '' +
-            '<div ng-repeat="row in underscore.range(nbRows)">' +
-            '  <p></p>' +
-            '  <div class="btn-group btn-group-justified">' +
-            '     <a ng-class="(selectedLanguage.key === languages[row * nbCellsByRow + cell].key) ? \'btn btn-lg btn-primary disabled\' : \'btn btn-lg btn-default\'" ng-repeat="cell in underscore.range(nbCellsByRow)" ng-click="selectLanguage(row * nbCellsByRow + cell)" ng-disabled="!languages[row * nbCellsByRow + cell]" ng-bind-html-unsafe="markup(languages[row * nbCellsByRow + cell].name)"></a>' +
-            '  </div>' +
-            '</div>' +
-            '' +
-            '<p></p>' +
-            '</div>' ,
+        templateUrl: 'scripts/directives/languagesToolbar.html',
         scope: {
             selectedLanguage: '='
         },
