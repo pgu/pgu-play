@@ -1,6 +1,11 @@
 <div ng-class="showCongratulations? '' : 'hide'">
     <p></p>
-    <div ng-show="showCongratulations" ng-animate="'fade'" class="alert alert-block alert-success text-center"><strong>Congratulations!</strong> <p>Done in {{ timeElapsedOfGame }}</p></div>
+    <div ng-show="showCongratulations"
+         ng-animate="'fade'"
+         class="alert alert-block alert-success text-center">
+        <strong>Congratulations!</strong>
+        <p>Done in {{ timeElapsedOfGame }}</p>
+    </div>
 </div>
 
 <div ng-class="selectedLanguage? '' : 'hide'">
@@ -10,7 +15,14 @@
 
         <p></p>
         <div class="btn-group btn-group-justified">
-            <a ng-class="{clean:'btn btn-lg btn-default', error:'btn btn-lg btn-danger disabled', success:'btn btn-lg btn-success disabled'}[answer.state]" ng-repeat="answer in answers" ng-click="selectAnswer(answer)">{{ answer.value }}</a>
+
+            <a ng-init="_css = 'btn btn-lg '"
+               ng-class="{clean:_css + 'btn-default', error:_css + 'btn-danger disabled', success:_css + 'btn-success disabled'}[answer.state]"
+               ng-repeat="answer in answers"
+               ng-click="selectAnswer(answer)">
+                {{ answer.value }}
+            </a>
+
         </div>
 
         <p></p>
@@ -23,11 +35,15 @@
 
         <p></p>
         <div class="progress">
-            <div ng-class="challenge.isDoneWithoutWrongs ? 'progress-bar progress-bar-success' : 'progress-bar progress-bar-warning'" ng-repeat="challenge in challenges" ng-style="{'width': progressWidthInPct}"></div>
+
+            <div ng-class="challenge.isDoneWithoutWrongs ? 'progress-bar progress-bar-success' : 'progress-bar progress-bar-warning'"
+                 ng-repeat="challenge in challenges"
+                 ng-style="{'width': progressWidthInPct}">
+            </div>
+
         </div>
 
         <hr class="featurette-divider">
-
     </div>
 </div>
 
@@ -41,14 +57,16 @@
         <div class="panel-heading"><h3 class="panel-title">Review the quizz</h3></div>
         <table class="table table-bordered">
             <tbody>
-            <tr ng-repeat="challenge in challenges" ng-class="challenge.isDoneWithoutWrongs ? 'text-success' : 'text-danger'">
+
+            <tr ng-repeat="challenge in challenges"
+                ng-class="challenge.isDoneWithoutWrongs ? 'text-success' : 'text-danger'">
                 <td class="text-right">{{ challenge.symbol }}</td>
                 <td class="text-left">{{ challenge.answer }}</td>
             </tr>
+
             </tbody>
         </table>
     </div>
 </div>
 
-<hr class="featurette-divider">
 <home-btn on-go-home="onGoHome()"></home-btn>

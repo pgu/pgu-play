@@ -6,13 +6,21 @@
     <div ng-show="selectedLanguage" ng-animate="'fade'">
 
         <p></p>
-        <div class="alert alert-info text-center" ng-show="selectedLanguage.info">{{ selectedLanguage.info }}</div>
+        <div class="alert alert-info text-center" ng-show="selectedLanguage.info">
+            {{ selectedLanguage.info }}
+        </div>
 
         <p></p>
         <table class="table table-bordered">
             <tbody>
             <tr ng-repeat="row in underscore.range(nbRows)">
-                <td ng-class="((row * nbCellsByRow + cell) % 2 === 0) ? 'text-primary text-right' : ''" ng-repeat="cell in underscore.range(nbCellsByRow)">{{ symbols[row * nbCellsByRow + cell] }}</td>
+
+                <td ng-init="_idx = row * nbCellsByRow + cell;"
+                    ng-class="(_idx % 2 === 0) ? 'text-primary text-right' : ''"
+                    ng-repeat="cell in underscore.range(nbCellsByRow)">
+                    {{ symbols[_idx] }}
+                </td>
+
             </tr>
             </tbody>
         </table>

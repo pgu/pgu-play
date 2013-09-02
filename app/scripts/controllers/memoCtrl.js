@@ -16,7 +16,7 @@ angular.module('pguPlayApp').controller('MemoCtrl', //
             var firstCard = null;
 
             $scope.underscore = _;
-            $scope.nbRows = 6; //6
+            $scope.nbRows = 1; //6
             $scope.nbCellsByRow = 2;
 
             $scope.selectedLanguage = null;
@@ -36,22 +36,20 @@ angular.module('pguPlayApp').controller('MemoCtrl', //
             };
             resetGame();
 
-            var addSolution = function(cache, k, v) {
-                if (!_.has(cache, k)) {
-                    cache[k] = [];
-                }
-
-                if (!_.contains(cache[k], v)) {
-                    cache[k].push(v);
-                }
-            };
-
             $scope.$watch('selectedLanguage', function () {
 
                 if (_.isNull($scope.selectedLanguage)) {
                     return;
                 }
 
+                launchGame();
+            });
+
+            $scope.repeatGame = function() {
+                launchGame();
+            };
+
+            var launchGame = function() {
                 resetGame();
 
                 var itemsOfGameSource = _.clone($scope.selectedLanguage.data);
@@ -66,7 +64,17 @@ angular.module('pguPlayApp').controller('MemoCtrl', //
                 });
 
                 playGame(itemsOfGame);
-            });
+            };
+
+            var addSolution = function(cache, k, v) {
+                if (!_.has(cache, k)) {
+                    cache[k] = [];
+                }
+
+                if (!_.contains(cache[k], v)) {
+                    cache[k].push(v);
+                }
+            };
 
             var playGame = function (itemsOfGame) {
 
@@ -109,13 +117,11 @@ angular.module('pguPlayApp').controller('MemoCtrl', //
                  $scope.memoCards = randomCards;
             };
 
-            $scope.selectCard = function(idxOfMemoCard) {
+            $scope.selectCard = function(memoCard) {
 
                 if ($scope.showRules) {
                     $scope.showRules = false;
                 }
-
-                var memoCard = $scope.memoCards[idxOfMemoCard];
 
                 if (!$scope.isGameDisplayed) {
                     memoCard.displayedValue = memoCard.value;
@@ -150,7 +156,6 @@ angular.module('pguPlayApp').controller('MemoCtrl', //
                         var timeMs = Date.now() - startTime;
 
                         resetGame();
-                        $scope.selectedLanguage = null;
 
                         $scope.timeElapsedOfGame = HelperSrv.formatTime(timeMs);
                         $scope.showCongratulations = true;

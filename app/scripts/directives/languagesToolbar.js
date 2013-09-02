@@ -36,6 +36,7 @@ angular.module('pguPlayApp').controller('languagesToolbarCtrl', //
         //
         // - clean sub-sub-levels <=> keep first levels only
         $scope.languageLevels = _.first($scope.languageLevels, languageOption.idx + 1);
+
         // - deselect adjacent level
         _.each($scope.languageLevels[languageOption.idx], function(option) {
            option.isSelected = false;

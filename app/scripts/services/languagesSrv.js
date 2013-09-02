@@ -124,9 +124,6 @@ angular.module('pguPlayApp').factory('LanguagesSrv', ['KanjiSrv', function (Kanj
             {key: 'arabic|alphabet|all_forms', name: 'All forms', data: arabicLong, info: 'Source from http://en.wikipedia.org/wiki/Arabic_alphabet'},
             //
             {key: 'korean|alphabet|hangul', name: 'Hangul', data: hangul}
-        ],
-        getNamesOfLanguages : function() {
-            return _.pluck(this.languages, 'name');
-        }
+        ]
     };
 }]);
