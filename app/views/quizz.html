@@ -1,15 +1,9 @@
-<div ng-class="showCongratulations? '' : 'hide'">
-    <p></p>
-    <div ng-show="showCongratulations"
-         ng-animate="'fade'"
-         class="alert alert-block alert-success text-center">
-        <strong>Congratulations!</strong>
-        <p>Done in {{ timeElapsedOfGame }}</p>
-    </div>
-</div>
+<congratulations-panel elapsed-time-of-game-in-ms="elapsedTimeInMs"
+   on-repeat-game="launchGame()"></congratulations-panel>
 
-<div ng-class="selectedLanguage? '' : 'hide'">
-    <div ng-show="selectedLanguage" ng-animate="'fade'">
+<div ng-class="isGameOn ? '' : 'hide'">
+    <div ng-show="isGameOn" ng-animate="'fade'">
+
         <p></p>
         <div class="well well-lg"><h1 class="text-center">{{ itemToGuessDisplay }}</h1></div>
 
@@ -26,11 +20,8 @@
         </div>
 
         <p></p>
-        <div ng-class="selectedLanguage? '' : 'hide'">
-            <p></p>
-            <div class="alert alert-info text-center" ng-show="showRules" ng-animate="'fade'">
-                Select the right pair
-            </div>
+        <div class="alert alert-info text-center" ng-show="showRules" ng-animate="'fade'">
+            Select the right pair
         </div>
 
         <p></p>
@@ -50,7 +41,7 @@
 
 <languages-toolbar selected-language="selectedLanguage"></languages-toolbar>
 
-<div ng-class="showCongratulations? '' : 'hide'">
+<div ng-class="elapsedTimeInMs === 0 ? 'hide' : ''">
 
     <p></p>
     <div class="panel panel-info">

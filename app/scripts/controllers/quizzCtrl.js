@@ -17,20 +17,18 @@ angular.module('pguPlayApp').controller('QuizzCtrl', //
             var itemsOfGameSource = [];
             var startTime = 0;
 
-            $scope.selectedLanguage = null;
-
             $scope.showRules = null;
 
+            $scope.selectedLanguage = null;
+            $scope.elapsedTimeInMs = 0;
             $scope.challenges = [];
 
             var resetGame = function() {
 
+                $scope.isGameOn = false;
                 $scope.selectedItem = null;
                 $scope.itemToGuessDisplay = null;
                 $scope.answers = [];
-
-                $scope.showCongratulations = false;
-                $scope.timeElapsedOfGame = '';
 
                 itemToGuess = null;
                 itemsOfGame = [];
@@ -40,13 +38,18 @@ angular.module('pguPlayApp').controller('QuizzCtrl', //
             resetGame();
 
             $scope.$watch('selectedLanguage', function () {
+                $scope.launchGame();
+            });
+
+            $scope.launchGame = function() {
+
+                $scope.elapsedTimeInMs = 0;
+                $scope.challenges = [];
+                resetGame();
 
                 if (_.isNull($scope.selectedLanguage)) {
                     return;
                 }
-
-                resetGame();
-                $scope.challenges = [];
 
                 itemsOfGameSource = _.clone($scope.selectedLanguage.data);
 
@@ -63,9 +66,10 @@ angular.module('pguPlayApp').controller('QuizzCtrl', //
                     itemsOfGamePool.splice(itemIdx, 1);
                 });
 
+                $scope.isGameOn = true;
                 startTime = Date.now();
                 playGame();
-            });
+            };
 
             $scope.selectAnswer = function (answer) {
 
@@ -103,13 +107,9 @@ angular.module('pguPlayApp').controller('QuizzCtrl', //
 
                 var gameIsOver = itemsOfGame.length === 0;
                 if (gameIsOver) {
-                    var timeMs = Date.now() - startTime;
+                    $scope.elapsedTimeInMs = Date.now() - startTime;
 
                     resetGame();
-                    $scope.selectedLanguage = null;
-
-                    $scope.timeElapsedOfGame = HelperSrv.formatTime(timeMs);
-                    $scope.showCongratulations = true;
                     return;
                 }
 
@@ -117,7 +117,7 @@ angular.module('pguPlayApp').controller('QuizzCtrl', //
                 // Play the game!
                 //
 
-                // select to symbol to guess
+                // select the symbol to guess
                 var selectedIdx = HelperSrv.getRandomInt(0, itemsOfGame.length);
                 var selectedItem = _.clone(itemsOfGame[selectedIdx]);
 

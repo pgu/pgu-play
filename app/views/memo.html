@@ -1,9 +1,8 @@
-<congratulations-panel selected-language="selectedLanguage"
-    elapsed-time-of-game-in-ms="elapsedTimeInMs"
+<congratulations-panel elapsed-time-of-game-in-ms="elapsedTimeInMs"
     on-repeat-game="launchGame()"></congratulations-panel>
 
-<div ng-class="selectedLanguage? '' : 'hide'">
-    <div ng-show="selectedLanguage" ng-animate="'fade'">
+<div ng-class="isGameOn ? '' : 'hide'">
+    <div ng-show="isGameOn" ng-animate="'fade'">
 
         <p></p>
         <div class="btn-group btn-group-justified"

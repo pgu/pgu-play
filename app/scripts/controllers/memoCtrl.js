@@ -16,7 +16,7 @@ angular.module('pguPlayApp').controller('MemoCtrl', //
             var firstCard = null;
 
             $scope.underscore = _;
-            $scope.nbRows = 1; //6
+            $scope.nbRows = 6; //6
             $scope.nbCellsByRow = 2;
 
             $scope.selectedLanguage = null;
@@ -27,6 +27,7 @@ angular.module('pguPlayApp').controller('MemoCtrl', //
             $scope.isGameDisplayed = true; // by default, show the symbols
 
             var resetGame = function() {
+                $scope.isGameOn = false;
                 $scope.memoCards = [];
 
                 solutions = {};
@@ -36,17 +37,16 @@ angular.module('pguPlayApp').controller('MemoCtrl', //
             resetGame();
 
             $scope.$watch('selectedLanguage', function () {
-
-                if (_.isNull($scope.selectedLanguage)) {
-                    return;
-                }
-
                 $scope.launchGame();
             });
 
             $scope.launchGame = function() {
                 $scope.elapsedTimeInMs = 0;
                 resetGame();
+
+                if (_.isNull($scope.selectedLanguage)) {
+                    return;
+                }
 
                 var itemsOfGameSource = _.clone($scope.selectedLanguage.data);
                 var itemsOfGame = [];
@@ -59,6 +59,7 @@ angular.module('pguPlayApp').controller('MemoCtrl', //
                     itemsOfGameSource.splice(idxToPush, 1);
                 });
 
+                $scope.isGameOn = true;
                 playGame(itemsOfGame);
             };
 

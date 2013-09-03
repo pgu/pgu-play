@@ -16,7 +16,6 @@ angular.module('pguPlayApp').directive('congratulationsPanel', function() {
         replace: true,
         templateUrl: 'scripts/directives/congratulationsPanel.html',
         scope: {
-            selectedLanguage: '=',
             elapsedTimeOfGameInMs: '=',
             onRepeatGame: '&'
         },
