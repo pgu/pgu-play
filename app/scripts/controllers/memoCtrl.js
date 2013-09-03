@@ -21,14 +21,13 @@ angular.module('pguPlayApp').controller('MemoCtrl', //
 
             $scope.selectedLanguage = null;
 
+            $scope.elapsedTimeInMs = 0;
+
             $scope.showRules = null;
             $scope.isGameDisplayed = true; // by default, show the symbols
 
             var resetGame = function() {
                 $scope.memoCards = [];
-
-                $scope.showCongratulations = false;
-                $scope.timeElapsedOfGame = '';
 
                 solutions = {};
                 startTime = 0;
@@ -42,14 +41,11 @@ angular.module('pguPlayApp').controller('MemoCtrl', //
                     return;
                 }
 
-                launchGame();
+                $scope.launchGame();
             });
 
-            $scope.repeatGame = function() {
-                launchGame();
-            };
-
-            var launchGame = function() {
+            $scope.launchGame = function() {
+                $scope.elapsedTimeInMs = 0;
                 resetGame();
 
                 var itemsOfGameSource = _.clone($scope.selectedLanguage.data);
@@ -153,12 +149,9 @@ angular.module('pguPlayApp').controller('MemoCtrl', //
                     });
 
                     if (gameIsOver) {
-                        var timeMs = Date.now() - startTime;
+                        $scope.elapsedTimeInMs = Date.now() - startTime;
 
                         resetGame();
-
-                        $scope.timeElapsedOfGame = HelperSrv.formatTime(timeMs);
-                        $scope.showCongratulations = true;
                         return;
                     }
 

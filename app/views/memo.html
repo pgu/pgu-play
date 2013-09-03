@@ -1,16 +1,6 @@
-<div ng-class="showCongratulations? '' : 'hide'">
-    <p></p>
-    <div ng-show="showCongratulations"
-         ng-animate="'fade'"
-         class="alert alert-block alert-success text-center">
-        <h1>Congratulations!</h1>
-        <h3>Done in {{ timeElapsedOfGame }}</h3>
-        <button type="button"
-                class="btn btn-lg btn-primary btn-block glyphicon glyphicon-repeat"
-                ng-click="repeatGame()"
-                ng-show="selectedLanguage"></button>
-    </div>
-</div>
+<congratulations-panel selected-language="selectedLanguage"
+    elapsed-time-of-game-in-ms="elapsedTimeInMs"
+    on-repeat-game="launchGame()"></congratulations-panel>
 
 <div ng-class="selectedLanguage? '' : 'hide'">
     <div ng-show="selectedLanguage" ng-animate="'fade'">
