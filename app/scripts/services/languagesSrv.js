@@ -117,8 +117,8 @@ angular.module('pguPlayApp').factory('LanguagesSrv', //
             //
             {key: 'japanese|kana|hiragana', name: 'Hiragana', data: hiragana},
             {key: 'japanese|kana|katakana', name: 'Katakana', data: katakana},
-            {key: 'japanese|kanji|mangaland', name: 'Mangaland (160)', data: Kanji.mangaland(), info: '160 Kanji from the first book of Japanese in Mangaland'},
-            {key: 'japanese|kanji|radicals', name: 'Radicals (214)', data: Kanji.radicals(), info: '214 Kanji radicals'},
+            {key: 'japanese|kanji|mangaland', name: 'Mangaland', data: Kanji.mangaland(), info: '160 Kanji from the first book of Japanese in Mangaland'},
+            {key: 'japanese|kanji|radicals', name: 'Radicals', data: Kanji.radicals(), info: '214 Kanji radicals'},
             //
             {key: 'russian|alphabet|lowercase', name: 'lowercase', data: russianLower, info: 'Source from http://en.wikipedia.org/wiki/Russian_alphabet'},
             {key: 'russian|alphabet|uppercase', name: 'Uppercase', data: russianUpper, info: 'Source from http://en.wikipedia.org/wiki/Russian_alphabet'},
