@@ -22,8 +22,8 @@ angular.module('pguPlayApp').factory('HelperSrv', function () {
                 return minutes + ' min : ' + seconds + ' sec';
             }
         },
-        getRandomInt: function (min, max) { // max: exclusion; min: inclusion
-            return Math.floor(Math.random() * (max - min) + min);
+        random: function (min, max) { // max: exclusion; min: inclusion
+            return _.random(min, max - 1);
         }
     };
 });

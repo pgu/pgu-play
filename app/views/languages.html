@@ -13,13 +13,10 @@
         <p></p>
         <table class="table table-bordered">
             <tbody>
-            <tr ng-repeat="row in underscore.range(nbRows)">
+            <tr ng-repeat="item in items">
 
-                <td ng-init="_idx = row * nbCellsByRow + cell;"
-                    ng-class="(_idx % 2 === 0) ? 'text-primary text-right' : ''"
-                    ng-repeat="cell in underscore.range(nbCellsByRow)">
-                    {{ symbols[_idx] }}
-                </td>
+                <td class="text-primary text-right"><h3>{{ item.symbol }}</h3></td>
+                <td><h3>{{ item.values }}</h3></td>
 
             </tr>
             </tbody>

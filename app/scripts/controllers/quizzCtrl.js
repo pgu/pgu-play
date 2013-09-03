@@ -58,7 +58,7 @@ angular.module('pguPlayApp').controller('QuizzCtrl', //
 
                 _.times(NB_OF_QUESTIONS, function() {
 
-                    var itemIdx = HelperSrv.getRandomInt(0, itemsOfGamePool.length);
+                    var itemIdx = HelperSrv.random(0, itemsOfGamePool.length);
                     var item = itemsOfGamePool[itemIdx];
 
                     itemsOfGame.push(item);
@@ -77,7 +77,7 @@ angular.module('pguPlayApp').controller('QuizzCtrl', //
                     $scope.showRules = false;
                 }
 
-                answer.state = answer.value === itemToGuess[1] ? STATE_SUCCESS : STATE_ERROR;
+                answer.state = answer.value === itemToGuess.answer ? STATE_SUCCESS : STATE_ERROR;
 
                 if (answer.state === STATE_SUCCESS) {
 
@@ -87,8 +87,8 @@ angular.module('pguPlayApp').controller('QuizzCtrl', //
 
                     var challenge = {
                         isDoneWithoutWrongs: !hasAtLeastOneWrongAnswer,
-                        symbol: _.clone(itemToGuess[0]),
-                        answer: _.clone(itemToGuess[1])
+                        symbol: _.clone(itemToGuess.symbol),
+                        answer: _.clone(itemToGuess.answer)
                     };
                     $scope.challenges.push(challenge);
 
@@ -118,44 +118,56 @@ angular.module('pguPlayApp').controller('QuizzCtrl', //
                 //
 
                 // select the symbol to guess
-                var selectedIdx = HelperSrv.getRandomInt(0, itemsOfGame.length);
+                var selectedIdx = HelperSrv.random(0, itemsOfGame.length);
                 var selectedItem = _.clone(itemsOfGame[selectedIdx]);
 
                 itemsOfGame.splice(selectedIdx, 1); // clean the game for the next round
 
                 // select wrong answers
+                var rightAnswers = _.rest(selectedItem);
                 var itemsForWrongAnswers = _.filter(itemsOfGameSource, function (item) {
-                                                return item[0] !== selectedItem[0] && item[1] !== selectedItem[1];
+                                                var doesNotContainSameAnswers = _.isEmpty(_.intersection(rightAnswers, _.rest(item)));
+                                                return doesNotContainSameAnswers;
                                             });
 
-                var wrongItem1Idx = HelperSrv.getRandomInt(0, itemsForWrongAnswers.length);
+                var wrongItem1Idx = HelperSrv.random(0, itemsForWrongAnswers.length);
                 var wrongItem1 = itemsForWrongAnswers[wrongItem1Idx];
 
                 itemsForWrongAnswers.splice(wrongItem1Idx, 1);
-                var wrongItem2 = itemsForWrongAnswers[HelperSrv.getRandomInt(0, itemsForWrongAnswers.length)];
+                var wrongItem2 = itemsForWrongAnswers[HelperSrv.random(0, itemsForWrongAnswers.length)];
 
                 // build answers
                 var sortedItems = [selectedItem, wrongItem1, wrongItem2];
-                var sortedAnswers = _.pluck(sortedItems, 1);
                 var randomAnswers = [];
 
                 _.times(sortedItems.length, function() {
-                    var idxToPush = HelperSrv.getRandomInt(0, sortedAnswers.length);
+                    var idxToPush = HelperSrv.random(0, sortedItems.length);
+
+                    var item = sortedItems[idxToPush];
+                    var itemKey = _.first(item);
+                    var itemAnswers = _.rest(item);
+
+                    var anAnswer = itemAnswers[HelperSrv.random(0, itemAnswers.length)];
+
+                    if (itemKey === selectedItem[0]) { // the right answer
+                        itemToGuess = {
+                            symbol: itemKey,
+                            answer: anAnswer
+                        };
+                    }
 
                     var answerForView = {
-                        value: sortedAnswers[idxToPush],
+                        value: anAnswer,
                         state: STATE_CLEAN
                     };
                     randomAnswers.push(answerForView);
 
-                    sortedAnswers.splice(idxToPush, 1);
+                    sortedItems.splice(idxToPush, 1);
                 });
 
                 //
-                itemToGuess = selectedItem;
-
                 $scope.answers = randomAnswers;
-                $scope.itemToGuessDisplay = itemToGuess[0];
+                $scope.itemToGuessDisplay = itemToGuess.symbol;
 
             };
 

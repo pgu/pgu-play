@@ -51,8 +51,8 @@
 
             <tr ng-repeat="challenge in challenges"
                 ng-class="challenge.isDoneWithoutWrongs ? 'text-success' : 'text-danger'">
-                <td class="text-right">{{ challenge.symbol }}</td>
-                <td class="text-left">{{ challenge.answer }}</td>
+                <td class="text-right"><h3>{{ challenge.symbol }}</h3></td>
+                <td class="text-left"><h3>{{ challenge.answer }}</h3></td>
             </tr>
 
             </tbody>

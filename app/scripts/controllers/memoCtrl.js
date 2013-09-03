@@ -11,7 +11,7 @@ angular.module('pguPlayApp').controller('MemoCtrl', //
             var STATE_SELECTED = 'selected';
             var STATE_ERROR = 'error';
 
-            var solutions = {};
+            var dicoOfSolutions = {};
             var startTime = 0;
             var firstCard = null;
 
@@ -30,7 +30,7 @@ angular.module('pguPlayApp').controller('MemoCtrl', //
                 $scope.isGameOn = false;
                 $scope.memoCards = [];
 
-                solutions = {};
+                dicoOfSolutions = {};
                 startTime = 0;
                 firstCard = null;
             };
@@ -53,7 +53,7 @@ angular.module('pguPlayApp').controller('MemoCtrl', //
 
                 _.times($scope.nbRows, function() {
 
-                    var idxToPush = HelperSrv.getRandomInt(0, itemsOfGameSource.length);
+                    var idxToPush = HelperSrv.random(0, itemsOfGameSource.length);
                     itemsOfGame.push(itemsOfGameSource[idxToPush]);
 
                     itemsOfGameSource.splice(idxToPush, 1);
@@ -75,15 +75,29 @@ angular.module('pguPlayApp').controller('MemoCtrl', //
 
             var playGame = function (itemsOfGame) {
 
-                solutions = _.reduce(itemsOfGame, function(solutions, item) {
+                dicoOfSolutions = _.reduce(itemsOfGame, function(dicoOfSolutions, item) {
 
-                    addSolution(solutions, item[0], item[1]);
-                    addSolution(solutions, item[1], item[0]);
+                    var key = _.first(item);
+                    var answers = _.rest(item);
 
-                    return solutions;
+                    _.each(answers, function(answer) {
+                        addSolution(dicoOfSolutions, key, answer);
+                        addSolution(dicoOfSolutions, answer, key);
+                    });
+
+                    return dicoOfSolutions;
                 }, {});
 
-                 var cards = _.chain(itemsOfGame)
+                var pairs = _.map(itemsOfGame, function(item) {
+                    var key = _.first(item);
+                    var answers = _.rest(item);
+
+                    var anAnswer = answers[HelperSrv.random(0, answers.length)];
+
+                    return [key, anAnswer];
+                });
+
+                var cards = _.chain(pairs)
                                     .flatten()
                                     .map(function(itemValue) {
                                         var card = {
@@ -97,21 +111,21 @@ angular.module('pguPlayApp').controller('MemoCtrl', //
                                     })
                                     .value();
 
-                 var randomCards = [];
-                 _.times(_.clone(cards.length), function() {
+                var randomCards = [];
+                _.times(_.clone(cards.length), function() {
 
-                     var idxToPush = HelperSrv.getRandomInt(0, cards.length);
+                     var idxToPush = HelperSrv.random(0, cards.length);
                      randomCards.push(cards[idxToPush]);
 
                      cards.splice(idxToPush, 1);
-                 });
+                });
 
-                 if ($scope.showRules === null) {
-                     $scope.showRules = true;
-                 }
+                if ($scope.showRules === null) {
+                    $scope.showRules = true;
+                }
 
-                 startTime = Date.now();
-                 $scope.memoCards = randomCards;
+                startTime = Date.now();
+                $scope.memoCards = randomCards;
             };
 
             $scope.selectCard = function(memoCard) {
@@ -133,7 +147,7 @@ angular.module('pguPlayApp').controller('MemoCtrl', //
                 }
 
                 // second selection
-                var corrects = solutions[memoCard.value];
+                var corrects = dicoOfSolutions[memoCard.value];
 
                 var hasFoundThePair = _.contains(corrects, firstCard.value);
                 if (hasFoundThePair) { // success

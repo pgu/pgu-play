@@ -1,6 +1,8 @@
 'use strict';
 
-angular.module('pguPlayApp').factory('LanguagesSrv', ['KanjiSrv', function (KanjiSrv) {
+angular.module('pguPlayApp').factory('LanguagesSrv', //
+    ['Kanji', //
+        function (Kanji) {
 
     var hiragana = Object.freeze([ //
      ['あ',  'a'], ['い',   'i'], ['う',   'u'], ['え',  'e'], ['お',  'o'], //
@@ -55,33 +57,33 @@ angular.module('pguPlayApp').factory('LanguagesSrv', ['KanjiSrv', function (Kanj
 
     var arabicLong = Object.freeze([ //
       ['ﺍ',  'a'], ['ﺎ',  'a'], //
-      ['ﺏ',  'b'], ['ﺐ',  'b'], ['ﺒ',  'b'], ['ﺑ',  'b'], //
-      ['ﺕ',  't'], ['ﺖ',  't'], ['ﺘ',  't'], ['ﺗ',  't'], //
-      ['ﺙ', 'th'], ['ﺚ', 'th'], ['ﺜ', 'th'], ['ﺛ', 'th'], //
-      ['ﺝ',  'j'], ['ﺞ',  'j'], ['ﺠ',  'j'], ['ﺟ',  'j'], //
-      ['ﺡ',  '/ħ/'], ['ﺢ',  '/ħ/'], ['ﺤ',  '/ħ/'], ['ﺣ',  '/ħ/'], //
-      ['ﺥ', 'kh'], ['ﺦ', 'kh'], ['ﺨ', 'kh'], ['ﺧ', 'kh'], //
+      ['ﺏ',  'b'], ['ﺑ',  'b'], ['ﺒ',  'b'], ['ﺐ',  'b'], //
+      ['ﺕ',  't'], ['ﺗ',  't'], ['ﺘ',  't'], ['ﺖ',  't'], //
+      ['ﺙ', 'th'], ['ﺛ', 'th'], ['ﺜ', 'th'], ['ﺚ', 'th'], //
+      ['ﺝ',  'j'], ['ﺟ',  'j'], ['ﺠ',  'j'], ['ﺞ',  'j'], //
+      ['ﺡ',  '/ħ/'], ['ﺣ',  '/ħ/'], ['ﺤ',  '/ħ/'], ['ﺢ',  '/ħ/'], //
+      ['ﺥ', 'kh'], ['ﺧ', 'kh'], ['ﺨ', 'kh'], ['ﺦ', 'kh'], //
       ['ﺩ',  'd'], ['ﺪ',  'd'], //
       ['ﺫ', 'dh'], ['ﺬ', 'dh'], //
       ['ﺭ',  'r'], ['ﺮ',  'r'], //
       ['ﺯ',  'z'], ['ﺰ',  'z'], //
-      ['ﺱ',  's'], ['ﺲ',  's'], ['ﺴ',  's'], ['ﺳ',  's'], //
-      ['ﺵ', 'sh'], ['ﺶ', 'sh'], ['ﺸ', 'sh'], ['ﺷ', 'sh'], //
-      ['ﺹ',  '/sˤ/'], ['ﺺ',  '/sˤ/'], ['ﺼ',  '/sˤ/'], ['ﺻ',  '/sˤ/'], //
-      ['ﺽ',  '/dˤ/'], ['ﺾ',  '/dˤ/'], ['ﻀ',  '/dˤ/'], ['ﺿ',  '/dˤ/'], //
-      ['ﻁ',  '/tˤ/'], ['ﻂ',  '/tˤ/'], ['ﻄ',  '/tˤ/'], ['ﻃ',  '/tˤ/'], //
-      ['ﻅ',  '/zˤ/'], ['ﻆ',  '/zˤ/'], ['ﻈ',  '/zˤ/'], ['ﻇ',  '/zˤ/'], //
-      ['ﻉ',  '‘'], ['ﻊ',  '‘'], ['ﻌ',  '‘'], ['ﻋ',  '‘'], //
-      ['ﻍ', 'gh'], ['ﻎ', 'gh'], ['ﻐ', 'gh'], ['ﻏ', 'gh'], //
-      ['ﻑ',  'f'], ['ﻒ',  'f'], ['ﻔ',  'f'], ['ﻓ',  'f'], //
-      ['ﻕ',  'q'], ['ﻖ',  'q'], ['ﻘ',  'q'], ['ﻗ',  'q'], //
-      ['ﻙ',  'k'], ['ﻚ',  'k'], ['ﻜ',  'k'], ['ﻛ',  'k'], //
-      ['ﻝ',  'l'], ['ﻞ',  'l'], ['ﻠ',  'l'], ['ﻟ',  'l'], //
-      ['ﻡ',  'm'], ['ﻢ',  'm'], ['ﻤ',  'm'], ['ﻣ',  'm'], //
-      ['ﻥ',  'n'], ['ﻦ',  'n'], ['ﻨ',  'n'], ['ﻧ',  'n'], //
-      ['ﻩ',  'h'], ['ﻪ',  'h'], ['ﻬ',  'h'], ['ﻫ',  'h'], //
+      ['ﺱ',  's'], ['ﺳ',  's'], ['ﺴ',  's'], ['ﺲ',  's'], //
+      ['ﺵ', 'sh'], ['ﺷ', 'sh'], ['ﺸ', 'sh'], ['ﺶ', 'sh'], //
+      ['ﺹ',  '/sˤ/'], ['ﺻ',  '/sˤ/'], ['ﺼ',  '/sˤ/'], ['ﺺ',  '/sˤ/'], //
+      ['ﺽ',  '/dˤ/'], ['ﺿ',  '/dˤ/'], ['ﻀ',  '/dˤ/'], ['ﺾ',  '/dˤ/'], //
+      ['ﻁ',  '/tˤ/'], ['ﻃ',  '/tˤ/'], ['ﻄ',  '/tˤ/'], ['ﻂ',  '/tˤ/'], //
+      ['ﻅ',  '/zˤ/'], ['ﻇ',  '/zˤ/'], ['ﻈ',  '/zˤ/'], ['ﻆ',  '/zˤ/'], //
+      ['ﻉ',  '‘'], ['ﻋ',  '‘'], ['ﻌ',  '‘'], ['ﻊ',  '‘'], //
+      ['ﻍ', 'gh'], ['ﻏ', 'gh'], ['ﻐ', 'gh'], ['ﻎ', 'gh'], //
+      ['ﻑ',  'f'], ['ﻓ',  'f'], ['ﻔ',  'f'], ['ﻒ',  'f'], //
+      ['ﻕ',  'q'], ['ﻗ',  'q'], ['ﻘ',  'q'], ['ﻖ',  'q'], //
+      ['ﻙ',  'k'], ['ﻛ',  'k'], ['ﻜ',  'k'], ['ﻚ',  'k'], //
+      ['ﻝ',  'l'], ['ﻟ',  'l'], ['ﻠ',  'l'], ['ﻞ',  'l'], //
+      ['ﻡ',  'm'], ['ﻣ',  'm'], ['ﻤ',  'm'], ['ﻢ',  'm'], //
+      ['ﻥ',  'n'], ['ﻧ',  'n'], ['ﻨ',  'n'], ['ﻦ',  'n'], //
+      ['ﻩ',  'h'], ['ﻫ',  'h'], ['ﻬ',  'h'], ['ﻪ',  'h'], //
       ['ﻭ',  'w'], ['ﻮ',  'w'], //
-      ['ﻱ',  'y'], ['ﻲ',  'y'], ['ﻴ',  'y'], ['ﻳ', 'y'], //
+      ['ﻱ',  'y'], ['ﻳ', 'y'], ['ﻴ',  'y'], ['ﻲ',  'y'], //
       ['ﻻ', 'la'], ['ﻼ', 'la'] //
     ]);
 
@@ -115,7 +117,8 @@ angular.module('pguPlayApp').factory('LanguagesSrv', ['KanjiSrv', function (Kanj
             //
             {key: 'japanese|kana|hiragana', name: 'Hiragana', data: hiragana},
             {key: 'japanese|kana|katakana', name: 'Katakana', data: katakana},
-            {key: 'japanese|kanji|mangaland_160', name: 'Mangaland (160)', data: KanjiSrv.kanji, info: '160 Kanji from the first book of Japanese in Mangaland'},
+            {key: 'japanese|kanji|mangaland', name: 'Mangaland (160)', data: Kanji.mangaland(), info: '160 Kanji from the first book of Japanese in Mangaland'},
+            {key: 'japanese|kanji|radicals', name: 'Radicals (214)', data: Kanji.radicals(), info: '214 Kanji radicals'},
             //
             {key: 'russian|alphabet|lowercase', name: 'lowercase', data: russianLower, info: 'Source from http://en.wikipedia.org/wiki/Russian_alphabet'},
             {key: 'russian|alphabet|uppercase', name: 'Uppercase', data: russianUpper, info: 'Source from http://en.wikipedia.org/wiki/Russian_alphabet'},
