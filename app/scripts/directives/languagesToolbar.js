@@ -81,7 +81,7 @@ angular.module('pguPlayApp').directive('languagesToolbar', function() {
     return {
         restrict: 'E',
         replace: true,
-        templateUrl: 'scripts/directives/languagesToolbar.html',
+        templateUrl: 'views/directives/languagesToolbar.html',
         scope: {
             selectedLanguage: '='
         },
