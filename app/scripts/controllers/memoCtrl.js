@@ -48,7 +48,7 @@ angular.module('pguPlayApp').controller('MemoCtrl', //
                     return;
                 }
 
-                var itemsOfGameSource = _.clone($scope.selectedLanguage.data);
+                var itemsOfGameSource = _.clone($scope.selectedLanguage.getData());
                 var itemsOfGame = [];
 
                 _.times($scope.nbRows, function() {

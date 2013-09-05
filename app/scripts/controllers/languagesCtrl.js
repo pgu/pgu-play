@@ -18,7 +18,7 @@ angular.module('pguPlayApp').controller('LanguagesCtrl', //
                     return;
                 }
 
-                $scope.items = _.map($scope.selectedLanguage.data, function(item) {
+                $scope.items = _.map($scope.selectedLanguage.getData(), function(item) {
                     return {
                         symbol: _.first(item),
                         values: _.rest(item).join(', ')

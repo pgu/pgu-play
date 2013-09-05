@@ -51,9 +51,9 @@ angular.module('pguPlayApp').controller('QuizzCtrl', //
                     return;
                 }
 
-                itemsOfGameSource = _.clone($scope.selectedLanguage.data);
+                itemsOfGameSource = _.clone($scope.selectedLanguage.getData());
 
-                var itemsOfGamePool = _.clone($scope.selectedLanguage.data);
+                var itemsOfGamePool = _.clone($scope.selectedLanguage.getData());
                 itemsOfGame = [];
 
                 _.times(NB_OF_QUESTIONS, function() {
