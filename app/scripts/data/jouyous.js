@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('pguPlayApp').factory('Jouyou', function () {
+angular.module('pguPlayApp').factory('Jouyous', function () {
 
     // source: kanjidic2.xml from http://www.csse.monash.edu.au/~jwb/
     // explanations: http://www.csse.monash.edu.au/~jwb/kanjidic2/kanjidic2_dtdh.html

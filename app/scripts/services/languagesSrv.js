@@ -1,55 +1,13 @@
 'use strict';
 
 angular.module('pguPlayApp').factory('LanguagesSrv', //
-    ['Kanji', //
-        function (Kanji) {
+    ['Kanjis', 'Kanas', //
+        function (Kanjis, Kanas) {
 
-
-    var hiragana, katakana, //
-        russianUpper, russianLower, //
+    var russianUpper, russianLower, //
         arabicShort, arabicLong, //
         hangul //
         ;
-
-    function getHiragana() {
-
-        if (!hiragana) {
-            hiragana = Object.freeze([ //
-                ['あ',  'a'], ['い',   'i'], ['う',   'u'], ['え',  'e'], ['お',  'o'], //
-                ['か', 'ka'], ['き',  'ki'], ['く',  'ku'], ['け', 'ke'], ['こ', 'ko'], //
-                ['さ', 'sa'], ['し', 'shi'], ['す',  'su'], ['せ', 'se'], ['そ', 'so'], //
-                ['た', 'ta'], ['ち', 'chi'], ['つ', 'tsu'], ['て', 'te'], ['と', 'to'], //
-                ['な', 'na'], ['に',  'ni'], ['ぬ',  'nu'], ['ね', 'ne'], ['の', 'no'], //
-                ['は', 'ha'], ['ひ',  'hi'], ['ふ',  'fu'], ['へ', 'he'], ['ほ', 'ho'], //
-                ['ま', 'ma'], ['み',  'mi'], ['む',  'mu'], ['め', 'me'], ['も', 'mo'], //
-                ['や', 'ya'], ['ゆ',  'yu'], ['よ',  'yo'], //
-                ['ら', 'ra'], ['り',  'ri'], ['る',  'ru'], ['れ', 're'], ['ろ', 'ro'], //
-                ['わ', 'wa'], ['を',  'wo'], ['ん',   'n'] //
-            ]);
-        }
-
-        return hiragana;
-    }
-
-    function getKatakana() {
-
-        if (!katakana) {
-            katakana = Object.freeze([ //
-                ['ア',  'a'], ['イ',   'i'], ['ウ',   'u'], ['エ',  'e'], ['オ',  'o'], //
-                ['カ', 'ka'], ['キ',  'ki'], ['ク',  'ku'], ['ケ', 'ke'], ['コ', 'ko'], //
-                ['サ', 'sa'], ['シ', 'shi'], ['ス',  'su'], ['セ', 'se'], ['ソ', 'so'], //
-                ['タ', 'ta'], ['チ', 'chi'], ['ッ', 'tsu'], ['テ', 'te'], ['ト', 'to'], //
-                ['ナ', 'na'], ['ニ',  'ni'], ['ヌ',  'nu'], ['ネ', 'ne'], ['ノ', 'no'], //
-                ['ハ', 'ha'], ['ヒ',  'hi'], ['フ',  'fu'], ['ヘ', 'he'], ['ホ', 'ho'], //
-                ['マ', 'ma'], ['ミ',  'mi'], ['ム',  'mu'], ['メ', 'me'], ['モ', 'mo'], //
-                ['ヤ', 'ya'], ['ユ',  'yu'], ['ヨ',  'yo'], //
-                ['ラ', 'ra'], ['リ',  'ri'], ['ル',  'ru'], ['レ', 're'], ['ロ', 'ro'], //
-                ['ワ', 'wa'], ['ヲ',  'wo'], ['ン',   'n'] //
-            ]);
-        }
-
-        return katakana;
-    }
 
     function getRussianUpper() {
 
@@ -175,21 +133,21 @@ angular.module('pguPlayApp').factory('LanguagesSrv', //
             // leafs
             //
             // kana
-            {key: 'japanese|kana|hiragana', name: 'Hiragana', getData: getHiragana},
-            {key: 'japanese|kana|katakana', name: 'Katakana', getData: getKatakana},
+            {key: 'japanese|kana|hiragana', name: 'Hiragana', getData: Kanas.getHiragana},
+            {key: 'japanese|kana|katakana', name: 'Katakana', getData: Kanas.getKatakana},
             // kanji
-            {key: 'japanese|kanji|radicals', name: 'Radicals', getData: Kanji.getRadicals, info: 'The 214 Kanji radicals. Source: http://en.wikipedia.org/wiki/Table_of_Japanese_Kanji_radicals'},
+            {key: 'japanese|kanji|radicals', name: 'Radicals', getData: Kanjis.getGameRadicals, getRawData: Kanjis.getRawRadicals, info: 'The 214 Kanji radicals. Source: http://en.wikipedia.org/wiki/Table_of_Japanese_Kanji_radicals'},
             //
-            {key: 'japanese|kanji|jouyou|all', name: 'All (2136)', getData: Kanji.getJouyou, info: 'All the 2136 Jōyō'},
-            {key: 'japanese|kanji|jouyou|others', name: 'Others (1130)', getData: Kanji.getJouyouOthers, info: 'The 1130 Jōyō learned in junior high school'},
+            {key: 'japanese|kanji|jouyou|all', name: 'All (2136)', getData: Kanjis.getGameJouyous, getRawData: Kanjis.getRawJouyous, info: 'All the 2136 Jōyō'},
+            {key: 'japanese|kanji|jouyou|others', name: 'Others (1130)', getData: Kanjis.getGameJouyouOthers, getRawData: Kanjis.getRawJouyouOthers, info: 'The 1130 Jōyō learned in junior high school'},
             //
-            {key: 'japanese|kanji|jouyou|kyouiku|all', name: 'All (1006)', getData: Kanji.getKyouiku, info: 'The 2136 Kyōiku taught in Japanese schools'},
-            {key: 'japanese|kanji|jouyou|kyouiku|grade_1', name: 'Grade 1', getData: Kanji.getKyouiku1},
-            {key: 'japanese|kanji|jouyou|kyouiku|grade_2', name: 'Grade 2', getData: Kanji.getKyouiku2},
-            {key: 'japanese|kanji|jouyou|kyouiku|grade_3', name: 'Grade 3', getData: Kanji.getKyouiku3},
-            {key: 'japanese|kanji|jouyou|kyouiku|grade_4', name: 'Grade 4', getData: Kanji.getKyouiku4},
-            {key: 'japanese|kanji|jouyou|kyouiku|grade_5', name: 'Grade 5', getData: Kanji.getKyouiku5},
-            {key: 'japanese|kanji|jouyou|kyouiku|grade_6', name: 'Grade 6', getData: Kanji.getKyouiku6},
+            {key: 'japanese|kanji|jouyou|kyouiku|all', name: 'All (1006)', getData: Kanjis.getGameKyouikus, getRawData: Kanjis.getRawKyouikus, info: 'The 1006 Kyōiku taught in Japanese schools'},
+            {key: 'japanese|kanji|jouyou|kyouiku|grade_1', name: 'Grade 1', getData: Kanjis.getGameKyouikus1, getRawData: Kanjis.getRawKyouikus1},
+            {key: 'japanese|kanji|jouyou|kyouiku|grade_2', name: 'Grade 2', getData: Kanjis.getGameKyouikus2, getRawData: Kanjis.getRawKyouikus2},
+            {key: 'japanese|kanji|jouyou|kyouiku|grade_3', name: 'Grade 3', getData: Kanjis.getGameKyouikus3, getRawData: Kanjis.getRawKyouikus3},
+            {key: 'japanese|kanji|jouyou|kyouiku|grade_4', name: 'Grade 4', getData: Kanjis.getGameKyouikus4, getRawData: Kanjis.getRawKyouikus4},
+            {key: 'japanese|kanji|jouyou|kyouiku|grade_5', name: 'Grade 5', getData: Kanjis.getGameKyouikus5, getRawData: Kanjis.getRawKyouikus5},
+            {key: 'japanese|kanji|jouyou|kyouiku|grade_6', name: 'Grade 6', getData: Kanjis.getGameKyouikus6, getRawData: Kanjis.getRawKyouikus6},
             // japanese vocabular
 //            {key: 'japanese|kanji|vocabular|mangaland', name: 'Mangaland', getData: Kanji.getMangaland, info: '160 Kanji from the first book of Japanese in Mangaland'},
             // russian

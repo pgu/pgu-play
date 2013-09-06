@@ -6,9 +6,7 @@
     <div ng-show="selectedLanguage" ng-animate="'fade'">
 
         <p></p>
-        <div class="alert alert-info text-center" ng-show="selectedLanguage.info">
-            {{ selectedLanguage.info }}
-        </div>
+        <div class="alert alert-info text-center" ng-bind-html-unsafe="globalInfo"></div>
 
         <p></p>
         <table class="table table-bordered">
@@ -16,7 +14,7 @@
             <tr ng-repeat="item in items">
 
                 <td class="text-primary text-right"><h3>{{ item.symbol }}</h3></td>
-                <td><h3>{{ item.values }}</h3></td>
+                <td><h3 ng-bind-html-unsafe="item.definition"></h3></td>
 
             </tr>
             </tbody>
