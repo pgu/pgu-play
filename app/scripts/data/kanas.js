@@ -1,6 +1,8 @@
 'use strict';
 
-angular.module('pguPlayApp').factory('Kanas', function () {//
+angular.module('pguPlayApp').factory('Kanas',
+    [ 'DataHelper', //
+        function (DataHelper) { //
 
     var hiragana = Object.freeze([ //
         ['あ',  'a'], ['い',   'i'], ['う',   'u'], ['え',  'e'], ['お',  'o'], //
@@ -28,26 +30,12 @@ angular.module('pguPlayApp').factory('Kanas', function () {//
         ['ワ', 'wa'], ['ヲ',  'wo'], ['ン',   'n'] //
     ]);
 
-    var kanaDisplayConfig = {
-        key: {field: 0, renderHtml: _.identity},
-        values: [{field: 1, renderHtml: _.identity}]
-    };
-
-    var toFullRawData = function(rawData) {
-        return {
-            data: rawData,
-            displayConfig: kanaDisplayConfig
-        };
-    };
-
-    var hiragana, katakana;
-
     return {
         getRawHiraganas: function() {
-            return toFullRawData(hiragana);
+            return DataHelper.toFullRawDataBasic(hiragana);
         },
         getRawKatakanas: function() {
-            return toFullRawData(katakana);
+            return DataHelper.toFullRawDataBasic(katakana);
         },
         getGameHiragana: function() {
             return hiragana;
@@ -57,4 +45,4 @@ angular.module('pguPlayApp').factory('Kanas', function () {//
         }
     };
 
-});
+}]);

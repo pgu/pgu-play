@@ -1,45 +1,12 @@
 'use strict';
 
 angular.module('pguPlayApp').factory('LanguagesSrv', //
-    ['Kanjis', 'Kanas', //
-        function (Kanjis, Kanas) {
+    ['Kanjis', 'Kanas', 'Russian', //
+        function (Kanjis, Kanas, Russian) {
 
-    var russianUpper, russianLower, //
-        arabicShort, arabicLong, //
+    var arabicShort, arabicLong, //
         hangul //
         ;
-
-    function getRussianUpper() {
-
-        if (!russianUpper) {
-            russianUpper = Object.freeze([ //
-                ['A',   'A'], ['Б',   'B'], ['В',    'V'], ['Г',   'G'], ['Д',   'D'], ['Е', 'YE'], //
-                ['Ё',  'YO'], ['Ж', '/ʐ/'], ['З',    'Z'], ['И', '/I/'], ['Й', '/J/'], ['К',  'K'], //
-                ['Л',   'L'], ['М',   'M'], ['Н',    'N'], ['О',   'O'], ['П',   'P'], ['Р',  'R'], //
-                ['С',   'S'], ['T',   'T'], ['У',  '/U/'], ['Ф',   'F'], ['Х', '/X/'], ['Ц', 'TS'], //
-                ['Ч', 'TCH'], ['Ш',  'SH'], ['Щ', 'SHCH'], ['Ъ',   '-'], ['Ы', '/I/'], ['Ь',  '-'], //
-                ['Э', '/ɛ/'], ['Ю',   'U'], ['Я',   'YA'] //
-            ]);
-        }
-
-        return russianUpper;
-    }
-
-    function getRussianLower() {
-
-        if (!russianLower) {
-            russianLower = Object.freeze([ //
-                ['а',   'a'], ['б',   'b'], ['в',    'v'], ['г',   'g'], ['д',   'd'], ['е', 'ye'], //
-                ['ё',  'yo'], ['ж', '/ʐ/'], ['з',    'z'], ['и', '/i/'], ['й', '/j/'], ['к',  'k'], //
-                ['л',   'l'], ['м',   'm'], ['н',    'n'], ['о',   'o'], ['п',   'p'], ['р',  'r'], //
-                ['с',   's'], ['т',   't'], ['у',  '/u/'], ['ф',   'f'], ['х', '/x/'], ['ц', 'ts'], //
-                ['ч', 'tch'], ['ш',  'sh'], ['щ', 'shch'], ['ъ',   '-'], ['ы', '/i/'], ['ь',  '-'], //
-                ['э', '/ɛ/'], ['ю',   'u'], ['я',   'ya'] //
-            ]);
-        }
-
-        return russianLower;
-    }
 
     function getArabicShort() {
 
@@ -151,8 +118,8 @@ angular.module('pguPlayApp').factory('LanguagesSrv', //
             // japanese vocabular
 //            {key: 'japanese|kanji|vocabular|mangaland', name: 'Mangaland', getData: Kanji.getMangaland, info: '160 Kanji from the first book of Japanese in Mangaland'},
             // russian
-            {key: 'russian|alphabet|lowercase', name: 'lowercase', getData: getRussianLower},
-            {key: 'russian|alphabet|uppercase', name: 'Uppercase', getData: getRussianUpper},
+            {key: 'russian|alphabet|lowercase', name: 'lowercase', getData: Russian.getGameAlphabetLower, getRawData: Russian.getRawAlphabetLower},
+            {key: 'russian|alphabet|uppercase', name: 'Uppercase', getData: Russian.getGameAlphabetUpper, getRawData: Russian.getRawAlphabetUpper},
             // arabic
             {key: 'arabic|alphabet|isolated', name: 'Isolated', getData: getArabicShort},
             {key: 'arabic|alphabet|all_forms', name: 'All forms', getData: getArabicLong},
