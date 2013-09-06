@@ -30,7 +30,7 @@ angular.module('pguPlayApp').factory('Kanas',
         ['ワ', 'wa'], ['ヲ',  'wo'], ['ン',   'n'] //
     ]);
 
-    var hiraganaDiacritics = Object.freeze([
+    var diacritics = Object.freeze([
         ['が', 'ga'], ['ぎ', 'gi'], ['ぐ', 'gu'], ['げ', 'ge'], ['ご', 'go'],
         ['ざ', 'za'], ['じ', 'ji'], ['ず', 'zu'], ['ぜ', 'ze'], ['ぞ', 'zo'],
         ['だ', 'da'], ['ぢ', 'ji'], ['づ', 'zu'], ['で', 'de'], ['ど', 'do'],
@@ -44,10 +44,15 @@ angular.module('pguPlayApp').factory('Kanas',
         ['パ', 'pa'], ['ピ', 'pi'], ['プ', 'pu'], ['ペ', 'pe'], ['ポ', 'po']
     ]);
 
-    // TODO katakanaDiacritics
-
+            // TODO
     var youons = Object.freeze([
-
+        ['きゃ', 'kya'], ['きゅ',  'ki'], ['きょ',  'ki'],
+        ['しゃ', 'sha'], ['しゅ', 'shi'], ['しょ', 'shi'],
+        ['ちゃ', 'cha'], ['ちゅ', 'chi'], ['ちょ', 'chi'],
+        ['にゃ',  'ni'], ['にゅ',  'ni'], ['にょ',  'ni'],
+        ['ひゃ',  'hi'], ['ひゅ',  'hi'], ['ひょ',  'hi'],
+        ['みゃ',  'mi'], ['みゅ',  'mi'], ['みょ',  'mi'],
+        ['りゃ',  'ri'], ['りゅ',  'ri'], ['りょ',  'ri']
     ]);
 
     return {
