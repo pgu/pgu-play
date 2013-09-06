@@ -45,21 +45,21 @@ angular.module('pguPlayApp').factory('Kanjis', //
         jouyous: Jouyous
     });
 
-    var displayOns = function(ons) {
+    var renderOns = function(ons) {
         if (_.isEmpty(ons)) {
             return '';
         }
         return '<span class="text-danger">' + ons.join(', ') + '</span>';
     };
 
-    var displayKuns = function(kuns) {
+    var renderKuns = function(kuns) {
         if (_.isEmpty(kuns)) {
             return '';
         }
         return '<span class="text-success">' + kuns.join(', ') + '</span>';
     };
 
-    var displayMeanings = function(meanings) {
+    var renderMeanings = function(meanings) {
         if (_.isEmpty(meanings)) {
             return '';
         }
@@ -67,11 +67,11 @@ angular.module('pguPlayApp').factory('Kanjis', //
     };
 
     var kanjiDisplayConfig = {
-        key: {field: 'literal', html: _.identity},
+        key: {field: 'literal', renderHtml: _.identity},
         values: [
-            {field: 'ons', html: displayOns},
-            {field: 'kuns', html: displayKuns},
-            {field: 'meanings', html: displayMeanings}
+            {field: 'ons', renderHtml: renderOns},
+            {field: 'kuns', renderHtml: renderKuns},
+            {field: 'meanings', renderHtml: renderMeanings}
         ],
         legend: 'The reading <span class="text-danger"><strong>On\'Yomi</strong></span> is highlighted in <span class="text-danger"><strong>red</strong></span> and <span class="text-success"><strong>Kun\'Yomi</strong></span> in <span class="text-success"><strong>green</strong></span>'
     };
