@@ -10,9 +10,10 @@
 
             <a ng-init="_idx = row * nbCellsByRow + cell; _css = 'btn btn-lg ';_css_disabled = _css + 'disabled ';"
                ng-class="{clean:_css + 'btn-default', selected:_css_disabled + 'btn-primary', error:_css_disabled + 'btn-danger', success:_css_disabled + 'btn-success'}[memoCards[_idx].state]"
+               ng-style="memoCards[_idx].isKey ? {fontWeight: 'bold'} : {}"
                ng-repeat="cell in underscore.range(nbCellsByRow)"
                ng-click="selectCard(memoCards[_idx])"
-               ng-bind-html-unsafe="memoCards[_idx].displayedValue"></a>
+               ng-bind-html-unsafe="memoCards[_idx].displayed"></a>
         </div>
 
         <p></p>
@@ -22,6 +23,15 @@
                     ng-init="btn_css = 'btn btn-lg btn-primary glyphicon '"
                     ng-class="btn_css + (isGameDisplayed ? 'glyphicon-eye-open' : 'glyphicon-eye-close active')"
                     ng-click="toggleVisibilityMode()"></button>
+        </p>
+        <p></p>
+
+        <p class="text-right">
+            <button type="button"
+                    ng-show="selectedLanguage.key.indexOf('kanji') !== -1"
+                    ng-init="hep_btn_css = 'btn btn-default btn-lg glyphicon glyphicon-transfer '"
+                    ng-class="isKanaHepburned ? hep_btn_css + 'active' : hep_btn_css"
+                    ng-click="onHepburnKana()"></button>
         </p>
 
         <p></p>

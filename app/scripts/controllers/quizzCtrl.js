@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('pguPlayApp').controller('QuizzCtrl', //
-    [ '$scope', 'HelperSrv', '$timeout', //
-        function ($scope, HelperSrv, $timeout) { //
+    [ '$scope', 'HelperSrv', '$timeout', 'Kanas', //
+        function ($scope, HelperSrv, $timeout, Kanas) { //
 
             var NB_OF_QUESTIONS = 20; // 20
 
@@ -29,6 +29,8 @@ angular.module('pguPlayApp').controller('QuizzCtrl', //
                 $scope.selectedItem = null;
                 $scope.itemToGuessDisplay = null;
                 $scope.answers = [];
+
+                $scope.isKanaHepburned = false;
 
                 itemToGuess = null;
                 itemsOfGame = [];
@@ -158,6 +160,7 @@ angular.module('pguPlayApp').controller('QuizzCtrl', //
 
                     var answerForView = {
                         value: anAnswer,
+                        label: anAnswer,
                         state: STATE_CLEAN
                     };
                     randomAnswers.push(answerForView);
@@ -175,6 +178,25 @@ angular.module('pguPlayApp').controller('QuizzCtrl', //
                 resetGame();
                 $scope.selectedLanguage = null;
                 $scope.challenges = [];
+            };
+
+            // TODO review...
+            $scope.onHepburnKana = function() {
+                $scope.isKanaHepburned = !$scope.isKanaHepburned;
+
+                _.each($scope.answers, function(answer) {
+
+                    if ($scope.isKanaHepburned) {
+                        var v = answer.value;
+                        var tmp = Kanas.hepburnKun(v);
+                        answer.label = Kanas.hepburnOn(tmp);
+
+                    } else {
+                        answer.label = answer.value;
+                    }
+
+                });
+
             };
 
         }]);

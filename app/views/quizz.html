@@ -14,7 +14,7 @@
                ng-class="{clean:_css + 'btn-default', error:_css + 'btn-danger disabled', success:_css + 'btn-success disabled'}[answer.state]"
                ng-repeat="answer in answers"
                ng-click="selectAnswer(answer)">
-                {{ answer.value }}
+                {{ answer.label }}
             </a>
 
         </div>
@@ -33,6 +33,15 @@
             </div>
 
         </div>
+
+        <p></p>
+        <p class="text-right">
+        <button type="button"
+                ng-show="selectedLanguage.key.indexOf('kanji') !== -1"
+                ng-init="btn_css = 'btn btn-default btn-lg glyphicon glyphicon-transfer '"
+                ng-class="isKanaHepburned ? btn_css + 'active' : btn_css"
+                ng-click="onHepburnKana()"></button>
+        </p>
 
         <hr class="featurette-divider">
     </div>

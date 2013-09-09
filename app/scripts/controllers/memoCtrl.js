@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('pguPlayApp').controller('MemoCtrl', //
-    [ '$scope', 'HelperSrv', '$timeout', //
-        function ($scope, HelperSrv, $timeout) { //
+    [ '$scope', 'HelperSrv', '$timeout', 'Kanas', //
+        function ($scope, HelperSrv, $timeout, Kanas) { //
 
             var HIDDEN_DISPLAY = '&nbsp;';
 
@@ -25,6 +25,7 @@ angular.module('pguPlayApp').controller('MemoCtrl', //
 
             $scope.showRules = null;
             $scope.isGameDisplayed = true; // by default, show the symbols
+            $scope.isKanaHepburned = false;
 
             var resetGame = function() {
                 $scope.isGameOn = false;
@@ -88,28 +89,36 @@ angular.module('pguPlayApp').controller('MemoCtrl', //
                     return dicoOfSolutions;
                 }, {});
 
-                var pairs = _.map(itemsOfGame, function(item) {
+                var cards = _.reduce(itemsOfGame, function(all, item) {
                     var key = _.first(item);
                     var answers = _.rest(item);
 
                     var anAnswer = answers[HelperSrv.random(0, answers.length)];
 
-                    return [key, anAnswer];
-                });
+                    var keyCard = {
+                        isKey: true,
+                        value: key,
+                        html: key,
+                        displayed: undefined,
+                        state: STATE_CLEAN
+                    };
 
-                var cards = _.chain(pairs)
-                                    .flatten()
-                                    .map(function(itemValue) {
-                                        var card = {
-                                            value: itemValue,
-                                            state: STATE_CLEAN,
-                                            displayedValue: undefined
-                                        };
+                    var answerCard = {
+                        isKey: false,
+                        value: anAnswer,
+                        html: $scope.isKanaHepburned ? Kanas.hepburnOn(Kanas.hepburnKun(anAnswer)) : anAnswer,
+                        displayed: undefined,
+                        state: STATE_CLEAN
+                    };
 
-                                        $scope.updateDisplayedItem(card);
-                                        return card;
-                                    })
-                                    .value();
+                    $scope.updateDisplayedItem(keyCard);
+                    $scope.updateDisplayedItem(answerCard);
+
+                    all.push(keyCard);
+                    all.push(answerCard);
+                    return all;
+
+                }, []);
 
                 var randomCards = [];
                 _.times(_.clone(cards.length), function() {
@@ -135,7 +144,7 @@ angular.module('pguPlayApp').controller('MemoCtrl', //
                 }
 
                 if (!$scope.isGameDisplayed) {
-                    memoCard.displayedValue = memoCard.value;
+                    memoCard.displayed = memoCard.html;
                 }
 
                 // first selection
@@ -183,8 +192,8 @@ angular.module('pguPlayApp').controller('MemoCtrl', //
                         tmp2.state = STATE_CLEAN;
 
                         if (!$scope.isGameDisplayed) {
-                            tmp1.displayedValue = HIDDEN_DISPLAY;
-                            tmp2.displayedValue = HIDDEN_DISPLAY;
+                            tmp1.displayed = HIDDEN_DISPLAY;
+                            tmp2.displayed = HIDDEN_DISPLAY;
                         }
 
                     }, 300);
@@ -202,7 +211,7 @@ angular.module('pguPlayApp').controller('MemoCtrl', //
 
             $scope.updateDisplayedItem = function(memoCard) {
                 if (memoCard.state === STATE_CLEAN) {
-                    memoCard.displayedValue = $scope.isGameDisplayed ? memoCard.value : HIDDEN_DISPLAY;
+                    memoCard.displayed = $scope.isGameDisplayed ? memoCard.html : HIDDEN_DISPLAY;
                 }
                 // else in other states, let's the item displayed
             };
@@ -215,4 +224,27 @@ angular.module('pguPlayApp').controller('MemoCtrl', //
                 });
             };
 
-        }]);
+            // TODO review...
+            $scope.onHepburnKana = function() {
+                $scope.isKanaHepburned = !$scope.isKanaHepburned;
+
+                _.each($scope.memoCards, function(card) {
+
+                   if (!card.isKey) {
+                       if ($scope.isKanaHepburned) {
+                           var v = card.value;
+                           var tmp = Kanas.hepburnKun(v);
+                           card.html = Kanas.hepburnOn(tmp);
+
+                       } else {
+                           card.html = card.value;
+                       }
+
+                       if ($scope.isGameDisplayed) {
+                            card.displayed = card.html;
+                       }
+                   }
+                });
+            };
+
+}]);
