@@ -6,19 +6,37 @@
     <div ng-show="selectedLanguage" ng-animate="'fade'">
 
         <p></p>
-        <div class="alert alert-info text-center" ng-bind-html-unsafe="languageInfo"></div>
+        <div class="alert alert-info text-center">
+            <ul class="list-unstyled">
+                <li><strong>{{ rows.length }} items</strong></li>
+                <li>{{ selectedLanguage.info }}</li>
+            </ul>
+        </div>
 
         <p></p>
-        <table class="table table-bordered">
-            <tbody>
-            <tr ng-repeat="item in items">
+        <div class="table-responsive">
+            <table class="table table-bordered">
+                <thead ng-if="headers">
+                <tr>
+                    <th ng-repeat="header in headers track by $index" ng-bind-html-unsafe="header"></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="row in rows track by $index">
 
-                <td class="text-primary text-right"><h3>{{ item.symbol }}</h3></td>
-                <td><h3 ng-bind-html-unsafe="item.definition"></h3></td>
+                    <td ng-repeat="col in row.columns track by $index"
+                        ng-class="$index === 0 ? 'text-right text-primary' : ''"
+                        ><h3 ng-bind-html-unsafe="col.html"></h3></td>
 
-            </tr>
-            </tbody>
-        </table>
+                    <td ng-if="onClickRow">
+                        <button type="button"
+                                ng-init="btn_css = 'btn btn-default btn-xs glyphicon glyphicon-transfer '"
+                                ng-class="row.isSelected ? btn_css + 'active' : btn_css"
+                                ng-click="onClickRow(row)"></button></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
 
     </div>
 </div>

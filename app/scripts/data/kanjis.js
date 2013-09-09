@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('pguPlayApp').factory('Kanjis', //
-    ['Jouyous', 'KanjiRadicals', //
-        function (Jouyous, KanjiRadicals) { //
+    ['Jouyous', 'KanjiRadicals', 'Kanas', //
+        function (Jouyous, KanjiRadicals, Kanas) { //
 
     var gameRadicals = [];
 
@@ -73,7 +73,31 @@ angular.module('pguPlayApp').factory('Kanjis', //
             {field: 'kuns', renderHtml: renderKuns},
             {field: 'meanings', renderHtml: renderMeanings}
         ],
-        legend: 'The reading <span class="text-danger"><strong>On\'Yomi</strong></span> is highlighted in <span class="text-danger"><strong>red</strong></span> and <span class="text-success"><strong>Kun\'Yomi</strong></span> in <span class="text-success"><strong>green</strong></span>'
+        headers: ['', '<span class="text-danger"><strong>On\'Yomi</strong></span>', '<span class="text-success"><strong>Kun\'Yomi</strong></span>', ''],
+        onClick: function(row) {
+            row.isSelected = !row.isSelected;
+
+            var onsToShow = [];
+            var kunsToShow = [];
+
+            if (row.isSelected) {
+
+                onsToShow = _.map(row.item.ons, function(on) {
+                    return on + ' (' + Kanas.hepburnOn(on) + ')';
+                });
+
+                kunsToShow = _.map(row.item.kuns, function(kun) {
+                    return kun + ' (' + Kanas.hepburnKun(kun) + ')';
+                });
+
+            } else {
+                onsToShow = row.item.ons;
+                kunsToShow = row.item.kuns;
+            }
+
+            _.findWhere(row.columns, { col: 'ons'}).html = renderOns(onsToShow);
+            _.findWhere(row.columns, { col: 'kuns'}).html = renderKuns(kunsToShow);
+        }
     };
 
     return {

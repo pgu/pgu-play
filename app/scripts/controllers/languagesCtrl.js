@@ -4,11 +4,11 @@ angular.module('pguPlayApp').controller('LanguagesCtrl', //
     [ '$scope', //
         function ($scope) { //
 
-            $scope.selectedLanguage = null;
-            $scope.languageInfo = null;
-
             var resetSelection = function() {
-                $scope.items = [];
+                $scope.selectedLanguage = null;
+                $scope.rows = [];
+                $scope.headers = [];
+                $scope.onClickRow = undefined;
             };
             resetSelection();
 
@@ -22,29 +22,35 @@ angular.module('pguPlayApp').controller('LanguagesCtrl', //
                 var rawData = $scope.selectedLanguage.getRawData();
                 var cfg = rawData.displayConfig;
 
-                // items
-                $scope.items = _.map(rawData.data, function(item) {
+                $scope.headers = cfg.headers;
+                $scope.onClickRow = cfg.onClick;
 
-                    var htmlKey = cfg.key.renderHtml(item[cfg.key.field]);
+                $scope.rows = _.map(rawData.data, function(item) {
 
-                    var htmlValues = _.map(cfg.values, function(v) {
-                        return v.renderHtml(item[v.field]);
+                    var columns = [];
+
+                    columns.push({
+                        col: cfg.key.field,
+                        html: cfg.key.renderHtml(item[cfg.key.field])
+                    });
+
+                    _.each(cfg.values, function(v) {
+                        columns.push({
+                            col: v.field,
+                            html: v.renderHtml(item[v.field])
+                        });
                     });
 
                     return {
-                        symbol: htmlKey,
-                        definition: _.compact(htmlValues).join(' ')
+                        item: item,
+                        columns: columns,
+                        isSelected: false
                     };
                 });
-
-                // info
-                var nbItems = '<strong>' + $scope.items.length + ' items</strong>';
-                $scope.languageInfo = _.compact([nbItems, $scope.selectedLanguage.info, cfg.legend]).join('<br/>');
             });
 
             $scope.onGoHome = function() {
                 resetSelection();
-                $scope.selectedLanguage = null;
             };
 
         }]);

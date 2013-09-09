@@ -26,6 +26,8 @@ angular.module('pguPlayApp').factory('LanguagesSrv', //
             // kana
             {key: 'japanese|kana|hiragana', name: 'Hiragana', getData: Kanas.getGameHiragana, getRawData: Kanas.getRawHiraganas},
             {key: 'japanese|kana|katakana', name: 'Katakana', getData: Kanas.getGameKatakana, getRawData: Kanas.getRawKatakanas},
+            {key: 'japanese|kana|diacritics', name: 'Diacritics', getData: Kanas.getGameDiacritics, getRawData: Kanas.getRawDiacritics},
+            {key: 'japanese|kana|youons', name: 'Yōon', getData: Kanas.getGameYouons, getRawData: Kanas.getRawYouons},
             // kanji
             {key: 'japanese|kanji|radicals', name: 'Radicals', getData: Kanjis.getGameRadicals, getRawData: Kanjis.getRawRadicals, info: 'The 214 Kanji radicals. Source: http://en.wikipedia.org/wiki/Table_of_Japanese_Kanji_radicals'},
             //
