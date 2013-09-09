@@ -160,7 +160,7 @@ angular.module('pguPlayApp').controller('QuizzCtrl', //
 
                     var answerForView = {
                         value: anAnswer,
-                        label: anAnswer,
+                        label: $scope.isKanaHepburned ? Kanas.hepburnKun(Kanas.hepburnOn(anAnswer)) : anAnswer,
                         state: STATE_CLEAN
                     };
                     randomAnswers.push(answerForView);

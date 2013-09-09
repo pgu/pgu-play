@@ -23,7 +23,6 @@ angular.module('pguPlayApp').factory('Kanjis', //
     var workerRadicals = new Worker('workers/radicals.js');
     workerRadicals.onmessage = function(event) {
         gameRadicals = event.data;
-        console.log('radicals done');
     };
     workerRadicals.postMessage({
         radicals: KanjiRadicals
@@ -38,8 +37,6 @@ angular.module('pguPlayApp').factory('Kanjis', //
         rawJouyousByGrades = event.data.rawJouyousByGrades;
         rawKyouikus = event.data.rawKyouikus;
         gameJouyousByGrade = event.data.gameJouyousByGrade;
-
-        console.log('jouyous done');
     };
     workerJoyou.postMessage({
         jouyous: Jouyous

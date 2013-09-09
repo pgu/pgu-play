@@ -38,6 +38,7 @@ module.exports = function (grunt) {
           '<%= yeoman.app %>/{,*/}*.html',
           '{.tmp,<%= yeoman.app %>}/styles/{,*/}*.css',
           '{.tmp,<%= yeoman.app %>}/scripts/{,*/}*.js',
+          '{.tmp,<%= yeoman.app %>}/workers/{,*/}*.js',
           '<%= yeoman.app %>/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}'
         ],
         tasks: ['livereload']
@@ -252,6 +253,7 @@ module.exports = function (grunt) {
             '.htaccess',
             'manifest.webapp',
             'components/**/*',
+            'workers/**/*',
             'images/{,*/}*.{gif,webp}',
             'styles/fonts/*',
             'WEB-INF/**/*'
