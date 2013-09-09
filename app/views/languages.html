@@ -14,29 +14,27 @@
         </div>
 
         <p></p>
-        <div class="table-responsive">
-            <table class="table table-bordered">
-                <thead ng-if="headers">
-                <tr>
-                    <th ng-repeat="header in headers track by $index" ng-bind-html-unsafe="header"></th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr ng-repeat="row in rows track by $index">
+        <table class="table table-bordered">
+            <thead ng-if="headers">
+            <tr>
+                <th ng-repeat="header in headers track by $index" ng-bind-html-unsafe="header"></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="row in rows track by $index">
 
-                    <td ng-repeat="col in row.columns track by $index"
-                        ng-class="$index === 0 ? 'text-right text-primary' : ''"
-                        ><h3 ng-bind-html-unsafe="col.html"></h3></td>
+                <td ng-repeat="col in row.columns track by $index"
+                    ng-class="$index === 0 ? 'text-right text-primary' : ''"
+                    ><h3 ng-bind-html-unsafe="col.html"></h3></td>
 
-                    <td ng-if="onClickRow">
-                        <button type="button"
-                                ng-init="btn_css = 'btn btn-default btn-xs glyphicon glyphicon-transfer '"
-                                ng-class="row.isSelected ? btn_css + 'active' : btn_css"
-                                ng-click="onClickRow(row)"></button></td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
+                <td ng-if="onClickRow">
+                    <button type="button"
+                            ng-init="btn_css = 'btn btn-default btn-xs glyphicon glyphicon-transfer '"
+                            ng-class="row.isSelected ? btn_css + 'active' : btn_css"
+                            ng-click="onClickRow(row)"></button></td>
+            </tr>
+            </tbody>
+        </table>
 
     </div>
 </div>
