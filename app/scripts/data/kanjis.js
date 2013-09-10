@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('pguPlayApp').factory('Kanjis', //
-    ['Jouyous', 'KanjiRadicals', 'Kanas', //
-        function (Jouyous, KanjiRadicals, Kanas) { //
+    ['Jouyous', 'KanjiRadicals', 'Kanas', 'DisplayField', //
+        function (Jouyous, KanjiRadicals, Kanas, DisplayField) { //
 
     var gameRadicals = [];
 
@@ -12,8 +12,8 @@ angular.module('pguPlayApp').factory('Kanjis', //
 
     var toFullRawData = function(rawData) {
         return {
-            data: rawData,
-            displayConfig: kanjiDisplayConfig
+            getData: function() { return rawData; },
+            getConfig: function() { return kanjiDisplayConfig; }
         };
     };
 
@@ -64,36 +64,44 @@ angular.module('pguPlayApp').factory('Kanjis', //
     };
 
     var kanjiDisplayConfig = {
-        key: {field: 'literal', renderHtml: _.identity},
-        values: [
-            {field: 'ons', renderHtml: renderOns},
-            {field: 'kuns', renderHtml: renderKuns},
-            {field: 'meanings', renderHtml: renderMeanings}
-        ],
-        headers: ['', '<span class="text-danger"><strong>On\'Yomi</strong></span>', '<span class="text-success"><strong>Kun\'Yomi</strong></span>', ''],
-        onClick: function(row) {
-            row.isSelected = !row.isSelected;
+        getKey: function() {
+            return new DisplayField('literal');
+        },
+        getValues: function() {
+            return [
+                new DisplayField('ons', renderOns),
+                new DisplayField('kuns', renderKuns),
+                new DisplayField('meanings', renderMeanings)
+            ];
+        },
+        getHeaders: function() {
+            return ['', '<span class="text-danger"><strong>On\'Yomi</strong></span>', '<span class="text-success"><strong>Kun\'Yomi</strong></span>', ''];
+        },
+        getOnClick: function() {
+                return function(row) {
+                row.isSelected = !row.isSelected;
 
-            var onsToShow = [];
-            var kunsToShow = [];
+                var onsToShow = [];
+                var kunsToShow = [];
 
-            if (row.isSelected) {
+                if (row.isSelected) {
 
-                onsToShow = _.map(row.item.ons, function(on) {
-                    return on + ' (' + Kanas.hepburnOn(on) + ')';
-                });
+                    onsToShow = _.map(row.getItem().ons, function(on) {
+                        return on + ' (' + Kanas.hepburnOn(on) + ')';
+                    });
 
-                kunsToShow = _.map(row.item.kuns, function(kun) {
-                    return kun + ' (' + Kanas.hepburnKun(kun) + ')';
-                });
+                    kunsToShow = _.map(row.getItem().kuns, function(kun) {
+                        return kun + ' (' + Kanas.hepburnKun(kun) + ')';
+                    });
 
-            } else {
-                onsToShow = row.item.ons;
-                kunsToShow = row.item.kuns;
-            }
+                } else {
+                    onsToShow = row.getItem().ons;
+                    kunsToShow = row.getItem().kuns;
+                }
 
-            _.findWhere(row.columns, { col: 'ons'}).html = renderOns(onsToShow);
-            _.findWhere(row.columns, { col: 'kuns'}).html = renderKuns(kunsToShow);
+                _.findWhere(row.columns, { col: 'ons'}).html = renderOns(onsToShow);
+                _.findWhere(row.columns, { col: 'kuns'}).html = renderKuns(kunsToShow);
+            };
         }
     };
 

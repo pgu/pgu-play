@@ -8,10 +8,28 @@
         <p></p>
         <div class="alert alert-info text-center">
             <ul class="list-unstyled">
-                <li><strong>{{ rows.length }} items</strong></li>
-                <li>{{ selectedLanguage.info }}</li>
+                <li><strong>{{ numStart }} - {{ numStop }}</strong> of <strong>{{ totalItems }}</strong></li>
+                <li ng-bind-html-unsafe="selectedLanguage.info"></li>
             </ul>
         </div>
+
+        <p></p>
+        <div>
+            <form class="form-horizontal">
+                <div class="form-group">
+                    <label for="lg_inputSearchText" class="col-lg-2 control-label">Search text</label>
+                    <div class="col-lg-10">
+                        <input ng-model="searchText" type="text" class="form-control" id="lg_inputSearchText" placeholder="Filter displayed rows...">
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <p></p>
+        <ul class="pager" ng-show="pages > 1">
+            <li><a ng-click="goToPrevious()" ng-show="page > 0">Previous</a></li>
+            <li><a ng-click="goToNext()" ng-show="page < pages - 1">Next</a></li>
+        </ul>
 
         <p></p>
         <table class="table table-bordered">
@@ -21,7 +39,7 @@
             </tr>
             </thead>
             <tbody>
-            <tr ng-repeat="row in rows track by $index">
+            <tr ng-repeat="row in rows | filter:searchText track by $index">
 
                 <td ng-repeat="col in row.columns track by $index"
                     ng-class="$index === 0 ? 'text-right text-primary' : ''"
@@ -35,6 +53,7 @@
             </tr>
             </tbody>
         </table>
+
 
     </div>
 </div>

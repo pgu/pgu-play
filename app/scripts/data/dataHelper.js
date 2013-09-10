@@ -1,19 +1,23 @@
 'use strict';
 
-angular.module('pguPlayApp').factory('DataHelper', function () {//
+angular.module('pguPlayApp').factory('DataHelper', //
+    ['DisplayField', //
+        function (DisplayField) {//
 
     var displayConfigBasic = {
-        key: {field: 0, renderHtml: _.identity},
-        values: [{field: 1, renderHtml: _.identity}]
+        getKey: function() { return new DisplayField(0); },
+        getValues: function() { return _.chain([]).push(new DisplayField(1)).value(); },
+        getHeaders: function() { return []; },
+        getOnClick: function() { return undefined; }
     };
 
     return {
         toFullRawDataBasic: function(rawData) {
             return {
-                data: rawData,
-                displayConfig: displayConfigBasic
+                getData: function() { return rawData; },
+                getConfig: function() { return displayConfigBasic; }
             };
         }
 
     };
-});
+}]);
