@@ -8,6 +8,11 @@ angular.module('pguPlayApp').controller('LanguagesCtrl', //
 
             $scope.selectedLanguage = null;
 
+            var updatePage = function(page) {
+                $scope.page = page; // page is 0-index based
+                $scope.inputPage = page + 1; // inputPage is 1-index based
+            };
+
             var resetSelection = function() {
                 $scope.rows = [];
                 $scope.headers = [];
@@ -19,7 +24,8 @@ angular.module('pguPlayApp').controller('LanguagesCtrl', //
                 $scope.numStop = 0;
                 $scope.totalItems = 0;
                 $scope.pages = 0;
-                $scope.page = -1;
+                $scope.page = 0; // page is 0-index based
+                $scope.inputPage = 1; // inputPage is 1-index based
             };
             resetSelection();
 
@@ -58,7 +64,7 @@ angular.module('pguPlayApp').controller('LanguagesCtrl', //
 
                 // pagination
                 $scope.pages = Math.ceil(data.length / NB_ITEMS_BY_PAGE);
-                $scope.page = 0;
+                updatePage(0);
 
                 // data
                 $scope.rows = buildRows($scope.page);
@@ -70,14 +76,34 @@ angular.module('pguPlayApp').controller('LanguagesCtrl', //
             };
 
             $scope.goToPrevious = function() {
-                $scope.page--;
+                updatePage($scope.page - 1);
                 $scope.rows = buildRows($scope.page);
             };
 
             $scope.goToNext = function() {
-                $scope.page++;
+                updatePage($scope.page + 1);
                 $scope.rows = buildRows($scope.page);
             };
+
+            $scope.$watch('inputPage', function() {
+                var input = parseInt($scope.inputPage, 10);
+
+                if (input === $scope.page + 1) {
+                    return;
+                }
+
+                if (_.isNaN(input) || input < 1) {
+                    $scope.inputPage = 1;
+
+                } else if (input > $scope.pages ) {
+                    $scope.inputPage = $scope.pages;
+
+                } else {
+                    $scope.page = $scope.inputPage - 1;
+                    $scope.rows = buildRows($scope.page);
+                }
+
+            });
 
             var buildRows = function(page) {
 
