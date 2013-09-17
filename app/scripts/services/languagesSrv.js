@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('pguPlayApp').factory('LanguagesSrv', //
-    ['Kanjis', 'Kanas', 'Russian', 'Arabic', 'Korean', //
-        function (Kanjis, Kanas, Russian, Arabic, Korean) {
+    ['Jouyous', 'Kyouikus', 'KanjiRadicals', 'Kanjis', 'Kanas', 'Russian', 'Arabic', 'Korean', //
+        function (Jouyous, Kyouikus, KanjiRadicals, Kanjis, Kanas, Russian, Arabic, Korean) {
 
     var link = function(label, url) {
         return '<a href="' + url + '" class="alert-link">' + label + '</a>';
@@ -15,53 +15,66 @@ angular.module('pguPlayApp').factory('LanguagesSrv', //
     var infoKanji = wiki('Kanji') + ' and ' + link('kanjidic2.xml', 'http://www.csse.monash.edu.au/~jwb/kanjidic2/');
     infoKanji = infoKanji.replace('Source', 'Sources');
 
+    var Node = function(key, label, info) {
+        return {
+            getKey: function() { return key; },
+            getLabel: function() { return label; },
+            getInfo: function() { return info; }
+        };
+    };
+
+    var Leaf = function(key, label, getData, getCfg, info) {
+        var leaf = new Node(key, label, info);
+        leaf.getData = getData;
+        leaf.getCfg = getCfg;
+        return leaf;
+    };
+
     return {
-        languages: [
-            // roots
-            {key: 'japanese', name: 'Japanese'},
-            {key: 'russian', name: 'Russian'},
-            {key: 'arabic', name: 'Arabic'},
-            {key: 'korean', name: 'Korean'},
-            // sub levels
-            {key: 'japanese|kana', name: 'Kana'},
-            {key: 'japanese|kanji', name: 'Kanji'},
-            {key: 'russian|alphabet', name: 'Alphabet'},
-            {key: 'arabic|alphabet', name: 'Alphabet'},
-            {key: 'korean|alphabet', name: 'Alphabet'},
-//            {key: 'japanese|kanji|vocabular', name: 'Vocabular'}, TODO
-            {key: 'japanese|kanji|jouyou', name: 'Jōyō'},
-            {key: 'japanese|kanji|jouyou|kyouiku', name: 'Kyōiku'},
-            //
-            // leafs
-            //
-            // kana
-            {key: 'japanese|kana|hiragana', name: 'Hiragana', getData: Kanas.getGameHiragana, getLanguageVisu: Kanas.getRawHiraganas},
-            {key: 'japanese|kana|katakana', name: 'Katakana', getData: Kanas.getGameKatakana, getLanguageVisu: Kanas.getRawKatakanas},
-            {key: 'japanese|kana|diacritics', name: 'Diacritics', getData: Kanas.getGameDiacritics, getLanguageVisu: Kanas.getRawDiacritics},
-            {key: 'japanese|kana|youons', name: 'Yōon', getData: Kanas.getGameYouons, getLanguageVisu: Kanas.getRawYouons},
-            // kanji
-            {key: 'japanese|kanji|radicals', name: 'Radicals (214)', getData: Kanjis.getGameRadicals, getLanguageVisu: Kanjis.getRawRadicals},
-            //
-            {key: 'japanese|kanji|jouyou|all', name: 'All (2136)', getData: Kanjis.getGameJouyous, getLanguageVisu: Kanjis.getRawJouyous, info: infoKanji},
-            {key: 'japanese|kanji|jouyou|others', name: 'Others (1130)', getData: Kanjis.getGameJouyouOthers, getLanguageVisu: Kanjis.getRawJouyouOthers, info: 'The Jōyō learned in junior high school'},
-            //
-            {key: 'japanese|kanji|jouyou|kyouiku|all', name: 'All (1006)', getData: Kanjis.getGameKyouikus, getLanguageVisu: Kanjis.getRawKyouikus, info: 'The Kyōiku taught in Japanese schools'},
-            {key: 'japanese|kanji|jouyou|kyouiku|grade_1', name: 'Grade 1', getData: Kanjis.getGameKyouikus1, getLanguageVisu: Kanjis.getRawKyouikus1},
-            {key: 'japanese|kanji|jouyou|kyouiku|grade_2', name: 'Grade 2', getData: Kanjis.getGameKyouikus2, getLanguageVisu: Kanjis.getRawKyouikus2},
-            {key: 'japanese|kanji|jouyou|kyouiku|grade_3', name: 'Grade 3', getData: Kanjis.getGameKyouikus3, getLanguageVisu: Kanjis.getRawKyouikus3},
-            {key: 'japanese|kanji|jouyou|kyouiku|grade_4', name: 'Grade 4', getData: Kanjis.getGameKyouikus4, getLanguageVisu: Kanjis.getRawKyouikus4},
-            {key: 'japanese|kanji|jouyou|kyouiku|grade_5', name: 'Grade 5', getData: Kanjis.getGameKyouikus5, getLanguageVisu: Kanjis.getRawKyouikus5},
-            {key: 'japanese|kanji|jouyou|kyouiku|grade_6', name: 'Grade 6', getData: Kanjis.getGameKyouikus6, getLanguageVisu: Kanjis.getRawKyouikus6},
-            // japanese vocabular
-//            {key: 'japanese|kanji|vocabular|mangaland', name: 'Mangaland', getData: Kanji.getMangaland, info: '160 Kanji from the first book of Japanese in Mangaland'},
-            // russian
-            {key: 'russian|alphabet|lowercase', name: 'lowercase', getData: Russian.getGameAlphabetLower, getLanguageVisu: Russian.getRawAlphabetLower, info: wiki('Russian_alphabet')},
-            {key: 'russian|alphabet|uppercase', name: 'Uppercase', getData: Russian.getGameAlphabetUpper, getLanguageVisu: Russian.getRawAlphabetUpper, info: wiki('Russian_alphabet')},
-            // arabic
-            {key: 'arabic|alphabet|isolated', name: 'Isolated', getData: Arabic.getGameAlphabetShort, getLanguageVisu: Arabic.getRawAlphabetShort, info: wiki('Arabic_alphabet')},
-            {key: 'arabic|alphabet|all_forms', name: 'All forms', getData: Arabic.getGameAlphabetLong, getLanguageVisu: Arabic.getRawAlphabetLong, info: wiki('Arabic_alphabet')},
-            // korean
-            {key: 'korean|alphabet|hangul', name: 'Hangul', getData: Korean.getGameHangul, getLanguageVisu: Korean.getRawHangul}
-        ]
+        getLanguages: function() {
+                return [
+                    // roots
+                    new Node('japanese', 'Japanese'),
+                    new Node('russian', 'Russian'),
+                    new Node('arabic', 'Arabic'),
+                    new Node('korean', 'Korean'),
+                    // sub levels
+                    new Node('japanese|kana', 'Kana'),
+                    new Node('japanese|kanji', 'Kanji', infoKanji),
+                    new Node('russian|alphabet', 'Alphabet', wiki('Russian_alphabet')),
+                    new Node('arabic|alphabet', 'Alphabet', wiki('Arabic_alphabet')),
+                    new Node('korean|alphabet', 'Alphabet'),
+                    new Node('japanese|kanji|jouyou', 'Jōyō'),
+                    new Node('japanese|kanji|jouyou|kyouiku', 'Kyōiku'),
+                    // leafs
+                    //
+                    // kana
+                    new Leaf('japanese|kana|hiragana', 'Hiragana', Kanas.getHiraganas, Kanas.getHiraganasCfg),
+                    new Leaf('japanese|kana|katakana', 'Katakana', Kanas.getKatakanas, Kanas.getKatakanasCfg),
+                    new Leaf('japanese|kana|diacritics', 'Diacritics', Kanas.getDiacritics, Kanas.getDiacriticsCfg),
+                    new Leaf('japanese|kana|youons', 'Yōon', Kanas.getYouons, Kanas.getYouonsCfg),
+                    // kanji
+                    new Leaf('japanese|kanji|radicals', 'Radicals (214)', KanjiRadicals.get, Kanjis.getCfg),
+                    //
+                    new Leaf('japanese|kanji|jouyou|all', 'All (2136)', Jouyous.get, Kanjis.getCfg),
+                    new Leaf('japanese|kanji|jouyou|others', 'Others (1130)', Jouyous.getOthers, Kanjis.getCfg, 'The Jōyō learned in junior high school'),
+                    //
+                    new Leaf('japanese|kanji|jouyou|kyouiku|all', 'All (1006)', Kyouikus.buildGet(), Kanjis.getCfg, 'The Kyōiku taught in Japanese schools'),
+                    new Leaf('japanese|kanji|jouyou|kyouiku|grade_1', 'Grade 1', Kyouikus.buildGet(1), Kanjis.getCfg),
+                    new Leaf('japanese|kanji|jouyou|kyouiku|grade_2', 'Grade 2', Kyouikus.buildGet(2), Kanjis.getCfg),
+                    new Leaf('japanese|kanji|jouyou|kyouiku|grade_3', 'Grade 3', Kyouikus.buildGet(3), Kanjis.getCfg),
+                    new Leaf('japanese|kanji|jouyou|kyouiku|grade_4', 'Grade 4', Kyouikus.buildGet(4), Kanjis.getCfg),
+                    new Leaf('japanese|kanji|jouyou|kyouiku|grade_5', 'Grade 5', Kyouikus.buildGet(5), Kanjis.getCfg),
+                    new Leaf('japanese|kanji|jouyou|kyouiku|grade_6', 'Grade 6', Kyouikus.buildGet(6), Kanjis.getCfg),
+                    // russian
+                    new Leaf('russian|alphabet|lowercase', 'lowercase', Russian.getAlphabetLower, Russian.getAlphabetLowerCfg),
+                    new Leaf('russian|alphabet|uppercase', 'Uppercase', Russian.getAlphabetUpper, Russian.getAlphabetUpperCfg),
+                    // arabic
+                    new Leaf('arabic|alphabet|isolated', 'Isolated', Arabic.getAlphabetShort, Arabic.getAlphabetShortCfg),
+                    new Leaf('arabic|alphabet|all_forms', 'All forms', Arabic.getAlphabetLong, Arabic.getAlphabetLongCfg),
+                    // korean
+                    new Leaf('korean|alphabet|hangul', 'Hangul', Korean.getHangul, Korean.getHangulCfg)
+                ];
+            }
     };
 }]);

@@ -6,23 +6,22 @@ angular.module('pguPlayApp').controller('LanguagesCtrl', //
 
             var NB_ITEMS_BY_PAGE = 50;
 
-            $scope.selectedLanguage = null;
-
             var updatePage = function(page) {
                 $scope.page = page; // page is 0-index based
                 $scope.inputPage = page + 1; // inputPage is 1-index based
             };
 
             var resetSelection = function() {
+                $scope.selectedLanguage = null;
+                $scope.data = [];
+                $scope.cfg = [];
+
                 $scope.rows = [];
-                $scope.headers = [];
-                $scope.onClickRow = undefined;
 
                 $scope.searchText = '';
 
                 $scope.numStart = 0;
                 $scope.numStop = 0;
-                $scope.totalItems = 0;
                 $scope.pages = 0;
                 $scope.page = 0; // page is 0-index based
                 $scope.inputPage = 1; // inputPage is 1-index based
@@ -38,10 +37,8 @@ angular.module('pguPlayApp').controller('LanguagesCtrl', //
 
             var Row = function(item, columns) {
                 return {
-                    getItem: function() {
-                        return angular.copy(item);
-                    },
-                    columns: columns,
+                    getItem: function() { return item; },
+                    getColumns: function() { return columns; },
                     isSelected: false
                 };
             };
@@ -53,17 +50,11 @@ angular.module('pguPlayApp').controller('LanguagesCtrl', //
                     return;
                 }
 
-                var lgVisu = $scope.selectedLanguage.getLanguageVisu();
-
-                var data = lgVisu.getData();
-                var cfg = lgVisu.getConfig();
-
-                $scope.totalItems = data.length;
-                $scope.headers = cfg.getHeaders();
-                $scope.onClickRow = cfg.getOnClick();
+                $scope.data = $scope.selectedLanguage.getData();
+                $scope.cfg = $scope.selectedLanguage.getCfg();
 
                 // pagination
-                $scope.pages = Math.ceil(data.length / NB_ITEMS_BY_PAGE);
+                $scope.pages = Math.ceil($scope.data.length / NB_ITEMS_BY_PAGE);
                 updatePage(0);
 
                 // data
@@ -111,28 +102,20 @@ angular.module('pguPlayApp').controller('LanguagesCtrl', //
                     return [];
                 }
 
-                var lgVisu = $scope.selectedLanguage.getLanguageVisu();
-
-                var data = lgVisu.getData();
-                var cfg = lgVisu.getConfig();
-
-                var key = cfg.getKey();
-                var values = cfg.getValues();
-
                 var start = NB_ITEMS_BY_PAGE * page;
-                var end = _.min([start + NB_ITEMS_BY_PAGE, $scope.totalItems]);
+                var end = _.min([start + NB_ITEMS_BY_PAGE, $scope.data.length]);
 
                 $scope.numStart = start + 1;
                 $scope.numStop = end;
 
                 return _.chain(_.range(start, end))
                     .map(function(idx) {
-                        var item = data[idx];
+                        var item = $scope.data[idx];
 
                         var columns = [];
-                        columns.push(new Column(key, item));
+                        columns.push(new Column($scope.cfg.getKey(), item));
 
-                        _.each(values, function(v) {
+                        _.each($scope.cfg.getValues(), function(v) {
                             columns.push(new Column(v, item));
                         });
 

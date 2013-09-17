@@ -4,6 +4,8 @@ angular.module('pguPlayApp').controller('languagesToolbarCtrl', //
     ['$scope', 'LanguagesSrv', //
         function($scope, LanguagesSrv) { //
 
+    var languages = LanguagesSrv.getLanguages();
+
     $scope.underscore = _;
     $scope.nbCellsByRow = 2;
     $scope.languageLevels = [];
@@ -19,7 +21,7 @@ angular.module('pguPlayApp').controller('languagesToolbarCtrl', //
     };
 
     var initLanguages = function() {
-        var roots = _.filter(LanguagesSrv.languages, function(lg) {
+        var roots = _.filter(languages, function(lg) {
             return !_.contains(lg.key, '|');
         });
 
@@ -50,7 +52,7 @@ angular.module('pguPlayApp').controller('languagesToolbarCtrl', //
         // get the sub-level
         var baseKey = languageOption.option.key + '|';
 
-        var directSubLanguages = _.filter(LanguagesSrv.languages, function(lg) {
+        var directSubLanguages = _.filter(languages, function(lg) {
             if (lg.key.indexOf(baseKey) !== -1) { // <!> _.contains does not work with 'xxx|' <!>
 
                 var isDirectSubLanguage = lg.key.replace(baseKey, '').indexOf('|') === -1;

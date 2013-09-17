@@ -8,8 +8,8 @@
         <p></p>
         <div class="alert alert-info text-center">
             <ul class="list-unstyled">
-                <li><strong>{{ numStart }} - {{ numStop }}</strong> of <strong>{{ totalItems }}</strong></li>
-                <li ng-bind-html-unsafe="selectedLanguage.info"></li>
+                <li><strong>{{ numStart }} - {{ numStop }}</strong> of <strong>{{ data.length }}</strong></li>
+                <li ng-bind-html-unsafe="selectedLanguage.getInfo()"></li>
             </ul>
         </div>
 
@@ -39,23 +39,23 @@
 
         <p></p>
         <table class="table table-bordered">
-            <thead ng-if="headers">
+            <thead ng-if="cfg.getHeaders">
             <tr>
-                <th ng-repeat="header in headers track by $index" ng-bind-html-unsafe="header"></th>
+                <th ng-repeat="header in cfg.getHeaders() track by $index" ng-bind-html-unsafe="header"></th>
             </tr>
             </thead>
             <tbody>
             <tr ng-repeat="row in rows | filter:searchText track by $index">
 
-                <td ng-repeat="col in row.columns track by $index"
+                <td ng-repeat="col in row.getColumns() track by $index"
                     ng-class="$index === 0 ? 'text-right text-primary' : ''"
                     ><h3 ng-bind-html-unsafe="col.html"></h3></td>
 
-                <td ng-if="onClickRow">
+                <td ng-if="cfg.onClickRow">
                     <button type="button"
                             ng-init="btn_css = 'btn btn-default btn-xs glyphicon glyphicon-transfer '"
                             ng-class="row.isSelected ? btn_css + 'active' : btn_css"
-                            ng-click="onClickRow(row)"></button></td>
+                            ng-click="cfg.onClickRow(row)"></button></td>
             </tr>
             </tbody>
         </table>
