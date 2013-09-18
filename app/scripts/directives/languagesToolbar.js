@@ -10,10 +10,10 @@ angular.module('pguPlayApp').controller('languagesToolbarCtrl', //
     $scope.nbCellsByRow = 2;
     $scope.languageLevels = [];
 
-    var convertToOptions = function(items, idx) {
-        return _.map(items, function(item) {
+    var convertToOptions = function(lgNodes, idx) {
+        return _.map(lgNodes, function(lgNode) {
             return {
-                option: item,
+                option: lgNode,
                 isSelected: false,
                 idx: idx
             };
@@ -22,7 +22,7 @@ angular.module('pguPlayApp').controller('languagesToolbarCtrl', //
 
     var initLanguages = function() {
         var roots = _.filter(languages, function(lg) {
-            return !_.contains(lg.key, '|');
+            return !_.contains(lg.getKey(), '|');
         });
 
         var rootOptions = convertToOptions(roots, $scope.languageLevels.length);
@@ -50,12 +50,12 @@ angular.module('pguPlayApp').controller('languagesToolbarCtrl', //
         languageOption.isSelected = true;
 
         // get the sub-level
-        var baseKey = languageOption.option.key + '|';
+        var baseKey = languageOption.option.getKey() + '|';
 
         var directSubLanguages = _.filter(languages, function(lg) {
-            if (lg.key.indexOf(baseKey) !== -1) { // <!> _.contains does not work with 'xxx|' <!>
+            if (lg.getKey().indexOf(baseKey) !== -1) { // <!> _.contains does not work with 'xxx|' <!>
 
-                var isDirectSubLanguage = lg.key.replace(baseKey, '').indexOf('|') === -1;
+                var isDirectSubLanguage = lg.getKey().replace(baseKey, '').indexOf('|') === -1;
                 return isDirectSubLanguage;
             }
             return false;

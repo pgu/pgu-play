@@ -15,7 +15,7 @@
                    ng-repeat="cell in underscore.range(nbCellsByRow)"
                    ng-click="selectLanguage(opt)"
                    ng-disabled="!opt"
-                   ng-bind-html-unsafe="opt.option.name"></a>
+                   ng-bind-html-unsafe="opt.option.getLabel()"></a>
 
             </div>
         </div>
