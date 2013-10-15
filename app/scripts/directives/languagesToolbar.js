@@ -10,13 +10,15 @@ angular.module('pguPlayApp').controller('languagesToolbarCtrl', //
     $scope.nbCellsByRow = 2;
     $scope.languageLevels = [];
 
+    var Option = function(lgNode, idx) {
+        this.getOption = function() { return lgNode; };
+        this.getIdx = function() { return idx; };
+        this.isSelected = false;
+    };
+
     var convertToOptions = function(lgNodes, idx) {
         return _.map(lgNodes, function(lgNode) {
-            return {
-                option: lgNode,
-                isSelected: false,
-                idx: idx
-            };
+            return new Option(lgNode, idx);
         });
     };
 
@@ -37,10 +39,10 @@ angular.module('pguPlayApp').controller('languagesToolbarCtrl', //
         // clean other selection
         //
         // - clean sub-sub-levels <=> keep first levels only
-        $scope.languageLevels = _.first($scope.languageLevels, languageOption.idx + 1);
+        $scope.languageLevels = _.first($scope.languageLevels, languageOption.getIdx ()+ 1);
 
         // - deselect adjacent level
-        _.each($scope.languageLevels[languageOption.idx], function(option) {
+        _.each($scope.languageLevels[languageOption.getIdx()], function(option) {
            option.isSelected = false;
         });
 
@@ -50,7 +52,7 @@ angular.module('pguPlayApp').controller('languagesToolbarCtrl', //
         languageOption.isSelected = true;
 
         // get the sub-level
-        var baseKey = languageOption.option.getKey() + '|';
+        var baseKey = languageOption.getOption().getKey() + '|';
 
         var directSubLanguages = _.filter(languages, function(lg) {
             if (lg.getKey().indexOf(baseKey) !== -1) { // <!> _.contains does not work with 'xxx|' <!>
@@ -62,7 +64,7 @@ angular.module('pguPlayApp').controller('languagesToolbarCtrl', //
         });
 
         if (_.isEmpty(directSubLanguages)) { // it's a leaf
-            $scope.selectedLanguage = languageOption.option;
+            $scope.selectedLanguage = languageOption.getOption();
 
         } else { // new level
             $scope.selectedLanguage = null;

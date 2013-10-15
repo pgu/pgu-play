@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('pguPlayApp').factory('LanguagesSrv', //
-    ['Jouyous', 'KanjiRadicals', 'Kanjis', 'Kanas', 'Russian', 'Arabic', 'Korean', //
-        function (Jouyous, KanjiRadicals, Kanjis, Kanas, Russian, Arabic, Korean) {
+    ['Node', 'Leaf', 'Jouyous', 'KanjiRadicals', 'Kanjis', 'Kanas', 'Russian', 'Arabic', 'Korean', //
+        function (Node, Leaf, Jouyous, KanjiRadicals, Kanjis, Kanas, Russian, Arabic, Korean) {
 
     var link = function(label, url) {
         return '<a href="' + url + '" class="alert-link">' + label + '</a>';
@@ -14,21 +14,6 @@ angular.module('pguPlayApp').factory('LanguagesSrv', //
 
     var infoKanji = wiki('Kanji') + ' and ' + link('kanjidic2.xml', 'http://www.csse.monash.edu.au/~jwb/kanjidic2/');
     infoKanji = infoKanji.replace('Source', 'Sources');
-
-    var Node = function(key, label, info) {
-        return {
-            getKey: function() { return key; },
-            getLabel: function() { return label; },
-            getInfo: function() { return info; }
-        };
-    };
-
-    var Leaf = function(key, label, getData, getCfg, info) {
-        var leaf = new Node(key, label, info);
-        leaf.getData = getData;
-        leaf.getCfg = getCfg;
-        return leaf;
-    };
 
     return {
         getLanguages: function() {

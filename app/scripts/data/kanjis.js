@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('pguPlayApp').factory('Kanjis', //
-    ['Jouyous', 'KanjiRadicals', 'Kanas', 'DisplayField', //
-        function (Jouyous, KanjiRadicals, Kanas, DisplayField) { //
+    ['Kanas', 'DisplayField', //
+        function (Kanas, DisplayField) { //
 
     var renderOns = function(ons) {
         if (_.isEmpty(ons)) {
@@ -67,7 +67,7 @@ angular.module('pguPlayApp').factory('Kanjis', //
 
     return {
         getCfg: function() {
-            return angular.copy(kanjiDisplayConfig);
+            return kanjiDisplayConfig;
         }
     };
 
