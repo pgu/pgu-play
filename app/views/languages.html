@@ -1,6 +1,17 @@
 <home-btn on-go-home="onGoHome()"></home-btn>
 
-<languages-toolbar selected-language="selectedLanguage"></languages-toolbar>
+<languages-toolbar selected-language="selectedLanguage" selected-option="selectedOption"></languages-toolbar>
+
+<div ng-class="selectedOption? '' : 'hide'">
+    <div ng-show="hasInfo()">
+        <p></p>
+        <div class="alert alert-info text-center">
+            <ul class="list-unstyled">
+                <li ng-bind-html-unsafe="selectedOption.getInfo()"></li>
+            </ul>
+        </div>
+    </div>
+</div>
 
 <div ng-class="selectedLanguage? '' : 'hide'">
     <div ng-show="selectedLanguage" ng-animate="'fade'">
@@ -22,7 +33,7 @@
                         <input ng-model="searchText" type="text" class="form-control" id="lg_inputSearchText" placeholder="Filter displayed rows...">
                     </div>
                     <div ng-show="pages > 5" >
-                        <label for="lg_inputPage" class="col-lg-2 control-label">Page ( /{{ pages }})</label>
+                        <label for="lg_inputPage" class="col-lg-2 control-label">Page ({{inputPage}} / {{ pages }})</label>
                         <div class="col-lg-2">
                             <input type="number" ng-model="inputPage" class="form-control" id="lg_inputPage">
                         </div>
@@ -39,7 +50,7 @@
 
         <p></p>
         <table class="table table-bordered">
-            <thead ng-if="cfg.getHeaders">
+            <thead ng-if="cfg.getHeaders().length > 0">
             <tr>
                 <th ng-repeat="header in cfg.getHeaders() track by $index" ng-bind-html-unsafe="header"></th>
             </tr>
@@ -51,11 +62,11 @@
                     ng-class="$index === 0 ? 'text-right text-primary' : ''"
                     ><h3 ng-bind-html-unsafe="col.html"></h3></td>
 
-                <td ng-if="cfg.onClickRow">
+                <td ng-if="cfg.onToggleRow">
                     <button type="button"
                             ng-init="btn_css = 'btn btn-default btn-xs glyphicon glyphicon-transfer '"
-                            ng-class="row.isSelected ? btn_css + 'active' : btn_css"
-                            ng-click="cfg.onClickRow(row)"></button></td>
+                            ng-class="row.isToggled ? btn_css + 'active' : btn_css"
+                            ng-click="cfg.onToggleRow(row)"></button></td>
             </tr>
             </tbody>
         </table>

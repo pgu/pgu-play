@@ -50,6 +50,7 @@ angular.module('pguPlayApp').controller('languagesToolbarCtrl', //
         // select
         //
         languageOption.isSelected = true;
+        $scope.selectedOption = languageOption.getOption();
 
         // get the sub-level
         var baseKey = languageOption.getOption().getKey() + '|';
@@ -87,7 +88,8 @@ angular.module('pguPlayApp').directive('languagesToolbar', function() {
         replace: true,
         templateUrl: 'views/directives/languagesToolbar.html',
         scope: {
-            selectedLanguage: '='
+            selectedLanguage: '=',
+            selectedOption: '=?'
         },
         controller: 'languagesToolbarCtrl'
     };

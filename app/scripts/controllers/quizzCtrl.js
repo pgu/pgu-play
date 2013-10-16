@@ -14,7 +14,7 @@ angular.module('pguPlayApp').controller('QuizzCtrl', //
 
             var itemToGuess = null;
             var itemsOfGame = [];
-            var itemsOfGameSource = [];
+            var allItems = [];
             var startTime = 0;
 
             $scope.showRules = null;
@@ -29,12 +29,13 @@ angular.module('pguPlayApp').controller('QuizzCtrl', //
                 $scope.selectedItem = null;
                 $scope.itemToGuessDisplay = null;
                 $scope.answers = [];
+                $scope.cfg = {};
 
                 $scope.isKanaHepburned = false;
 
                 itemToGuess = null;
                 itemsOfGame = [];
-                itemsOfGameSource = [];
+                allItems = [];
                 startTime = 0;
             };
             resetGame();
@@ -53,19 +54,20 @@ angular.module('pguPlayApp').controller('QuizzCtrl', //
                     return;
                 }
 
-                itemsOfGameSource = _.clone($scope.selectedLanguage.getData());
+                allItems = $scope.selectedLanguage.getData();
+                $scope.cfg = $scope.selectedLanguage.getCfg();
 
-                var itemsOfGamePool = _.clone($scope.selectedLanguage.getData());
                 itemsOfGame = [];
 
+                var poolOfAllItems = $scope.selectedLanguage.getData();
                 _.times(NB_OF_QUESTIONS, function() {
 
-                    var itemIdx = HelperSrv.random(0, itemsOfGamePool.length);
-                    var item = itemsOfGamePool[itemIdx];
+                    var itemIdx = HelperSrv.random(0, poolOfAllItems.length);
+                    var item = poolOfAllItems[itemIdx];
 
                     itemsOfGame.push(item);
 
-                    itemsOfGamePool.splice(itemIdx, 1);
+                    poolOfAllItems.splice(itemIdx, 1);
                 });
 
                 $scope.isGameOn = true;
@@ -101,6 +103,15 @@ angular.module('pguPlayApp').controller('QuizzCtrl', //
 
             };
 
+            function getAnswers(item) {
+                return _.chain($scope.cfg.getValues())
+                    .map(function(v) {
+                        return item[v.getField()];
+                    })
+                    .flatten()
+                    .value();
+            }
+
             var playGame = function () {
 
                 if ($scope.showRules === null) {
@@ -120,52 +131,58 @@ angular.module('pguPlayApp').controller('QuizzCtrl', //
                 //
 
                 // select the symbol to guess
-                var selectedIdx = HelperSrv.random(0, itemsOfGame.length);
-                var selectedItem = _.clone(itemsOfGame[selectedIdx]);
+                var selectedItem = HelperSrv.getRandom(itemsOfGame);
+                console.log(selectedItem);
 
-                itemsOfGame.splice(selectedIdx, 1); // clean the game for the next round
+                _.without(itemsOfGame, selectedItem); // clean the game for the next round
 
-                // select wrong answers
-                var rightAnswers = _.rest(selectedItem);
-                var itemsForWrongAnswers = _.filter(itemsOfGameSource, function (item) {
-                                                var doesNotContainSameAnswers = _.isEmpty(_.intersection(rightAnswers, _.rest(item)));
-                                                return doesNotContainSameAnswers;
-                                            });
+                var rightAnswers = getAnswers(selectedItem);
+                var rightAnswer = HelperSrv.getRandom(rightAnswers);
 
-                var wrongItem1Idx = HelperSrv.random(0, itemsForWrongAnswers.length);
-                var wrongItem1 = itemsForWrongAnswers[wrongItem1Idx];
+                itemToGuess = {
+                    symbol: selectedItem[$scope.cfg.getKey().getField()],
+                    answer: rightAnswer
+                };
+                console.log(itemToGuess);
 
-                itemsForWrongAnswers.splice(wrongItem1Idx, 1);
-                var wrongItem2 = itemsForWrongAnswers[HelperSrv.random(0, itemsForWrongAnswers.length)];
+                // get other answers
+                var otherAnswers = [];
+                while (otherAnswers.length < 2) {
+                    var otherItem = HelperSrv.getRandom(allItems);
 
-                // build answers
-                var sortedItems = [selectedItem, wrongItem1, wrongItem2];
-                var randomAnswers = [];
-
-                _.times(sortedItems.length, function() {
-                    var idxToPush = HelperSrv.random(0, sortedItems.length);
-
-                    var item = sortedItems[idxToPush];
-                    var itemKey = _.first(item);
-                    var itemAnswers = _.rest(item);
-
-                    var anAnswer = itemAnswers[HelperSrv.random(0, itemAnswers.length)];
-
-                    if (itemKey === selectedItem[0]) { // the right answer
-                        itemToGuess = {
-                            symbol: itemKey,
-                            answer: anAnswer
-                        };
+                    if (otherItem === selectedItem) {
+                        continue;
                     }
 
+                    var answers = getAnswers(otherItem);
+                    var availableAnswers = _.difference(answers, rightAnswers);
+
+                    if (_.isEmpty(availableAnswers)) {
+                        continue;
+                    }
+
+                    console.log('--');
+                    console.log(availableAnswers);
+                    otherAnswers.push(HelperSrv.getRandom(availableAnswers));
+                    console.log(otherAnswers);
+                }
+                console.log(otherAnswers);
+
+                // shuffle answers
+                var sortedAnswers = [rightAnswer].concat(otherAnswers);
+                var randomAnswers = [];
+
+                _.times(sortedAnswers.length, function() {
+                    var answer = HelperSrv.getRandom(sortedAnswers);
+
                     var answerForView = {
-                        value: anAnswer,
-                        label: $scope.isKanaHepburned ? Kanas.hepburnKun(Kanas.hepburnOn(anAnswer)) : anAnswer,
+                        value: answer,
+                        label: $scope.isKanaHepburned ? Kanas.hepburnKun(Kanas.hepburnOn(answer)) : answer,
                         state: STATE_CLEAN
                     };
                     randomAnswers.push(answerForView);
 
-                    sortedItems.splice(idxToPush, 1);
+                    sortedAnswers = _.without(sortedAnswers, answer);
                 });
 
                 //

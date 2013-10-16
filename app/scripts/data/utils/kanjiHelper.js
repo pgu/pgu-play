@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('pguPlayApp').factory('Kanjis', //
+angular.module('pguPlayApp').factory('kanjiHelper', //
     ['Kanas', 'DisplayField', //
         function (Kanas, DisplayField) { //
 
@@ -39,13 +39,13 @@ angular.module('pguPlayApp').factory('Kanjis', //
         getHeaders: function() {
             return ['', '<span class="text-danger"><strong>On\'Yomi</strong></span>', '<span class="text-success"><strong>Kun\'Yomi</strong></span>', ''];
         },
-        onClickRow: function(row) {
-            row.isSelected = !row.isSelected;
+        onToggleRow: function(row) {
+            row.isToggled = !row.isToggled;
 
             var onsToShow = [];
             var kunsToShow = [];
 
-            if (row.isSelected) {
+            if (row.isToggled) {
 
                 onsToShow = _.map(row.getItem().ons, function(on) {
                     return on + ' (' + Kanas.hepburnOn(on) + ')';
@@ -60,8 +60,8 @@ angular.module('pguPlayApp').factory('Kanjis', //
                 kunsToShow = row.getItem().kuns;
             }
 
-            _.findWhere(row.columns, { col: 'ons'}).html = renderOns(onsToShow);
-            _.findWhere(row.columns, { col: 'kuns'}).html = renderKuns(kunsToShow);
+            _.findWhere(row.getColumns(), { col: 'ons'}).html = renderOns(onsToShow);
+            _.findWhere(row.getColumns(), { col: 'kuns'}).html = renderKuns(kunsToShow);
         }
     };
 

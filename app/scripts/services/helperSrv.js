@@ -24,6 +24,10 @@ angular.module('pguPlayApp').factory('HelperSrv', function () {
         },
         random: function (min, max) { // max: exclusion; min: inclusion
             return _.random(min, max - 1);
+        },
+        getRandom: function(array) {
+            var idx = this.random(0, array.length);
+            return array[idx];
         }
     };
 });

@@ -14,7 +14,7 @@ angular.module('pguPlayApp').controller('LanguagesCtrl', //
 
             var resetSelection = function() {
                 $scope.data = [];
-                $scope.cfg = [];
+                $scope.cfg = {};
 
                 $scope.rows = [];
 
@@ -39,7 +39,7 @@ angular.module('pguPlayApp').controller('LanguagesCtrl', //
                 return {
                     getItem: function() { return item; },
                     getColumns: function() { return columns; },
-                    isSelected: false
+                    isToggled: false
                 };
             };
 
@@ -121,5 +121,12 @@ angular.module('pguPlayApp').controller('LanguagesCtrl', //
                             return new Row(item, columns);
                         });
             };
+
+            $scope.hasInfo = function() {
+                return !$scope.selectedLanguage
+                    && $scope.selectedOption
+                    && $scope.selectedOption.getInfo();
+            }
+
 
         }]);
