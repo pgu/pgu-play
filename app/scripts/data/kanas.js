@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('pguPlayApp').factory('Kanas',
-    [ 'DataHelper', //
-        function (DataHelper) { //
+    [ 'dataHelper', //
+        function (dataHelper) { //
 
     var hiragana = Object.freeze([ //
         ['あ',  'a'], ['い',   'i'], ['う',   'u'], ['え',  'e'], ['お',  'o'], //
@@ -84,10 +84,16 @@ angular.module('pguPlayApp').factory('Kanas',
 
     var createHepburnFn = function(collections) {
 
+        var rgColls = _.map(collections, function(coll) {
+                           return _.map(coll, function(entry) {
+                               return [new RegExp(entry[0], 'g'), entry[1]];
+                           });
+                        });
+
         return function(kana) {
-            _.each(collections, function(coll) {
-                _.each(coll, function(entry) {
-                    kana = kana.replace(new RegExp(entry[0], 'g'), entry[1]);
+            _.each(rgColls, function(rgColl) {
+                _.each(rgColl, function(rgEntry) {
+                    kana = kana.replace(rgEntry[0], rgEntry[1]);
                 });
             });
             return kana;
@@ -98,16 +104,16 @@ angular.module('pguPlayApp').factory('Kanas',
         hepburnOn: createHepburnFn([youonsK, diacriticsK, katakana]),
         hepburnKun: createHepburnFn([youonsH, diacriticsH, hiragana]),
         getRawHiraganas: function() {
-            return DataHelper.toFullRawDataBasic(hiragana);
+            return dataHelper.toFullRawDataBasic(hiragana);
         },
         getRawKatakanas: function() {
-            return DataHelper.toFullRawDataBasic(katakana);
+            return dataHelper.toFullRawDataBasic(katakana);
         },
         getRawDiacritics: function() {
-            return DataHelper.toFullRawDataBasic(diacritics);
+            return dataHelper.toFullRawDataBasic(diacritics);
         },
         getRawYouons: function() {
-            return DataHelper.toFullRawDataBasic(youons);
+            return dataHelper.toFullRawDataBasic(youons);
         },
         getGameHiragana: function() {
             return hiragana;

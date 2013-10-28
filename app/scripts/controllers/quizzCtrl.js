@@ -1,10 +1,10 @@
 'use strict';
 
 angular.module('pguPlayApp').controller('QuizzCtrl', //
-    [ '$scope', 'HelperSrv', '$timeout', 'Kanas', //
-        function ($scope, HelperSrv, $timeout, Kanas) { //
+    [ '$scope', 'hlp', '$timeout', 'Kanas', //
+        function ($scope, hlp, $timeout, Kanas) { //
 
-            var NB_OF_QUESTIONS = 20; // 20
+            var NB_OF_QUESTIONS = 2; // 20
 
             var STATE_CLEAN = 'clean';
             var STATE_ERROR = 'error';
@@ -12,6 +12,7 @@ angular.module('pguPlayApp').controller('QuizzCtrl', //
 
             $scope.progressWidthInPct = (100 / NB_OF_QUESTIONS) + '%';
 
+            var wrap = null;
             var itemToGuess = null;
             var itemsOfGame = [];
             var allItems = [];
@@ -26,10 +27,9 @@ angular.module('pguPlayApp').controller('QuizzCtrl', //
             var resetGame = function() {
 
                 $scope.isGameOn = false;
-                $scope.selectedItem = null;
                 $scope.itemToGuessDisplay = null;
+                wrap = null;
                 $scope.answers = [];
-                $scope.cfg = {};
 
                 $scope.isKanaHepburned = false;
 
@@ -55,19 +55,17 @@ angular.module('pguPlayApp').controller('QuizzCtrl', //
                 }
 
                 allItems = $scope.selectedLanguage.getData();
-                $scope.cfg = $scope.selectedLanguage.getCfg();
+                wrap = hlp.newItemWrapper($scope.selectedLanguage.getCfg());
 
                 itemsOfGame = [];
 
-                var poolOfAllItems = $scope.selectedLanguage.getData();
-                _.times(NB_OF_QUESTIONS, function() {
+                var poolOfAllItems = _.clone(allItems);
+                _(NB_OF_QUESTIONS).times(function() {
 
-                    var itemIdx = HelperSrv.random(0, poolOfAllItems.length);
-                    var item = poolOfAllItems[itemIdx];
-
+                    var item = hlp.pickRandom(poolOfAllItems);
                     itemsOfGame.push(item);
 
-                    poolOfAllItems.splice(itemIdx, 1);
+                    poolOfAllItems = _.without(poolOfAllItems, item);
                 });
 
                 $scope.isGameOn = true;
@@ -91,8 +89,8 @@ angular.module('pguPlayApp').controller('QuizzCtrl', //
 
                     var challenge = {
                         isDoneWithoutWrongs: !hasAtLeastOneWrongAnswer,
-                        symbol: _.clone(itemToGuess.symbol),
-                        answer: _.clone(itemToGuess.answer)
+                        symbol: itemToGuess.symbol,
+                        answer: itemToGuess.answer
                     };
                     $scope.challenges.push(challenge);
 
@@ -102,15 +100,6 @@ angular.module('pguPlayApp').controller('QuizzCtrl', //
                 }
 
             };
-
-            function getAnswers(item) {
-                return _.chain($scope.cfg.getValues())
-                    .map(function(v) {
-                        return item[v.getField()];
-                    })
-                    .flatten()
-                    .value();
-            }
 
             var playGame = function () {
 
@@ -131,16 +120,16 @@ angular.module('pguPlayApp').controller('QuizzCtrl', //
                 //
 
                 // select the symbol to guess
-                var selectedItem = HelperSrv.getRandom(itemsOfGame);
+                var selectedItem = hlp.pickRandom(itemsOfGame);
                 console.log(selectedItem);
 
-                _.without(itemsOfGame, selectedItem); // clean the game for the next round
+                itemsOfGame = _.without(itemsOfGame, selectedItem); // clean the game for the next round
 
-                var rightAnswers = getAnswers(selectedItem);
-                var rightAnswer = HelperSrv.getRandom(rightAnswers);
+                var rightAnswers = wrap.getValues(selectedItem);
+                var rightAnswer = hlp.pickRandom(rightAnswers);
 
                 itemToGuess = {
-                    symbol: selectedItem[$scope.cfg.getKey().getField()],
+                    symbol: wrap.getKey(selectedItem),
                     answer: rightAnswer
                 };
                 console.log(itemToGuess);
@@ -148,13 +137,13 @@ angular.module('pguPlayApp').controller('QuizzCtrl', //
                 // get other answers
                 var otherAnswers = [];
                 while (otherAnswers.length < 2) {
-                    var otherItem = HelperSrv.getRandom(allItems);
+                    var otherItem = hlp.pickRandom(allItems);
 
                     if (otherItem === selectedItem) {
                         continue;
                     }
 
-                    var answers = getAnswers(otherItem);
+                    var answers = wrap.getValues(otherItem);
                     var availableAnswers = _.difference(answers, rightAnswers);
 
                     if (_.isEmpty(availableAnswers)) {
@@ -163,7 +152,7 @@ angular.module('pguPlayApp').controller('QuizzCtrl', //
 
                     console.log('--');
                     console.log(availableAnswers);
-                    otherAnswers.push(HelperSrv.getRandom(availableAnswers));
+                    otherAnswers.push(hlp.pickRandom(availableAnswers));
                     console.log(otherAnswers);
                 }
                 console.log(otherAnswers);
@@ -172,8 +161,8 @@ angular.module('pguPlayApp').controller('QuizzCtrl', //
                 var sortedAnswers = [rightAnswer].concat(otherAnswers);
                 var randomAnswers = [];
 
-                _.times(sortedAnswers.length, function() {
-                    var answer = HelperSrv.getRandom(sortedAnswers);
+                _(sortedAnswers.length).times(function() {
+                    var answer = hlp.pickRandom(sortedAnswers);
 
                     var answerForView = {
                         value: answer,

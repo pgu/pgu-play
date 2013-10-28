@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('pguPlayApp').controller('MemoCtrl', //
-    [ '$scope', 'HelperSrv', '$timeout', 'Kanas', //
-        function ($scope, HelperSrv, $timeout, Kanas) { //
+    [ '$scope', 'hlp', '$timeout', 'Kanas', //
+        function ($scope, hlp, $timeout, Kanas) { //
 
             var HIDDEN_DISPLAY = '&nbsp;';
 
@@ -16,7 +16,7 @@ angular.module('pguPlayApp').controller('MemoCtrl', //
             var firstCard = null;
 
             $scope.underscore = _;
-            $scope.nbRows = 6; //6
+            $scope.nbRows = 2; //6
             $scope.nbCellsByRow = 2;
 
             $scope.selectedLanguage = null;
@@ -49,19 +49,21 @@ angular.module('pguPlayApp').controller('MemoCtrl', //
                     return;
                 }
 
-                var itemsOfGameSource = _.clone($scope.selectedLanguage.getData());
+                var poolOfAllItems = $scope.selectedLanguage.getData();
+                var wrap = hlp.newItemWrapper($scope.selectedLanguage.getCfg());
+
                 var itemsOfGame = [];
 
                 _.times($scope.nbRows, function() {
 
-                    var idxToPush = HelperSrv.random(0, itemsOfGameSource.length);
-                    itemsOfGame.push(itemsOfGameSource[idxToPush]);
+                    var item = hlp.pickRandom(poolOfAllItems);
+                    itemsOfGame.push(item);
 
-                    itemsOfGameSource.splice(idxToPush, 1);
+                    poolOfAllItems = _.without(poolOfAllItems, item);
                 });
 
                 $scope.isGameOn = true;
-                playGame(itemsOfGame);
+                playGame(itemsOfGame, wrap);
             };
 
             var addSolution = function(cache, k, v) {
@@ -74,12 +76,12 @@ angular.module('pguPlayApp').controller('MemoCtrl', //
                 }
             };
 
-            var playGame = function (itemsOfGame) {
+            var playGame = function (itemsOfGame, wrap) {
 
                 dicoOfSolutions = _.reduce(itemsOfGame, function(dicoOfSolutions, item) {
 
-                    var key = _.first(item);
-                    var answers = _.rest(item);
+                    var key = wrap.getKey(item);
+                    var answers = wrap.getValues(item);
 
                     _.each(answers, function(answer) {
                         addSolution(dicoOfSolutions, key, answer);
@@ -90,10 +92,10 @@ angular.module('pguPlayApp').controller('MemoCtrl', //
                 }, {});
 
                 var cards = _.reduce(itemsOfGame, function(all, item) {
-                    var key = _.first(item);
-                    var answers = _.rest(item);
+                    var key = wrap.getKey(item);
+                    var answers = wrap.getValues(item);
 
-                    var anAnswer = answers[HelperSrv.random(0, answers.length)];
+                    var anAnswer = hlp.pickRandom(answers);
 
                     var keyCard = {
                         isKey: true,
@@ -121,12 +123,12 @@ angular.module('pguPlayApp').controller('MemoCtrl', //
                 }, []);
 
                 var randomCards = [];
-                _.times(_.clone(cards.length), function() {
+                _(cards.length).times(function() {
 
-                     var idxToPush = HelperSrv.random(0, cards.length);
-                     randomCards.push(cards[idxToPush]);
+                    var aCard = hlp.pickRandom(cards);
+                    randomCards.push(aCard);
 
-                     cards.splice(idxToPush, 1);
+                    cards = _.without(cards, aCard);
                 });
 
                 if ($scope.showRules === null) {

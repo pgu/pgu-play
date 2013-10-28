@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('pguPlayApp').factory('HelperSrv', function () {
+angular.module('pguPlayApp').factory('hlp', function () {
     return {
         formatTime: function (timeMs) {
 
@@ -22,12 +22,25 @@ angular.module('pguPlayApp').factory('HelperSrv', function () {
                 return minutes + ' min : ' + seconds + ' sec';
             }
         },
-        random: function (min, max) { // max: exclusion; min: inclusion
-            return _.random(min, max - 1);
-        },
-        getRandom: function(array) {
-            var idx = this.random(0, array.length);
+        pickRandom: function(array) {
+            var idx = _.random(0, array.length - 1); // min: inclusive, max: exclusive;
             return array[idx];
+        },
+        newItemWrapper: function(cfg) {
+            return {
+                getKey: function(item) {
+                    return item[cfg.getKey().getField()];
+                },
+                getValues: function (item) {
+                    return _.chain(cfg.getValues())
+                        .map(function(v) {
+                            return item[v.getField()];
+                        })
+                        .flatten()
+                        .value();
+                }
+            };
         }
     };
+
 });

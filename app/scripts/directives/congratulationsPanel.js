@@ -1,11 +1,11 @@
 'use strict';
 
 angular.module('pguPlayApp').controller('congratulationsPanelCtrl', //
-    ['$scope', 'HelperSrv', //
-        function($scope, HelperSrv) { //
+    ['$scope', 'hlp', //
+        function($scope, hlp) { //
 
             $scope.$watch('elapsedTimeOfGameInMs', function() {
-                $scope.fmtTimeOfGame = $scope.elapsedTimeOfGameInMs > 0 ? HelperSrv.formatTime($scope.elapsedTimeOfGameInMs) : undefined;
+                $scope.fmtTimeOfGame = $scope.elapsedTimeOfGameInMs > 0 ? hlp.formatTime($scope.elapsedTimeOfGameInMs) : undefined;
             });
 
 }]);

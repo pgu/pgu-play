@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('pguPlayApp').factory('DataHelper', //
+angular.module('pguPlayApp').factory('dataHelper', //
     ['DisplayField', //
         function (DisplayField) {//
 

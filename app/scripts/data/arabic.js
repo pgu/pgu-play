@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('pguPlayApp').factory('Arabic',
-    [ 'DataHelper', //
-        function (DataHelper) { //
+    [ 'dataHelper', //
+        function (dataHelper) { //
 
     var alphabetShort = Object.freeze([ //
         ['ﺍ', 'a'], ['ﺏ',  'b'], ['ﺕ', 't'], ['ﺙ', 'th'], ['ﺝ', 'j'], ['ﺡ',  '/ħ/'], ['ﺥ', 'kh'], //
@@ -45,10 +45,10 @@ angular.module('pguPlayApp').factory('Arabic',
 
     return {
         getRawAlphabetShort: function() {
-            return DataHelper.toFullRawDataBasic(alphabetShort);
+            return dataHelper.toFullRawDataBasic(alphabetShort);
         },
         getRawAlphabetLong: function() {
-            return DataHelper.toFullRawDataBasic(alphabetLong);
+            return dataHelper.toFullRawDataBasic(alphabetLong);
         },
         getGameAlphabetShort: function() {
             return alphabetShort;

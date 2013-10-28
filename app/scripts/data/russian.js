@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('pguPlayApp').factory('Russian',
-    [ 'DataHelper', //
-        function (DataHelper) { //
+    [ 'dataHelper', //
+        function (dataHelper) { //
 
     var alphabetUpper = Object.freeze([ //
         ['A',   'A'], ['Б',   'B'], ['В',    'V'], ['Г',   'G'], ['Д',   'D'], ['Е', 'YE'], //
@@ -24,10 +24,10 @@ angular.module('pguPlayApp').factory('Russian',
 
     return {
         getRawAlphabetLower: function() {
-            return DataHelper.toFullRawDataBasic(alphabetLower);
+            return dataHelper.toFullRawDataBasic(alphabetLower);
         },
         getRawAlphabetUpper: function() {
-            return DataHelper.toFullRawDataBasic(alphabetUpper);
+            return dataHelper.toFullRawDataBasic(alphabetUpper);
         },
         getGameAlphabetLower: function() {
             return alphabetLower;

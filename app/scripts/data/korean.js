@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('pguPlayApp').factory('Korean',
-    [ 'DataHelper', //
-        function (DataHelper) { //
+    [ 'dataHelper', //
+        function (dataHelper) { //
 
     var hangul = Object.freeze([ //
         ['ㄱ',  'g'], ['ㄴ',   'n'], ['ㄷ',   'd'], ['ㄹ',   'l'], ['ㅁ',  'm'], //
@@ -18,7 +18,7 @@ angular.module('pguPlayApp').factory('Korean',
 
     return {
         getRawHangul: function() {
-            return DataHelper.toFullRawDataBasic(hangul);
+            return dataHelper.toFullRawDataBasic(hangul);
         },
         getGameHangul: function() {
             return hangul;
