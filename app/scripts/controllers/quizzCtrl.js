@@ -4,7 +4,7 @@ angular.module('pguPlayApp').controller('QuizzCtrl', //
     [ '$scope', 'hlp', '$timeout', 'Kanas', //
         function ($scope, hlp, $timeout, Kanas) { //
 
-            var NB_OF_QUESTIONS = 2; // 20
+            var NB_OF_QUESTIONS = 20; // 20
 
             var STATE_CLEAN = 'clean';
             var STATE_ERROR = 'error';
@@ -121,7 +121,6 @@ angular.module('pguPlayApp').controller('QuizzCtrl', //
 
                 // select the symbol to guess
                 var selectedItem = hlp.pickRandom(itemsOfGame);
-                console.log(selectedItem);
 
                 itemsOfGame = _.without(itemsOfGame, selectedItem); // clean the game for the next round
 
@@ -132,7 +131,6 @@ angular.module('pguPlayApp').controller('QuizzCtrl', //
                     symbol: wrap.getKey(selectedItem),
                     answer: rightAnswer
                 };
-                console.log(itemToGuess);
 
                 // get other answers
                 var otherAnswers = [];
@@ -150,12 +148,8 @@ angular.module('pguPlayApp').controller('QuizzCtrl', //
                         continue;
                     }
 
-                    console.log('--');
-                    console.log(availableAnswers);
                     otherAnswers.push(hlp.pickRandom(availableAnswers));
-                    console.log(otherAnswers);
                 }
-                console.log(otherAnswers);
 
                 // shuffle answers
                 var sortedAnswers = [rightAnswer].concat(otherAnswers);
@@ -178,6 +172,7 @@ angular.module('pguPlayApp').controller('QuizzCtrl', //
                 $scope.answers = randomAnswers;
                 $scope.itemToGuessDisplay = itemToGuess.symbol;
 
+                $('html, body').animate({scrollTop:0}, 'slow');
             };
 
             $scope.onGoHome = function() {

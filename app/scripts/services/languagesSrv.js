@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('pguPlayApp').factory('LanguagesSrv', //
-    ['Node', 'Leaf', 'Jouyous', 'KanjiRadicals', 'kanjiHelper', 'Kanas', 'Russian', 'Arabic', 'Korean', //
-        function (Node, Leaf, Jouyous, KanjiRadicals, kanjiHelper, Kanas, Russian, Arabic, Korean) {
+    ['Node', 'Leaf', 'dataHelper', 'Jouyous', 'KanjiRadicals', 'kanjiHelper', 'Kanas', 'Russian', 'Arabic', 'Korean', //
+        function (Node, Leaf, dataHelper, Jouyous, KanjiRadicals, kanjiHelper, Kanas, Russian, Arabic, Korean) {
 
     var link = function(label, url) {
         return '<a href="' + url + '" class="alert-link">' + label + '</a>';
@@ -34,10 +34,10 @@ angular.module('pguPlayApp').factory('LanguagesSrv', //
                     // leafs
                     //
                     // kana
-                    new Leaf('japanese|kana|hiragana', 'Hiragana', Kanas.getHiraganas, Kanas.getHiraganasCfg),
-                    new Leaf('japanese|kana|katakana', 'Katakana', Kanas.getKatakanas, Kanas.getKatakanasCfg),
-                    new Leaf('japanese|kana|diacritics', 'Diacritics', Kanas.getDiacritics, Kanas.getDiacriticsCfg),
-                    new Leaf('japanese|kana|youons', 'Yōon', Kanas.getYouons, Kanas.getYouonsCfg),
+                    new Leaf('japanese|kana|hiragana', 'Hiragana', Kanas.getHiraganas, dataHelper.getCfgKV),
+                    new Leaf('japanese|kana|katakana', 'Katakana', Kanas.getKatakanas, dataHelper.getCfgKV),
+                    new Leaf('japanese|kana|diacritics', 'Diacritics', Kanas.getDiacritics, dataHelper.getCfgKV),
+                    new Leaf('japanese|kana|youons', 'Yōon', Kanas.getYouons, dataHelper.getCfgKV),
                     // kanji
                     new Leaf('japanese|kanji|radicals', 'Radicals (214)', KanjiRadicals.get, kanjiHelper.getCfg),
                     //
@@ -52,13 +52,13 @@ angular.module('pguPlayApp').factory('LanguagesSrv', //
                     new Leaf('japanese|kanji|jouyou|kyouiku|grade_5', 'Grade 5', Jouyous.buildGetKyouikusByGrade(5), kanjiHelper.getCfg),
                     new Leaf('japanese|kanji|jouyou|kyouiku|grade_6', 'Grade 6', Jouyous.buildGetKyouikusByGrade(6), kanjiHelper.getCfg),
                     // russian
-                    new Leaf('russian|alphabet|lowercase', 'lowercase', Russian.getAlphabetLower, Russian.getAlphabetLowerCfg),
-                    new Leaf('russian|alphabet|uppercase', 'Uppercase', Russian.getAlphabetUpper, Russian.getAlphabetUpperCfg),
+                    new Leaf('russian|alphabet|lowercase', 'lowercase', Russian.getAlphabetLower, dataHelper.getCfgKV),
+                    new Leaf('russian|alphabet|uppercase', 'Uppercase', Russian.getAlphabetUpper, dataHelper.getCfgKV),
                     // arabic
-                    new Leaf('arabic|alphabet|isolated', 'Isolated', Arabic.getAlphabetShort, Arabic.getAlphabetShortCfg),
-                    new Leaf('arabic|alphabet|all_forms', 'All forms', Arabic.getAlphabetLong, Arabic.getAlphabetLongCfg),
+                    new Leaf('arabic|alphabet|isolated', 'Isolated', Arabic.getAlphabetShort, dataHelper.getCfgKV),
+                    new Leaf('arabic|alphabet|all_forms', 'All forms', Arabic.getAlphabetLong, dataHelper.getCfgKV),
                     // korean
-                    new Leaf('korean|alphabet|hangul', 'Hangul', Korean.getHangul, Korean.getHangulCfg)
+                    new Leaf('korean|alphabet|hangul', 'Hangul', Korean.getHangul, dataHelper.getCfgKV)
                 ];
             }
     };

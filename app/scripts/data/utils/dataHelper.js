@@ -16,7 +16,9 @@ angular.module('pguPlayApp').factory('dataHelper', //
                 getData: function() { return rawData; },
                 getConfig: function() { return displayConfigKeyValue; }
             };
+        },
+        getCfgKV: function() {
+            return displayConfigKeyValue;
         }
-
     };
 }]);

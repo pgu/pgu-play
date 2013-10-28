@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('pguPlayApp').controller('LanguagesCtrl', //
-    [ '$scope', //
-        function ($scope) { //
+    [ '$scope', 'hlp', 'lunrSrv', '$timeout', //
+        function ($scope, hlp, lunrSrv, $timeout) { //
 
             var NB_ITEMS_BY_PAGE = 50;
             $scope.selectedLanguage = null;
@@ -15,9 +15,7 @@ angular.module('pguPlayApp').controller('LanguagesCtrl', //
             var resetSelection = function() {
                 $scope.data = [];
                 $scope.cfg = {};
-
                 $scope.rows = [];
-
                 $scope.searchText = '';
 
                 $scope.numStart = 0;
@@ -43,6 +41,15 @@ angular.module('pguPlayApp').controller('LanguagesCtrl', //
                 };
             };
 
+            function updatePagination() {
+                // pagination
+                $scope.pages = Math.ceil($scope.data.length / NB_ITEMS_BY_PAGE);
+                updatePage(0);
+
+                // data
+                $scope.rows = buildRows($scope.page);
+            }
+
             $scope.$watch('selectedLanguage', function() {
                 resetSelection();
 
@@ -53,12 +60,30 @@ angular.module('pguPlayApp').controller('LanguagesCtrl', //
                 $scope.data = $scope.selectedLanguage.getData();
                 $scope.cfg = $scope.selectedLanguage.getCfg();
 
-                // pagination
-                $scope.pages = Math.ceil($scope.data.length / NB_ITEMS_BY_PAGE);
-                updatePage(0);
+                updatePagination();
 
-                // data
-                $scope.rows = buildRows($scope.page);
+                // init full-text search
+                lunrSrv.addIndex($scope.data, $scope.cfg, $scope.selectedLanguage.getKey());
+            });
+
+            $scope.$watch('searchText', function() {
+
+                if (_.isNull($scope.selectedLanguage)) {
+                    return;
+                }
+
+                var initialText = $scope.searchText;
+
+                $timeout(function() {
+
+                    if (initialText !== $scope.searchText) {
+                        return;
+                    }
+
+                    $scope.data = lunrSrv.search($scope.selectedLanguage.getKey(), initialText);
+                    updatePagination();
+
+                }, 300);
             });
 
             $scope.onGoHome = function() {
@@ -103,12 +128,11 @@ angular.module('pguPlayApp').controller('LanguagesCtrl', //
                 }
 
                 var start = NB_ITEMS_BY_PAGE * page;
-                var end = _.min([start + NB_ITEMS_BY_PAGE, $scope.data.length]);
 
-                $scope.numStart = start + 1;
-                $scope.numStop = end;
+                $scope.numStop = _.min([start + NB_ITEMS_BY_PAGE, $scope.data.length]);
+                $scope.numStart = _.min([start + 1, $scope.numStop]);
 
-                return _.map(_.range(start, end), function(idx) {
+                return _.map(_.range(start, $scope.numStop), function(idx) {
                             var item = $scope.data[idx];
 
                             var columns = [];
@@ -126,7 +150,14 @@ angular.module('pguPlayApp').controller('LanguagesCtrl', //
                 return !$scope.selectedLanguage
                     && $scope.selectedOption
                     && $scope.selectedOption.getInfo();
-            }
+            };
 
+            $scope.isSearchAvailable = function() {
+                if (!$scope.selectedLanguage) {
+                    return false;
+                }
+
+                return lunrSrv.isAvailable($scope.selectedLanguage.getKey());
+            };
 
         }]);

@@ -28,11 +28,13 @@
         <div>
             <form class="form-horizontal">
                 <div class="form-group">
-                    <label for="lg_inputSearchText" class="col-lg-2 control-label">Search text</label>
-                    <div class="col-lg-6">
-                        <input ng-model="searchText" type="text" class="form-control" id="lg_inputSearchText" placeholder="Filter displayed rows...">
+                    <div ng-show="isSearchAvailable()">
+                        <label for="lg_inputSearchText" class="col-lg-2 control-label">Search text <small style="color:darkgrey">(powered by lunr.js)</small></label>
+                        <div class="col-lg-6">
+                            <input ng-model="searchText" type="search" class="form-control" id="lg_inputSearchText" placeholder="Filter rows">
+                        </div>
                     </div>
-                    <div ng-show="pages > 5" >
+                    <div ng-show="pages > 3" >
                         <label for="lg_inputPage" class="col-lg-2 control-label">Page ({{inputPage}} / {{ pages }})</label>
                         <div class="col-lg-2">
                             <input type="number" ng-model="inputPage" class="form-control" id="lg_inputPage">
@@ -56,7 +58,7 @@
             </tr>
             </thead>
             <tbody>
-            <tr ng-repeat="row in rows | filter:searchText track by $index">
+            <tr ng-repeat="row in rows track by $index">
 
                 <td ng-repeat="col in row.getColumns() track by $index"
                     ng-class="$index === 0 ? 'text-right text-primary' : ''"

@@ -137,6 +137,8 @@ angular.module('pguPlayApp').controller('MemoCtrl', //
 
                 startTime = Date.now();
                 $scope.memoCards = randomCards;
+
+                $('html, body').animate({scrollTop:0}, 'slow');
             };
 
             $scope.selectCard = function(memoCard) {
