@@ -40,6 +40,9 @@ angular.module('pguPlayApp').factory('hlp', function () {
                         .value();
                 }
             };
+        },
+        scrollToTop: function() {
+            $('html, body').animate({scrollTop:0}, 'slow');
         }
     };
 

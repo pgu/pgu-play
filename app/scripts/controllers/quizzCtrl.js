@@ -172,7 +172,7 @@ angular.module('pguPlayApp').controller('QuizzCtrl', //
                 $scope.answers = randomAnswers;
                 $scope.itemToGuessDisplay = itemToGuess.symbol;
 
-                $('html, body').animate({scrollTop:0}, 'slow');
+                hlp.scrollToTop();
             };
 
             $scope.onGoHome = function() {
