@@ -5,16 +5,17 @@ angular.module('pguPlayApp').controller('LanguagesCtrl', //
         function ($scope, hlp, lunrSrv, $timeout) { //
 
             var NB_ITEMS_BY_PAGE = 50;
-            $scope.selectedLanguage = null;
 
-            var updatePage = function(page) {
-                $scope.page = page; // page is 0-index based
-                $scope.inputPage = page + 1; // inputPage is 1-index based
-            };
+            var lgKey = null;
+            $scope.lgInfo = null;
 
             var resetSelection = function() {
+
+                lgKey = null;
+
                 $scope.data = [];
                 $scope.cfg = {};
+
                 $scope.rows = [];
                 $scope.searchText = '';
 
@@ -25,6 +26,10 @@ angular.module('pguPlayApp').controller('LanguagesCtrl', //
                 $scope.inputPage = 1; // inputPage is 1-index based
             };
             resetSelection();
+
+            $scope.shouldShowLanguage = function() {
+                return !!lgKey;
+            };
 
             var Column = function(displayField, item) {
                 return {
@@ -41,6 +46,11 @@ angular.module('pguPlayApp').controller('LanguagesCtrl', //
                 };
             };
 
+            var updatePage = function(page) {
+                $scope.page = page; // page is 0-index based
+                $scope.inputPage = page + 1; // inputPage is 1-index based
+            };
+
             function updatePagination() {
                 // pagination
                 $scope.pages = Math.ceil($scope.data.length / NB_ITEMS_BY_PAGE);
@@ -50,25 +60,26 @@ angular.module('pguPlayApp').controller('LanguagesCtrl', //
                 $scope.rows = buildRows($scope.page);
             }
 
-            $scope.$watch('selectedLanguage', function() {
+            $scope.selectLanguage = function(language) {
                 resetSelection();
 
-                if (_.isNull($scope.selectedLanguage)) {
+                if (_.isNull(language)) {
                     return;
                 }
 
-                $scope.data = $scope.selectedLanguage.getData();
-                $scope.cfg = $scope.selectedLanguage.getCfg();
+                lgKey = language.getKey();
+                $scope.cfg = language.getCfg();
+                $scope.data = language.getData();
 
                 updatePagination();
 
                 // init full-text search
-                lunrSrv.addIndex($scope.data, $scope.cfg, $scope.selectedLanguage.getKey());
-            });
+                lunrSrv.addIndex($scope.data, $scope.cfg, lgKey);
+            };
 
             $scope.$watch('searchText', function() {
 
-                if (_.isNull($scope.selectedLanguage)) {
+                if (!$scope.shouldShowLanguage()) {
                     return;
                 }
 
@@ -80,14 +91,13 @@ angular.module('pguPlayApp').controller('LanguagesCtrl', //
                         return;
                     }
 
-                    $scope.data = lunrSrv.search($scope.selectedLanguage.getKey(), initialText);
+                    $scope.data = lunrSrv.search(lgKey, initialText);
                     updatePagination();
 
                 }, 300);
             });
 
             $scope.onGoHome = function() {
-                $scope.selectedLanguage = null;
                 resetSelection();
             };
 
@@ -146,18 +156,20 @@ angular.module('pguPlayApp').controller('LanguagesCtrl', //
                         });
             };
 
-            $scope.hasInfo = function() {
-                return !$scope.selectedLanguage
-                    && $scope.selectedOption
-                    && $scope.selectedOption.getInfo();
+            $scope.setInfo = function(info) {
+                $scope.lgInfo = info;
             };
 
             $scope.isSearchAvailable = function() {
-                if (!$scope.selectedLanguage) {
+                if (!$scope.shouldShowLanguage()) {
                     return false;
                 }
 
-                return lunrSrv.isAvailable($scope.selectedLanguage.getKey());
+                return lunrSrv.isAvailable(lgKey);
+            };
+
+            $scope.shouldShowInfo = function() {
+                return $scope.lgInfo || $scope.data.length;
             };
 
         }]);

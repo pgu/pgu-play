@@ -1,28 +1,21 @@
 <home-btn on-go-home="onGoHome()"></home-btn>
 
-<languages-toolbar selected-language="selectedLanguage" selected-option="selectedOption"></languages-toolbar>
+<languages-toolbar on-select-language="selectLanguage(language)" on-set-info="setInfo(info)"></languages-toolbar>
 
-<div ng-class="selectedOption? '' : 'hide'">
-    <div ng-show="hasInfo()">
+<div ng-class="shouldShowInfo() ? '' : 'hide'">
+    <div ng-show="shouldShowInfo()">
         <p></p>
         <div class="alert alert-info text-center">
             <ul class="list-unstyled">
-                <li ng-bind-html-unsafe="selectedOption.getInfo()"></li>
+                <li ng-show="data.length"><strong>{{ numStart }} - {{ numStop }}</strong> of <strong>{{ data.length }}</strong></li>
+                <li ng-bind-html-unsafe="lgInfo"></li>
             </ul>
         </div>
     </div>
 </div>
 
-<div ng-class="selectedLanguage? '' : 'hide'">
-    <div ng-show="selectedLanguage" ng-animate="'fade'">
-
-        <p></p>
-        <div class="alert alert-info text-center">
-            <ul class="list-unstyled">
-                <li><strong>{{ numStart }} - {{ numStop }}</strong> of <strong>{{ data.length }}</strong></li>
-                <li ng-bind-html-unsafe="selectedLanguage.getInfo()"></li>
-            </ul>
-        </div>
+<div ng-class="shouldShowLanguage() ? '' : 'hide'">
+    <div ng-show="shouldShowLanguage()" ng-animate="'fade'">
 
         <p></p>
         <div>

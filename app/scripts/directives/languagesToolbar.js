@@ -50,10 +50,12 @@ angular.module('pguPlayApp').controller('languagesToolbarCtrl', //
         // select
         //
         languageOption.isSelected = true;
-        $scope.selectedOption = languageOption.getOption();
+        var language = languageOption.getOption();
+
+        $scope.onSetInfo({ info: language.getInfo() });
 
         // get the sub-level
-        var baseKey = languageOption.getOption().getKey() + '|';
+        var baseKey = language.getKey() + '|';
 
         var directSubLanguages = _.filter(languages, function(lg) {
             if (lg.getKey().indexOf(baseKey) !== -1) { // <!> _.contains does not work with 'xxx|' <!>
@@ -65,10 +67,10 @@ angular.module('pguPlayApp').controller('languagesToolbarCtrl', //
         });
 
         if (_.isEmpty(directSubLanguages)) { // it's a leaf
-            $scope.selectedLanguage = languageOption.getOption();
+            $scope.onSelectLanguage({ language: language });
 
         } else { // new level
-            $scope.selectedLanguage = null;
+            $scope.onSelectLanguage({ language: null });
 
             var languageSubLevel = convertToOptions(directSubLanguages, $scope.languageLevels.length);
             $scope.languageLevels.push(languageSubLevel);
@@ -88,8 +90,9 @@ angular.module('pguPlayApp').directive('languagesToolbar', function() {
         replace: true,
         templateUrl: 'views/directives/languagesToolbar.html',
         scope: {
-            selectedLanguage: '=',
-            selectedOption: '=?'
+            selectedLanguage: '=', // TODO to remove
+            onSelectLanguage: '&?',
+            onSetInfo: '&?'
         },
         controller: 'languagesToolbarCtrl'
     };
