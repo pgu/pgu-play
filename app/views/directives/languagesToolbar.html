@@ -1,7 +1,7 @@
 <div>
     <p></p>
     <div class="alert alert-info text-center"
-         ng-show="!selectedLanguage"
+         ng-show="!hasSelectedLanguage"
          ng-animate="'fade'">
         Select a category
     </div>
@@ -13,7 +13,7 @@
                 <a ng-init="opt = languageLevel[row * nbCellsByRow + cell]; _css = 'btn btn-lg '"
                    ng-class="_css + (opt.isSelected ? 'btn-primary disabled' : 'btn-default')"
                    ng-repeat="cell in underscore.range(nbCellsByRow)"
-                   ng-click="selectLanguage(opt)"
+                   ng-click="selectOption(opt)"
                    ng-disabled="!opt"
                    ng-bind-html-unsafe="opt.getOption().getLabel()"></a>
 

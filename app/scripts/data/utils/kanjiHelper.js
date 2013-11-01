@@ -62,6 +62,20 @@ angular.module('pguPlayApp').factory('kanjiHelper', //
 
             _.findWhere(row.getColumns(), { col: 'ons'}).html = renderOns(onsToShow);
             _.findWhere(row.getColumns(), { col: 'kuns'}).html = renderKuns(kunsToShow);
+        },
+        onToggleQuizzHelp: function(isQuizzHelpToggled, answers) {
+            _.each(answers, function(answer) {
+
+                if (isQuizzHelpToggled) {
+                    var v = answer.value;
+                    var tmp = Kanas.hepburnKun(v);
+                    answer.label = Kanas.hepburnOn(tmp);
+
+                } else {
+                    answer.label = answer.value;
+                }
+
+            });
         }
     };
 

@@ -28,7 +28,7 @@ angular.module('pguPlayApp').controller('LanguagesCtrl', //
             resetSelection();
 
             $scope.shouldShowLanguage = function() {
-                return !!lgKey;
+                return lgKey;
             };
 
             var Column = function(displayField, item) {
@@ -63,7 +63,7 @@ angular.module('pguPlayApp').controller('LanguagesCtrl', //
             $scope.selectLanguage = function(language) {
                 resetSelection();
 
-                if (_.isNull(language)) {
+                if (!language) {
                     return;
                 }
 

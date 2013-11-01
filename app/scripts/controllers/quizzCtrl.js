@@ -4,7 +4,7 @@ angular.module('pguPlayApp').controller('QuizzCtrl', //
     [ '$scope', 'hlp', '$timeout', 'Kanas', //
         function ($scope, hlp, $timeout, Kanas) { //
 
-            var NB_OF_QUESTIONS = 20; // 20
+            var NB_OF_QUESTIONS = 4; // 20
 
             var STATE_CLEAN = 'clean';
             var STATE_ERROR = 'error';
@@ -20,7 +20,8 @@ angular.module('pguPlayApp').controller('QuizzCtrl', //
 
             $scope.showRules = null;
 
-            $scope.selectedLanguage = null;
+            var lgKey = null;
+            $scope.cfg = null;
             $scope.elapsedTimeInMs = 0;
             $scope.challenges = [];
 
@@ -28,21 +29,25 @@ angular.module('pguPlayApp').controller('QuizzCtrl', //
 
                 $scope.isGameOn = false;
                 $scope.itemToGuessDisplay = null;
-                wrap = null;
                 $scope.answers = [];
 
-                $scope.isKanaHepburned = false;
+                $scope.isQuizzHelpToggled = false;
 
                 itemToGuess = null;
                 itemsOfGame = [];
-                allItems = [];
                 startTime = 0;
             };
             resetGame();
 
-            $scope.$watch('selectedLanguage', function () {
+            $scope.selectLanguage = function(language) {
+
+                lgKey = language ? language.getKey() : null;
+                allItems = language ? language.getData() : [];
+                $scope.cfg = language ? language.getCfg() : null;
+                wrap = language ? hlp.newItemWrapper($scope.cfg) : null;
+
                 $scope.launchGame();
-            });
+            };
 
             $scope.launchGame = function() {
 
@@ -50,12 +55,9 @@ angular.module('pguPlayApp').controller('QuizzCtrl', //
                 $scope.challenges = [];
                 resetGame();
 
-                if (_.isNull($scope.selectedLanguage)) {
+                if (!lgKey) {
                     return;
                 }
-
-                allItems = $scope.selectedLanguage.getData();
-                wrap = hlp.newItemWrapper($scope.selectedLanguage.getCfg());
 
                 itemsOfGame = [];
 
@@ -160,7 +162,7 @@ angular.module('pguPlayApp').controller('QuizzCtrl', //
 
                     var answerForView = {
                         value: answer,
-                        label: $scope.isKanaHepburned ? Kanas.hepburnKun(Kanas.hepburnOn(answer)) : answer,
+                        label: $scope.isQuizzHelpToggled ? Kanas.hepburnKun(Kanas.hepburnOn(answer)) : answer,
                         state: STATE_CLEAN
                     };
                     randomAnswers.push(answerForView);
@@ -177,27 +179,12 @@ angular.module('pguPlayApp').controller('QuizzCtrl', //
 
             $scope.onGoHome = function() {
                 resetGame();
-                $scope.selectedLanguage = null;
                 $scope.challenges = [];
             };
 
-            // TODO review...
-            $scope.onHepburnKana = function() {
-                $scope.isKanaHepburned = !$scope.isKanaHepburned;
-
-                _.each($scope.answers, function(answer) {
-
-                    if ($scope.isKanaHepburned) {
-                        var v = answer.value;
-                        var tmp = Kanas.hepburnKun(v);
-                        answer.label = Kanas.hepburnOn(tmp);
-
-                    } else {
-                        answer.label = answer.value;
-                    }
-
-                });
-
+            $scope.onToggleQuizzHelp = function() {
+                $scope.isQuizzHelpToggled = !$scope.isQuizzHelpToggled;
+                $scope.cfg.onToggleQuizzHelp($scope.isQuizzHelpToggled, $scope.answers);
             };
 
         }]);

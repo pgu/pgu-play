@@ -9,6 +9,7 @@ angular.module('pguPlayApp').controller('languagesToolbarCtrl', //
     $scope.underscore = _;
     $scope.nbCellsByRow = 2;
     $scope.languageLevels = [];
+    $scope.hasSelectedLanguage = false;
 
     var Option = function(lgNode, idx) {
         this.getOption = function() { return lgNode; };
@@ -33,7 +34,7 @@ angular.module('pguPlayApp').controller('languagesToolbarCtrl', //
 
     initLanguages();
 
-    $scope.selectLanguage = function(languageOption) { // option is an item of a level
+    $scope.selectOption = function(languageOption) { // option is an item of a level
 
         //
         // clean other selection
@@ -67,20 +68,25 @@ angular.module('pguPlayApp').controller('languagesToolbarCtrl', //
         });
 
         if (_.isEmpty(directSubLanguages)) { // it's a leaf
-            $scope.onSelectLanguage({ language: language });
+            selectLanguage(language);
 
         } else { // new level
-            $scope.onSelectLanguage({ language: null });
+            selectLanguage(null);
 
             var languageSubLevel = convertToOptions(directSubLanguages, $scope.languageLevels.length);
             $scope.languageLevels.push(languageSubLevel);
 
             if (_.size(languageSubLevel) === 1) { // there is only one option, let's select it automatically
-                $scope.selectLanguage(languageSubLevel[0]);
+                $scope.selectOption(languageSubLevel[0]);
             }
         }
 
     };
+
+    function selectLanguage(language) {
+        $scope.hasSelectedLanguage = !!language;
+        $scope.onSelectLanguage({ language: language });
+    }
 
 }]);
 
