@@ -47,9 +47,6 @@
     </div>
 </div>
 
-
-<languages-toolbar on-select-language="selectLanguage(language)"></languages-toolbar>
-
 <div ng-class="elapsedTimeInMs === 0 ? 'hide' : ''">
 
     <p></p>
@@ -69,5 +66,7 @@
         </table>
     </div>
 </div>
+
+<languages-toolbar on-select-language="selectLanguage(language)"></languages-toolbar>
 
 <home-btn on-go-home="onGoHome()"></home-btn>
