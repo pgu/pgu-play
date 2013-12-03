@@ -26,7 +26,6 @@
 }
 
 .app-title {
-    font-family: 'Lobster', cursive;
     font-size: 100px;
     margin-bottom: 30px;
 }
@@ -35,6 +34,10 @@
     margin-bottom: 30px;
 }
 
-.congratulations {
+.text-lobster {
     font-family: 'Lobster', cursive;
+}
+
+.text-larger {
+    font-size: larger;
 }

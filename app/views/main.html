@@ -1,22 +1,22 @@
-<h1 class="text-center text-primary app-title">Play!</h1>
+<div class="jumbotron">
+    <h1 class="text-center app-title text-lobster">Play!</h1>
 
-<p class="lead text-center text-primary add-bottom-space">
-Games to help learning new alphabets and languages.
-</p>
+    <p class="lead text-center add-bottom-space">Games to help learning new alphabets and languages.</p>
 
-<div class="btn-group btn-group-justified add-bottom-space">
-    <a type="button" class="btn btn-lg btn-default" href="/#/quizz">Quizz</a>
-    <a type="button" class="btn btn-lg btn-default" href="/#/memo">Memo</a>
-</div>
+    <div class="btn-group btn-group-justified add-bottom-space text-lobster">
+        <a type="button" class="btn btn-lg btn-primary text-larger" href="/#/quizz">Quizz</a>
+        <a type="button" class="btn btn-lg btn-primary text-larger" href="/#/memo">Memo</a>
+    </div>
 
-<div class="alert alert-info text-center add-bottom-space">
-    <a href="/#/languages" class="alert-link">Click <strong>here</strong> to see the languages</a>
-</div>
+    <p class="text-center add-bottom-space">
+        <a href="/#/languages" class="btn btn-default">Checkout the languages</a>
+    </p>
 
-<p></p>
-<div ng-if="isInFF">
-    <button class="btn btn-lg btn-block btn-success" ng-click="installOnFirefoxOs()">
-        Install on FirefoxOS
-    </button>
+    <p></p>
+    <div ng-if="isInFF">
+        <button class="btn btn-lg btn-block btn-success" ng-click="installOnFirefoxOs()">
+            Install on FirefoxOS
+        </button>
+    </div>
 </div>
 
