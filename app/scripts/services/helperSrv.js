@@ -13,6 +13,10 @@ angular.module('pguPlayApp').factory('hlp', function () {
                 var minutes = Math.floor(totalSeconds / 60);
                 var seconds = Math.floor(totalSeconds - (minutes * 60));
 
+                if (minutes === 0) {
+                    return seconds + ' seconds';
+                }
+
                 if (minutes < 10) {
                     minutes = '0' + minutes;
                 }
