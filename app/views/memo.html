@@ -28,10 +28,10 @@
 
         <p class="text-right">
             <button type="button"
-                    ng-show="selectedLanguage.key.indexOf('kanji') !== -1"
+                    ng-if="cfg.onToggleMemoHelp"
                     ng-init="hep_btn_css = 'btn btn-default btn-lg glyphicon glyphicon-transfer '"
-                    ng-class="isKanaHepburned ? hep_btn_css + 'active' : hep_btn_css"
-                    ng-click="onHepburnKana()"></button>
+                    ng-class="isMemoHelpToggled ? hep_btn_css + 'active' : hep_btn_css"
+                    ng-click="onToggleMemoHelp()"></button>
         </p>
 
         <p></p>
@@ -43,7 +43,7 @@
     </div>
 </div>
 
-<languages-toolbar selected-language="selectedLanguage"></languages-toolbar>
+<languages-toolbar on-select-language="selectLanguage(language)"></languages-toolbar>
 
 <home-btn on-go-home="onGoHome()"></home-btn>
 

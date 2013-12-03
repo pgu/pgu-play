@@ -76,6 +76,26 @@ angular.module('pguPlayApp').factory('kanjiHelper', //
                 }
 
             });
+        },
+        onToggleMemoHelp: function(isMemoHelpToggled, memoCards, isGameDisplayed) {
+            _.each(memoCards, function(card) {
+
+                if (!card.isKey) {
+                    if (isMemoHelpToggled) {
+
+                        var v = card.value;
+                        var tmp = Kanas.hepburnKun(v);
+                        card.html = Kanas.hepburnOn(tmp);
+
+                    } else {
+                        card.html = card.value;
+                    }
+
+                    if (isGameDisplayed) {
+                        card.displayed = card.html;
+                    }
+                }
+            });
         }
     };
 

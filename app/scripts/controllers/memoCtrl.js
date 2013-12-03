@@ -19,13 +19,16 @@ angular.module('pguPlayApp').controller('MemoCtrl', //
             $scope.nbRows = 2; //6
             $scope.nbCellsByRow = 2;
 
-            $scope.selectedLanguage = null;
-
             $scope.elapsedTimeInMs = 0;
 
             $scope.showRules = null;
             $scope.isGameDisplayed = true; // by default, show the symbols
-            $scope.isKanaHepburned = false;
+            $scope.isMemoHelpToggled = false;
+
+            var lgKey = null;
+            $scope.cfg = null;
+            var allItems = [];
+            var wrap = null;
 
             var resetGame = function() {
                 $scope.isGameOn = false;
@@ -37,24 +40,27 @@ angular.module('pguPlayApp').controller('MemoCtrl', //
             };
             resetGame();
 
-            $scope.$watch('selectedLanguage', function () {
+            $scope.selectLanguage = function(language) {
+                lgKey = language ? language.getKey() : null;
+                allItems = language ? language.getData() : [];
+                $scope.cfg = language ? language.getCfg() : null;
+                wrap = language ? hlp.newItemWrapper($scope.cfg) : null;
+
                 $scope.launchGame();
-            });
+            };
 
             $scope.launchGame = function() {
                 $scope.elapsedTimeInMs = 0;
                 resetGame();
 
-                if (_.isNull($scope.selectedLanguage)) {
+                if (!lgKey) {
                     return;
                 }
 
-                var poolOfAllItems = $scope.selectedLanguage.getData();
-                var wrap = hlp.newItemWrapper($scope.selectedLanguage.getCfg());
-
                 var itemsOfGame = [];
 
-                _.times($scope.nbRows, function() {
+                var poolOfAllItems = _.clone(allItems);
+                _($scope.nbRows).times(function() {
 
                     var item = hlp.pickRandom(poolOfAllItems);
                     itemsOfGame.push(item);
@@ -63,7 +69,7 @@ angular.module('pguPlayApp').controller('MemoCtrl', //
                 });
 
                 $scope.isGameOn = true;
-                playGame(itemsOfGame, wrap);
+                playGame(itemsOfGame);
             };
 
             var addSolution = function(cache, k, v) {
@@ -76,7 +82,7 @@ angular.module('pguPlayApp').controller('MemoCtrl', //
                 }
             };
 
-            var playGame = function (itemsOfGame, wrap) {
+            var playGame = function (itemsOfGame) {
 
                 dicoOfSolutions = _.reduce(itemsOfGame, function(dicoOfSolutions, item) {
 
@@ -108,7 +114,7 @@ angular.module('pguPlayApp').controller('MemoCtrl', //
                     var answerCard = {
                         isKey: false,
                         value: anAnswer,
-                        html: $scope.isKanaHepburned ? Kanas.hepburnOn(Kanas.hepburnKun(anAnswer)) : anAnswer,
+                        html: $scope.isMemoHelpToggled ? Kanas.hepburnOn(Kanas.hepburnKun(anAnswer)) : anAnswer,
                         displayed: undefined,
                         state: STATE_CLEAN
                     };
@@ -210,7 +216,6 @@ angular.module('pguPlayApp').controller('MemoCtrl', //
 
             $scope.onGoHome = function() {
                 resetGame();
-                $scope.selectedLanguage = null;
             };
 
             $scope.updateDisplayedItem = function(memoCard) {
@@ -228,27 +233,9 @@ angular.module('pguPlayApp').controller('MemoCtrl', //
                 });
             };
 
-            // TODO review...
-            $scope.onHepburnKana = function() {
-                $scope.isKanaHepburned = !$scope.isKanaHepburned;
-
-                _.each($scope.memoCards, function(card) {
-
-                   if (!card.isKey) {
-                       if ($scope.isKanaHepburned) {
-                           var v = card.value;
-                           var tmp = Kanas.hepburnKun(v);
-                           card.html = Kanas.hepburnOn(tmp);
-
-                       } else {
-                           card.html = card.value;
-                       }
-
-                       if ($scope.isGameDisplayed) {
-                            card.displayed = card.html;
-                       }
-                   }
-                });
+            $scope.onToggleMemoHelp = function() {
+                $scope.isMemoHelpToggled = !$scope.isMemoHelpToggled;
+                $scope.cfg.onToggleMemoHelp($scope.isMemoHelpToggled, $scope.memoCards, $scope.isGameDisplayed);
             };
 
 }]);
