@@ -4,7 +4,7 @@ angular.module('pguPlayApp').controller('QuizzCtrl', //
     [ '$scope', 'hlp', '$timeout', 'Kanas', //
         function ($scope, hlp, $timeout, Kanas) { //
 
-            var NB_OF_QUESTIONS = 20; // 20
+            var NB_OF_QUESTIONS = 3; // 20
 
             var STATE_CLEAN = 'clean';
             var STATE_ERROR = 'error';

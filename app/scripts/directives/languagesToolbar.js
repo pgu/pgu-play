@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('pguPlayApp').controller('languagesToolbarCtrl', //
-    ['$scope', 'LanguagesSrv', //
-        function($scope, LanguagesSrv) { //
+    ['$scope', 'LanguagesSrv', 'hlp', //
+        function($scope, LanguagesSrv, hlp) { //
 
     var languages = LanguagesSrv.getLanguages();
 
@@ -78,6 +78,9 @@ angular.module('pguPlayApp').controller('languagesToolbarCtrl', //
 
             if (_.size(languageSubLevel) === 1) { // there is only one option, let's select it automatically
                 $scope.selectOption(languageSubLevel[0]);
+
+            } else {
+                hlp.scrollToBottom();
             }
         }
 

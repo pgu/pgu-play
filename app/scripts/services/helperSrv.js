@@ -17,9 +17,6 @@ angular.module('pguPlayApp').factory('hlp', function () {
                     return seconds + ' seconds';
                 }
 
-                if (minutes < 10) {
-                    minutes = '0' + minutes;
-                }
                 if (seconds < 10) {
                     seconds = '0' + seconds;
                 }
@@ -47,6 +44,9 @@ angular.module('pguPlayApp').factory('hlp', function () {
         },
         scrollToTop: function() {
             $('html, body').animate({scrollTop:0}, 'slow');
+        },
+        scrollToBottom: function() {
+            $('html, body').animate({scrollTop:99999}, 'slow');
         }
     };
 
