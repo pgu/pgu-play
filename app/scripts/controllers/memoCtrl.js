@@ -16,7 +16,7 @@ angular.module('pguPlayApp').controller('MemoCtrl', //
             var firstCard = null;
 
             $scope.underscore = _;
-            $scope.nbRows = 2; //6
+            $scope.nbRows = 6; //6
             $scope.nbCellsByRow = 2;
 
             $scope.elapsedTimeInMs = 0;
