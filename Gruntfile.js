@@ -256,6 +256,7 @@ module.exports = function (grunt) {
             'workers/**/*',
             'images/{,*/}*.{gif,webp}',
             'styles/fonts/*',
+            'js/*.min.js',
             'WEB-INF/**/*'
           ]
         }]
