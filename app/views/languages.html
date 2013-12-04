@@ -59,9 +59,11 @@
 
                 <td ng-if="cfg.onToggleRow">
                     <button type="button"
-                            ng-init="btn_css = 'btn btn-default btn-xs glyphicon glyphicon-transfer '"
+                            ng-init="btn_css = 'btn btn-default btn-xs '"
                             ng-class="row.isToggled ? btn_css + 'active' : btn_css"
-                            ng-click="cfg.onToggleRow(row)"></button></td>
+                            ng-click="cfg.onToggleRow(row)">
+                        <span class="glyphicon glyphicon-transfer"></span>
+                    </button></td>
             </tr>
             </tbody>
         </table>

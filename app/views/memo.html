@@ -20,18 +20,22 @@
         <p class="text-right">
             <span class="text-info">Toggle the items' visibility</span>
             <button type="button"
-                    ng-init="btn_css = 'btn btn-lg btn-primary glyphicon '"
-                    ng-class="btn_css + (isGameDisplayed ? 'glyphicon-eye-open' : 'glyphicon-eye-close active')"
-                    ng-click="toggleVisibilityMode()"></button>
+                    ng-init="btn_css = 'btn btn-lg btn-primary '"
+                    ng-class="btn_css + (isGameDisplayed ? '' : 'active')"
+                    ng-click="toggleVisibilityMode()">
+                <span ng-class="'glyphicon ' + (isGameDisplayed ? 'glyphicon-eye-open' : 'glyphicon-eye-close')"></span>
+            </button>
         </p>
         <p></p>
 
         <p class="text-right">
             <button type="button"
                     ng-if="cfg.onToggleMemoHelp"
-                    ng-init="hep_btn_css = 'btn btn-default btn-lg glyphicon glyphicon-transfer '"
-                    ng-class="isMemoHelpToggled ? hep_btn_css + 'active' : hep_btn_css"
-                    ng-click="onToggleMemoHelp()"></button>
+                    ng-init="help_btn_css = 'btn btn-default btn-lg '"
+                    ng-class="help_btn_css + (isMemoHelpToggled ?  + 'active' : '')"
+                    ng-click="onToggleMemoHelp()">
+                <span class="glyphicon glyphicon-transfer"></span>
+            </button>
         </p>
 
         <p></p>
