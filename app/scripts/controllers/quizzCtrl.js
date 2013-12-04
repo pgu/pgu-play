@@ -4,13 +4,13 @@ angular.module('pguPlayApp').controller('QuizzCtrl', //
     [ '$scope', 'hlp', '$timeout', 'Kanas', //
         function ($scope, hlp, $timeout, Kanas) { //
 
-            var NB_OF_QUESTIONS = 3; // 20
+            $scope.NB_OF_QUESTIONS = 10; // 20
 
             var STATE_CLEAN = 'clean';
             var STATE_ERROR = 'error';
             var STATE_SUCCESS = 'success';
 
-            $scope.progressWidthInPct = (100 / NB_OF_QUESTIONS) + '%';
+            $scope.progressWidthInPct = (100 / $scope.NB_OF_QUESTIONS) + '%';
 
             var wrap = null;
             var itemToGuess = null;
@@ -62,7 +62,7 @@ angular.module('pguPlayApp').controller('QuizzCtrl', //
                 itemsOfGame = [];
 
                 var poolOfAllItems = _.clone(allItems);
-                _(NB_OF_QUESTIONS).times(function() {
+                _($scope.NB_OF_QUESTIONS).times(function() {
 
                     var item = hlp.pickRandom(poolOfAllItems);
                     itemsOfGame.push(item);

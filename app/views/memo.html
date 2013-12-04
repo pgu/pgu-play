@@ -17,17 +17,11 @@
         </div>
 
         <p></p>
-        <p class="text-right">
-            <span class="text-info">Toggle the items' visibility</span>
-            <button type="button"
-                    ng-init="btn_css = 'btn btn-lg btn-primary '"
-                    ng-class="btn_css + (isGameDisplayed ? '' : 'active')"
-                    ng-click="toggleVisibilityMode()">
-                <span ng-class="'glyphicon ' + (isGameDisplayed ? 'glyphicon-eye-open' : 'glyphicon-eye-close')"></span>
-            </button>
-        </p>
-        <p></p>
+        <div class="alert alert-info text-center" ng-show="showRules" ng-animate="'fade'">
+            Associate the pairs
+        </div>
 
+        <p></p>
         <p class="text-right">
             <button type="button"
                     ng-if="cfg.onToggleMemoHelp"
@@ -36,12 +30,15 @@
                     ng-click="onToggleMemoHelp()">
                 <span class="glyphicon glyphicon-transfer"></span>
             </button>
-        </p>
 
+            <button type="button"
+                    ng-init="btn_css = 'btn btn-lg btn-primary '"
+                    ng-class="btn_css + (isGameDisplayed ? '' : 'active')"
+                    ng-click="toggleVisibilityMode()">
+                <span ng-class="'glyphicon ' + (isGameDisplayed ? 'glyphicon-eye-open' : 'glyphicon-eye-close')"></span>
+            </button>
+        </p>
         <p></p>
-        <div class="alert alert-info text-center" ng-show="showRules" ng-animate="'fade'">
-            Associate the pairs
-        </div>
 
         <hr class="featurette-divider">
     </div>
