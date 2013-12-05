@@ -32,7 +32,7 @@
                             </div>
                         </div>
                     </div>
-                    <div ng-show="pages > 3" >
+                    <div ng-show="shouldShowPagination()" >
                         <label for="lg_inputPage" class="col-lg-2 control-label">Page ({{inputPage}} / {{ pages }})</label>
                         <div class="col-lg-2">
                             <input type="number" ng-model="inputPage" class="form-control" id="lg_inputPage">
@@ -43,7 +43,7 @@
         </div>
 
         <p></p>
-        <ul class="pager" ng-show="pages > 1">
+        <ul class="pager" ng-show="shouldShowPagination()">
             <li ng-class="isPreviousEnabled() ? '' : 'disabled'"><a ng-click="goToPrevious()">Previous</a></li>
             <li ng-class="isNextEnabled() ? '' : 'disabled'"><a ng-click="goToNext()">Next</a></li>
         </ul>

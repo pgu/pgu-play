@@ -4,7 +4,7 @@ angular.module('pguPlayApp').controller('LanguagesCtrl', //
     [ '$scope', 'hlp', 'lunrSrv', '$timeout', //
         function ($scope, hlp, lunrSrv, $timeout) { //
 
-            var NB_ITEMS_BY_PAGE = 50;
+            var NB_ITEMS_BY_PAGE = 20;
 
             var lgKey = null;
             $scope.lgInfo = null;
@@ -201,6 +201,10 @@ angular.module('pguPlayApp').controller('LanguagesCtrl', //
 
             $scope.isNextEnabled = function() {
                 return $scope.page < $scope.pages - 1;
+            };
+
+            $scope.shouldShowPagination = function() {
+                return $scope.pages > 1;
             };
 
         }]);
