@@ -44,8 +44,8 @@
 
         <p></p>
         <ul class="pager" ng-show="pages > 1">
-            <li><a ng-click="goToPrevious()" ng-show="page > 0">Previous</a></li>
-            <li><a ng-click="goToNext()" ng-show="page < pages - 1">Next</a></li>
+            <li ng-class="isPreviousEnabled() ? '' : 'disabled'"><a ng-click="goToPrevious()">Previous</a></li>
+            <li ng-class="isNextEnabled() ? '' : 'disabled'"><a ng-click="goToNext()">Next</a></li>
         </ul>
 
         <p></p>

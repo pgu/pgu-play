@@ -109,11 +109,19 @@ angular.module('pguPlayApp').controller('LanguagesCtrl', //
             };
 
             $scope.goToPrevious = function() {
+                if (!$scope.isPreviousEnabled()) {
+                    return;
+                }
+
                 updatePage($scope.page - 1);
                 $scope.rows = buildRows($scope.page);
             };
 
             $scope.goToNext = function() {
+                if (!$scope.isNextEnabled()) {
+                    return;
+                }
+
                 updatePage($scope.page + 1);
                 $scope.rows = buildRows($scope.page);
             };
@@ -181,6 +189,14 @@ angular.module('pguPlayApp').controller('LanguagesCtrl', //
 
             $scope.clearSearchText = function() {
                 $scope.searchText = '';
+            };
+
+            $scope.isPreviousEnabled = function() {
+                return $scope.page > 0;
+            };
+
+            $scope.isNextEnabled = function() {
+                return $scope.page < $scope.pages - 1;
             };
 
         }]);
