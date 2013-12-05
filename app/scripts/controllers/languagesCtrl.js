@@ -129,11 +129,15 @@ angular.module('pguPlayApp').controller('LanguagesCtrl', //
             $scope.$watch('inputPage', function() {
                 var input = parseInt($scope.inputPage, 10);
 
+                if (_.isNaN(input)) {
+                    return;
+                }
+
                 if (input === $scope.page + 1) {
                     return;
                 }
 
-                if (_.isNaN(input) || input < 1) {
+                if (input < 1) {
                     $scope.inputPage = 1;
 
                 } else if (input > $scope.pages ) {
