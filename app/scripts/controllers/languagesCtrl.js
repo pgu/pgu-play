@@ -58,6 +58,14 @@ angular.module('pguPlayApp').controller('LanguagesCtrl', //
 
                 // data
                 $scope.rows = buildRows($scope.page);
+
+                // scroll to results
+                $timeout(function() {
+                    var el = $('#languages_lg_tb');
+                    var h = el.height();
+                    var t = el.offset().top;
+                    $('html, body').animate({ scrollTop: h+t }, 'slow');
+                }, 600);
             }
 
             $scope.selectLanguage = function(language) {
@@ -93,7 +101,6 @@ angular.module('pguPlayApp').controller('LanguagesCtrl', //
 
                     $scope.data = lunrSrv.search(lgKey, initialText);
                     updatePagination();
-
                 }, 300);
             });
 

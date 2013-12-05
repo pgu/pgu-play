@@ -1,6 +1,6 @@
 <home-btn on-go-home="onGoHome()"></home-btn>
 
-<languages-toolbar on-select-language="selectLanguage(language)" on-set-info="setInfo(info)"></languages-toolbar>
+<languages-toolbar id="languages_lg_tb" on-select-language="selectLanguage(language)" on-set-info="setInfo(info)"></languages-toolbar>
 
 <div ng-class="shouldShowInfo() ? '' : 'hide'">
     <div ng-show="shouldShowInfo()">
