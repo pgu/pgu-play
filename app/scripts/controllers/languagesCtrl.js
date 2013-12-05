@@ -172,4 +172,8 @@ angular.module('pguPlayApp').controller('LanguagesCtrl', //
                 return $scope.lgInfo || $scope.data.length;
             };
 
+            $scope.clearSearchText = function() {
+                $scope.searchText = '';
+            };
+
         }]);

@@ -24,7 +24,12 @@
                     <div ng-show="isSearchAvailable()">
                         <label for="lg_inputSearchText" class="col-lg-2 control-label">Search text <br/><small style="color:darkgrey">powered by lunr.js</small></label>
                         <div class="col-lg-6">
-                            <input ng-model="searchText" type="search" class="form-control" id="lg_inputSearchText" placeholder="Filter rows">
+                            <div class="input-group">
+                                <input ng-model="searchText" type="search" class="form-control" id="lg_inputSearchText" placeholder="Filter rows">
+                                <span class="input-group-btn">
+                                    <button class="btn btn-default" type="button" ng-click="clearSearchText()"><span class="search-close">&times;</span></button>
+                                </span>
+                            </div>
                         </div>
                     </div>
                     <div ng-show="pages > 3" >
