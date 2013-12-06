@@ -50,9 +50,9 @@
 
         <p></p>
         <table class="table table-bordered">
-            <thead ng-if="cfg.getHeaders().length > 0">
+            <thead ng-if="headers.length > 0">
             <tr>
-                <th ng-repeat="header in cfg.getHeaders() track by $index" ng-bind-html-unsafe="header"></th>
+                <th ng-repeat="header in headers track by $index" ng-bind-html-unsafe="header"></th>
             </tr>
             </thead>
             <tbody>

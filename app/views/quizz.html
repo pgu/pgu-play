@@ -34,15 +34,17 @@
 
         </div>
 
+        <language-options all-display-fields="cfgValues" on-update="onUpdateDisplayFields(displayFields, isInit)"></language-options>
+
         <p></p>
         <p class="text-right">
-        <button type="button"
-                ng-if="cfg.onToggleQuizzHelp"
-                ng-init="btn_css = 'btn btn-default btn-lg '"
-                ng-class="btn_css + (isQuizzHelpToggled ?  + 'active' : '')"
-                ng-click="onToggleQuizzHelp()">
-            <span class="glyphicon glyphicon-transfer"></span>
-        </button>
+            <button type="button"
+                    ng-if="cfg.onToggleQuizzHelp"
+                    ng-init="btn_css = 'btn btn-default btn-lg '"
+                    ng-class="btn_css + (isQuizzHelpToggled ?  + 'active' : '')"
+                    ng-click="onToggleQuizzHelp()">
+                <span class="glyphicon glyphicon-transfer"></span>
+            </button>
         </p>
 
         <hr class="featurette-divider">

@@ -17,11 +17,13 @@ angular.module('pguPlayApp').controller('QuizzCtrl', //
             var itemsOfGame = [];
             var allItems = [];
             var startTime = 0;
+            var selectedDisplayFields = [];
 
             $scope.showRules = null;
 
             var lgKey = null;
             $scope.cfg = null;
+            $scope.cfgValues = [];
             $scope.elapsedTimeInMs = 0;
             $scope.challenges = [];
 
@@ -43,10 +45,20 @@ angular.module('pguPlayApp').controller('QuizzCtrl', //
 
                 lgKey = language ? language.getKey() : null;
                 allItems = language ? language.getData() : [];
+
                 $scope.cfg = language ? language.getCfg() : null;
                 wrap = language ? hlp.newItemWrapper($scope.cfg) : null;
+                $scope.cfgValues = $scope.cfg ? $scope.cfg.getValues() : [];
 
-                $scope.launchGame();
+                // <!> wait for language-options to call onUpdateDisplayFields in order to launch the game
+            };
+
+            $scope.onUpdateDisplayFields = function(displayFields, isInit) {
+                selectedDisplayFields = displayFields;
+
+                if (isInit) {
+                    $scope.launchGame();
+                }
             };
 
             $scope.launchGame = function() {
@@ -61,7 +73,9 @@ angular.module('pguPlayApp').controller('QuizzCtrl', //
 
                 itemsOfGame = [];
 
-                var poolOfAllItems = _.clone(allItems);
+                //
+                // set data
+                var poolOfAllItems = allItems;
                 _($scope.NB_OF_QUESTIONS).times(function() {
 
                     var item = hlp.pickRandom(poolOfAllItems);
@@ -70,6 +84,9 @@ angular.module('pguPlayApp').controller('QuizzCtrl', //
                     poolOfAllItems = _.without(poolOfAllItems, item);
                 });
 
+                //
+                // start game
+                //
                 $scope.isGameOn = true;
                 startTime = Date.now();
                 playGame();
@@ -126,7 +143,7 @@ angular.module('pguPlayApp').controller('QuizzCtrl', //
 
                 itemsOfGame = _.without(itemsOfGame, selectedItem); // clean the game for the next round
 
-                var rightAnswers = wrap.getValues(selectedItem);
+                var rightAnswers = wrap.getValues(selectedItem, selectedDisplayFields);
                 var rightAnswer = hlp.pickRandom(rightAnswers);
 
                 itemToGuess = {
@@ -143,7 +160,7 @@ angular.module('pguPlayApp').controller('QuizzCtrl', //
                         continue;
                     }
 
-                    var answers = wrap.getValues(otherItem);
+                    var answers = wrap.getValues(otherItem, selectedDisplayFields);
                     var availableAnswers = _.difference(answers, rightAnswers);
 
                     if (_.isEmpty(availableAnswers)) {

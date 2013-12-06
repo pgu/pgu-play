@@ -28,14 +28,19 @@ angular.module('pguPlayApp').factory('hlp', function () {
             return array[idx];
         },
         newItemWrapper: function(cfg) {
+            var key_field = cfg.getKey().getField();
+            var all_display_fields = cfg.getValues();
+
             return {
                 getKey: function(item) {
-                    return item[cfg.getKey().getField()];
+                    return item[key_field];
                 },
-                getValues: function (item) {
-                    return _.chain(cfg.getValues())
-                        .map(function(v) {
-                            return item[v.getField()];
+                getValues: function (item, subset_display_fields) {
+                    var display_fields = subset_display_fields || all_display_fields;
+
+                    return _.chain(display_fields)
+                        .map(function(display_field) {
+                            return item[display_field.getField()];
                         })
                         .flatten()
                         .value();

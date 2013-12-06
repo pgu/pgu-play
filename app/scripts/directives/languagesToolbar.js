@@ -99,7 +99,6 @@ angular.module('pguPlayApp').directive('languagesToolbar', function() {
         replace: true,
         templateUrl: 'views/directives/languagesToolbar.html',
         scope: {
-            selectedLanguage: '=', // TODO to remove
             onSelectLanguage: '&?',
             onSetInfo: '&?'
         },

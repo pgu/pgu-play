@@ -1,0 +1,10 @@
+<div>
+<p></p>
+<p class="text-right" ng-if="options.length > 1">
+    <button type="button"
+            ng-repeat="option in options"
+            ng-init="btn_css = 'btn btn-default btn-lg '"
+            ng-class="btn_css + (option.is_toggled ? 'active' : '')"
+            ng-click="selectOption(option)">{{ option.displayField.getLabel() }}</button>
+</p>
+</div>

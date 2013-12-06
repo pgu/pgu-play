@@ -14,6 +14,7 @@ angular.module('pguPlayApp').controller('MemoCtrl', //
             var dicoOfSolutions = {};
             var startTime = 0;
             var firstCard = null;
+            var selectedDisplayFields = [];
 
             $scope.underscore = _;
             $scope.nbRows = 8; //6
@@ -27,6 +28,7 @@ angular.module('pguPlayApp').controller('MemoCtrl', //
 
             var lgKey = null;
             $scope.cfg = null;
+            $scope.cfgValues = [];
             var allItems = [];
             var wrap = null;
 
@@ -41,11 +43,19 @@ angular.module('pguPlayApp').controller('MemoCtrl', //
             resetGame();
 
             $scope.selectLanguage = function(language) {
+
                 lgKey = language ? language.getKey() : null;
                 allItems = language ? language.getData() : [];
+
                 $scope.cfg = language ? language.getCfg() : null;
                 wrap = language ? hlp.newItemWrapper($scope.cfg) : null;
+                $scope.cfgValues = $scope.cfg ? $scope.cfg.getValues() : [];
 
+                // <!> wait for language-options to call onUpdateDisplayFields in order to launch the game
+            };
+
+            $scope.onUpdateDisplayFields = function(displayFields, isInit) {
+                selectedDisplayFields = displayFields;
                 $scope.launchGame();
             };
 
@@ -59,7 +69,7 @@ angular.module('pguPlayApp').controller('MemoCtrl', //
 
                 var itemsOfGame = [];
 
-                var poolOfAllItems = _.clone(allItems);
+                var poolOfAllItems = allItems;
                 _($scope.nbRows).times(function() {
 
                     var item = hlp.pickRandom(poolOfAllItems);
@@ -87,7 +97,7 @@ angular.module('pguPlayApp').controller('MemoCtrl', //
                 dicoOfSolutions = _.reduce(itemsOfGame, function(dicoOfSolutions, item) {
 
                     var key = wrap.getKey(item);
-                    var answers = wrap.getValues(item);
+                    var answers = wrap.getValues(item, selectedDisplayFields);
 
                     _.each(answers, function(answer) {
                         addSolution(dicoOfSolutions, key, answer);
@@ -99,7 +109,7 @@ angular.module('pguPlayApp').controller('MemoCtrl', //
 
                 var cards = _.reduce(itemsOfGame, function(all, item) {
                     var key = wrap.getKey(item);
-                    var answers = wrap.getValues(item);
+                    var answers = wrap.getValues(item, selectedDisplayFields);
 
                     var anAnswer = hlp.pickRandom(answers);
 

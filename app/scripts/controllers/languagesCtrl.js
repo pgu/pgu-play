@@ -16,6 +16,7 @@ angular.module('pguPlayApp').controller('LanguagesCtrl', //
                 $scope.data = [];
                 $scope.cfg = {};
 
+                $scope.headers = [];
                 $scope.rows = [];
                 $scope.searchText = '';
 
@@ -75,6 +76,24 @@ angular.module('pguPlayApp').controller('LanguagesCtrl', //
                 scrollToResultsTop();
             }
 
+            function updateHeaders() {
+                var cfgValues = $scope.cfg.getValues();
+
+                if (_.size(cfgValues) > 1) {
+
+                    $scope.headers.push(''); // key
+                    $scope.headers.push(''); // first default value
+
+                    _.each(_.rest(cfgValues), function(displayField, idx) {
+                        var isEven = (idx & 1) === 0;
+                        var style = isEven ? 'danger' : 'success';
+
+                        var text = '<span class="text-' + style + '"><strong>' + displayField.getLabel() + '</strong></span>';
+                        $scope.headers.push(text);
+                    });
+                }
+            }
+
             $scope.selectLanguage = function(language) {
                 resetSelection();
 
@@ -86,6 +105,7 @@ angular.module('pguPlayApp').controller('LanguagesCtrl', //
                 $scope.cfg = language.getCfg();
                 $scope.data = language.getData();
 
+                updateHeaders();
                 updatePagination();
 
                 // init full-text search
@@ -186,13 +206,15 @@ angular.module('pguPlayApp').controller('LanguagesCtrl', //
                 $scope.numStop = _.min([start + NB_ITEMS_BY_PAGE, $scope.data.length]);
                 $scope.numStart = _.min([start + 1, $scope.numStop]);
 
+                var cfgValues = $scope.cfg.getValues();
+
                 return _.map(_.range(start, $scope.numStop), function(idx) {
                             var item = $scope.data[idx];
 
                             var columns = [];
                             columns.push(new Column($scope.cfg.getKey(), item));
 
-                            _.each($scope.cfg.getValues(), function(v) {
+                            _.each(cfgValues, function(v) {
                                 columns.push(new Column(v, item));
                             });
 
