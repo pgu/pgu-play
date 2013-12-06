@@ -31,13 +31,13 @@ angular.module('pguPlayApp').factory('kanjiHelper', //
         },
         getValues: function() {
             return [
+                new DisplayField('meanings', renderMeanings),
                 new DisplayField('ons', renderOns),
-                new DisplayField('kuns', renderKuns),
-                new DisplayField('meanings', renderMeanings)
+                new DisplayField('kuns', renderKuns)
             ];
         },
         getHeaders: function() {
-            return ['', '<span class="text-danger"><strong>On\'Yomi</strong></span>', '<span class="text-success"><strong>Kun\'Yomi</strong></span>', ''];
+            return ['', '', '<span class="text-danger"><strong>On\'Yomi</strong></span>', '<span class="text-success"><strong>Kun\'Yomi</strong></span>'];
         },
         onToggleRow: function(row) {
             row.isToggled = !row.isToggled;

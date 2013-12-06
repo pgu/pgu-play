@@ -73,6 +73,11 @@
             </tbody>
         </table>
 
+        <p></p>
+        <ul class="pager" ng-show="shouldShowPagination()">
+            <li ng-class="isPreviousEnabled() ? '' : 'disabled'"><a ng-click="goToPreviousFromBottom()">Previous</a></li>
+            <li ng-class="isNextEnabled() ? '' : 'disabled'"><a ng-click="goToNextFromBottom()">Next</a></li>
+        </ul>
 
     </div>
 </div>

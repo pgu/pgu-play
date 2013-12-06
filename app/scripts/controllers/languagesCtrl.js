@@ -51,6 +51,18 @@ angular.module('pguPlayApp').controller('LanguagesCtrl', //
                 $scope.inputPage = page + 1; // inputPage is 1-index based
             };
 
+            function scrollToResultsTop(cfg) {
+
+                var the_cfg = cfg || {time: 600, speed: 'slow'};
+
+                $timeout(function() {
+                    var el = $('#languages_lg_tb');
+                    var h = el.height();
+                    var t = el.offset().top;
+                    $('html, body').animate({ scrollTop: h+t }, the_cfg.speed);
+                }, the_cfg.time);
+            }
+
             function updatePagination() {
                 // pagination
                 $scope.pages = Math.ceil($scope.data.length / NB_ITEMS_BY_PAGE);
@@ -60,12 +72,7 @@ angular.module('pguPlayApp').controller('LanguagesCtrl', //
                 $scope.rows = buildRows($scope.page);
 
                 // scroll to results
-                $timeout(function() {
-                    var el = $('#languages_lg_tb');
-                    var h = el.height();
-                    var t = el.offset().top;
-                    $('html, body').animate({ scrollTop: h+t }, 'slow');
-                }, 600);
+                scrollToResultsTop();
             }
 
             $scope.selectLanguage = function(language) {
@@ -108,6 +115,15 @@ angular.module('pguPlayApp').controller('LanguagesCtrl', //
                 resetSelection();
             };
 
+            $scope.goToPreviousFromBottom = function() {
+                if (!$scope.isPreviousEnabled()) {
+                    return;
+                }
+
+                $scope.goToPrevious();
+                scrollToResultsTop({time: 150, speed: 'fast'});
+            };
+
             $scope.goToPrevious = function() {
                 if (!$scope.isPreviousEnabled()) {
                     return;
@@ -115,6 +131,15 @@ angular.module('pguPlayApp').controller('LanguagesCtrl', //
 
                 updatePage($scope.page - 1);
                 $scope.rows = buildRows($scope.page);
+            };
+
+            $scope.goToNextFromBottom = function() {
+                if (!$scope.isNextEnabled()) {
+                    return;
+                }
+
+                $scope.goToNext();
+                scrollToResultsTop({time: 150, speed: 'fast'});
             };
 
             $scope.goToNext = function() {
