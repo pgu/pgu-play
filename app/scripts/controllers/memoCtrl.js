@@ -54,7 +54,7 @@ angular.module('pguPlayApp').controller('MemoCtrl', //
                 // <!> wait for language-options to call onUpdateDisplayFields in order to launch the game
             };
 
-            $scope.onUpdateDisplayFields = function(displayFields, isInit) {
+            $scope.onUpdateDisplayFields = function(displayFields) {
                 selectedDisplayFields = displayFields;
                 $scope.launchGame();
             };
