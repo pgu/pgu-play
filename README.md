@@ -14,7 +14,7 @@ Technologies
 
 Built with:
 
-- [Bootstrap 3](http://twitter.github.io/bootstrap/)
+- [Bootstrap 3](http://getbootstrap.com/)
 - [AngularJS 1.1](http://angularjs.org/)
 - [Underscore](http://underscorejs.org/)
 - [Bower](http://bower.io/)
