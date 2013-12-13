@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('pguPlayApp').controller('DrawCtrl', //
-    [ '$scope', 'hlp', '$window', '$timeout', //
-        function ($scope, hlp, $window, $timeout) { //
+    [ '$scope', 'hlp', '$window', //
+        function ($scope, hlp, $window) { //
 
             var lgKey = null;
             var allItems = [];
