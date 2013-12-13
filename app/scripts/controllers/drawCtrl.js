@@ -25,18 +25,29 @@ angular.module('pguPlayApp').controller('DrawCtrl', //
 
             function resetDraw() {
                 $scope.valuesText = '';
-                text_ctx.clearRect(0,0, text_canvas.width, text_canvas.height);
-                draw_ctx.clearRect(0,0, draw_canvas.width, draw_canvas.height);
+                text_ctx.clearRect(0, 0, text_canvas.width, text_canvas.height);
+                draw_ctx.clearRect(0, 0, draw_canvas.width, draw_canvas.height);
             }
 
             function resetGame() {
                 $scope.isGameOn = false;
+
+                draw_canvas.removeEventListener('mousedown', ev_canvas, false);
+                draw_canvas.removeEventListener('mousemove', ev_canvas, false);
+                draw_canvas.removeEventListener('mouseup', ev_canvas, false);
+
+                draw_canvas.removeEventListener('touchstart', ev_canvas, false);
+                draw_canvas.removeEventListener('touchmove', ev_canvas, false);
+                draw_canvas.removeEventListener('touchend', ev_canvas, false);
+
+                draw_canvas.removeEventListener('touchmove', preventDefault, false);
+
                 resetDraw();
             }
 
             resetGame();
 
-            $scope.selectLanguage = function(language) {
+            $scope.selectLanguage = function (language) {
 
                 // init
                 lgKey = language ? language.getKey() : null;
@@ -83,11 +94,11 @@ angular.module('pguPlayApp').controller('DrawCtrl', //
                 }
             }
 
-            $scope.goToNextDraw = function() {
+            $scope.goToNextDraw = function () {
                 drawOneSymbol();
             };
 
-            $scope.onGoHome = function() {
+            $scope.onGoHome = function () {
                 resetGame();
             };
 
@@ -100,30 +111,31 @@ angular.module('pguPlayApp').controller('DrawCtrl', //
                 // Attach the mousedown, mousemove and mouseup event listeners.
                 draw_canvas.addEventListener('mousedown', ev_canvas, false);
                 draw_canvas.addEventListener('mousemove', ev_canvas, false);
-                draw_canvas.addEventListener('mouseup',   ev_canvas, false);
+                draw_canvas.addEventListener('mouseup', ev_canvas, false);
 
                 draw_canvas.addEventListener('touchstart', ev_canvas, false);
                 draw_canvas.addEventListener('touchmove', ev_canvas, false);
-                draw_canvas.addEventListener('touchend',   ev_canvas, false);
+                draw_canvas.addEventListener('touchend', ev_canvas, false);
 
-                // prevent elastic scrolling
-                draw_canvas.addEventListener('touchmove', function (event) {
-                    event.preventDefault();
-                }, false);
+                draw_canvas.addEventListener('touchmove', preventDefault, false);
             }
 
-            function Tool_pencil () {
+            function Tool_pencil() {
                 var tool = this;
                 this.started = false;
 
+                function clearRect(ev) {
+                    draw_ctx.clearRect(ev._x -10, ev._y -10, 20, 20);
+                }
+
                 this.mousedown = function (ev) {
-                    draw_ctx.clearRect (ev._x, ev._y, 10, 10);
+                    clearRect(ev);
                     tool.started = true;
                 };
 
                 this.mousemove = function (ev) {
                     if (tool.started) {
-                        draw_ctx.clearRect (ev._x, ev._y, 10, 10);
+                        clearRect(ev);
                     }
                 };
 
@@ -139,10 +151,15 @@ angular.module('pguPlayApp').controller('DrawCtrl', //
                 this.touchend = this.mouseup;
             }
 
-            function ev_canvas (ev) {
+            function preventDefault(event) {
+                event.preventDefault(); // prevent elastic scrolling
+            }
+
+            function ev_canvas(ev) {
                 if (ev.layerX || ev.layerX === 0) { // Firefox
                     ev._x = ev.layerX;
                     ev._y = ev.layerY;
+
                 } else if (ev.offsetX || ev.offsetX === 0) { // Opera
                     ev._x = ev.offsetX;
                     ev._y = ev.offsetY;
@@ -153,15 +170,5 @@ angular.module('pguPlayApp').controller('DrawCtrl', //
                     func(ev);
                 }
             }
-
-//            https://developer.mozilla.org/en-US/docs/Web/Guide/HTML/Canvas_tutorial
-
-//            http://devfiles.myopera.com/articles/649/example2.js
-//            http://dev.opera.com/articles/view/html5-canvas-painting/
-
-//            http://www.codeproject.com/Articles/355230/HTML-5-Canvas-A-Simple-Paint-Program-Touch-and-Mou
-//            http://therockncoder.blogspot.fr/2012/09/jquery-mobile-html5-canvas-touch-based.html
-//            https://gist.github.com/rjrodger/1011032
-//            https://developer.apple.com/library/safari/documentation/AudioVideo/Conceptual/HTML-canvas-guide/AddingText/AddingText.html#//apple_ref/doc/uid/TP40010542-CH6-SW4
 
         }]);
