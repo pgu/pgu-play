@@ -1,0 +1,28 @@
+<div ng-class="isGameOn ? '' : 'hide'">
+    <div ng-show="isGameOn" ng-animate="'fade'">
+
+        <div class="canvas-container">
+            <canvas id="text_area" class="canvas-draw"></canvas>
+            <canvas id="draw_area" class="canvas-draw"></canvas>
+        </div>
+
+        <p></p>
+        <div class="alert alert-info text-center" ng-animate="'fade'">{{ valuesText }}</div>
+
+        <p></p>
+        <p class="text-right">
+            <button type="button"
+                    class="btn btn-primary btn-lg"
+                    ng-click="goToNextDraw()">
+                <span class="glyphicon glyphicon-chevron-right"></span>
+            </button>
+        </p>
+        <p></p>
+
+        <hr class="featurette-divider">
+    </div>
+</div>
+
+<languages-toolbar on-select-language="selectLanguage(language)"></languages-toolbar>
+
+<home-btn on-go-home="onGoHome()"></home-btn>
