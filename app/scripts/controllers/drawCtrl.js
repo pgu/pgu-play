@@ -13,14 +13,16 @@ angular.module('pguPlayApp').controller('DrawCtrl', //
             $scope.cfg = null;
             $scope.cfgValues = [];
 
-            var text_canvas = $window.document.getElementById('text_area');
+            var document = $window.document;
+
+            var text_canvas = document.getElementById('text_area');
             var text_ctx = text_canvas.getContext('2d');
             text_ctx.fillStyle = 'blue';
             text_ctx.font = '96pt Helvetica bold, sans-serif';
             text_ctx.textAlign = 'center';
             text_ctx.textBaseline = 'middle';
 
-            var draw_canvas = $window.document.getElementById('draw_area');
+            var draw_canvas = document.getElementById('draw_area');
             var draw_ctx = draw_canvas.getContext('2d');
 
             function resetDraw() {
@@ -34,11 +36,12 @@ angular.module('pguPlayApp').controller('DrawCtrl', //
 
                 draw_canvas.removeEventListener('mousedown', ev_canvas, false);
                 draw_canvas.removeEventListener('mousemove', ev_canvas, false);
-                draw_canvas.removeEventListener('mouseup', ev_canvas, false);
-
                 draw_canvas.removeEventListener('touchstart', ev_canvas, false);
-                draw_canvas.removeEventListener('touchmove', touch_move, false);
+                draw_canvas.removeEventListener('touchmove', ev_canvas, true);
                 draw_canvas.removeEventListener('touchend', ev_canvas, false);
+
+                document.body.removeEventListener('mouseup', ev_canvas, false);
+                document.body.removeEventListener('touchcancel', ev_canvas, false);
 
                 resetDraw();
             }
@@ -80,7 +83,7 @@ angular.module('pguPlayApp').controller('DrawCtrl', //
                 poolOfItems = _.without(poolOfItems, item);
 
                 var key = wrap.getKey(item);
-                console.log(text_ctx.measureText(key));
+//                console.log(text_ctx.measureText(key));
                 text_ctx.fillText(key, text_canvas.width / 2, text_canvas.height / 2);
 
                 $scope.valuesText = wrap.getValues(item, displayField).join(', ');
@@ -103,17 +106,16 @@ angular.module('pguPlayApp').controller('DrawCtrl', //
             var tool = null;
 
             function init() {
-                // Pencil tool instance.
                 tool = new Tool_pencil();
 
-                // Attach the mousedown, mousemove and mouseup event listeners.
                 draw_canvas.addEventListener('mousedown', ev_canvas, false);
                 draw_canvas.addEventListener('mousemove', ev_canvas, false);
-                draw_canvas.addEventListener('mouseup', ev_canvas, false);
-
                 draw_canvas.addEventListener('touchstart', ev_canvas, false);
-                draw_canvas.addEventListener('touchmove', touch_move, false);
+                draw_canvas.addEventListener('touchmove', ev_canvas, true);
                 draw_canvas.addEventListener('touchend', ev_canvas, false);
+
+                document.body.addEventListener('mouseup', ev_canvas, false);
+                document.body.addEventListener('touchcancel', ev_canvas, false);
             }
 
             function Tool_pencil() {
@@ -142,24 +144,45 @@ angular.module('pguPlayApp').controller('DrawCtrl', //
                     }
                 };
 
-                this.touchstart = this.mousedown;
-                this.touchmove = this.mousemove;
-                this.touchend = this.mouseup;
+                this.touchstart = function(ev) {
+                    tool.mousedown(ev);
+                };
+
+                this.touchend = function(ev) {
+                    tool.mouseup(ev);
+                };
+
+                this.touchcancel = function(ev) {
+                    tool.mouseup(ev);
+                };
+
+                this.touchmove = function(ev) {
+                    ev.preventDefault(); // prevent elastic scrolling
+                    tool.mousemove(ev);
+                };
+
             }
 
-            function touch_move(ev) {                          // TODO
-                event.preventDefault(); // prevent elastic scrolling
-                ev_canvas(ev);
-            }
+            var rect = draw_canvas.getBoundingClientRect();
 
             function ev_canvas(ev) {
-                if (ev.layerX || ev.layerX === 0) { // Firefox
-                    ev._x = ev.layerX;
-                    ev._y = ev.layerY;
 
-                } else if (ev.offsetX || ev.offsetX === 0) { // Opera
-                    ev._x = ev.offsetX;
-                    ev._y = ev.offsetY;
+//                if (ev.layerX || ev.layerX === 0) { // Firefox
+//                    ev._x = ev.layerX;
+//                    ev._y = ev.layerY;
+//
+//                } else if (ev.offsetX || ev.offsetX === 0) { // Opera
+//                    ev._x = ev.offsetX;
+//                    ev._y = ev.offsetY;
+//                }
+
+                if (ev.type.indexOf('touch') !== -1) {
+                    ev._x = ev.targetTouches[0].pageX - rect.left;
+                    ev._y = ev.targetTouches[0].pageY - rect.top;
+
+                } else {
+                    ev._x = ev.clientX - rect.left;
+                    ev._y = ev.clientY - rect.top;
                 }
 
                 var func = tool[ev.type];
