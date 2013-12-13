@@ -1,7 +1,7 @@
 <congratulations-panel elapsed-time-of-game-in-ms="elapsedTimeInMs"
    on-repeat-game="launchGame()"></congratulations-panel>
 
-<div ng-class="isGameOn ? '' : 'hide'">
+<div ng-class="isGameOn ? '' : 'hidden'">
     <div ng-show="isGameOn" ng-animate="'fade'">
 
         <p></p>
@@ -51,7 +51,7 @@
     </div>
 </div>
 
-<div ng-class="elapsedTimeInMs === 0 ? 'hide' : ''">
+<div ng-class="elapsedTimeInMs === 0 ? 'hidden' : ''">
 
     <p></p>
     <div class="panel panel-info">

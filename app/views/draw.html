@@ -1,0 +1,99 @@
+<div ng-class="isGameOver ? '' : 'hidden'">
+    <p></p>
+    <div ng-show="isGameOver"
+         ng-animate="'fade'"
+         class="alert alert-block alert-success text-center">
+        <h1 class="text-lobster">Well done!</h1>
+        <button type="button"
+                class="btn btn-lg btn-primary btn-block"
+                ng-click="launchGame()">
+            <span class="glyphicon glyphicon-repeat"></span>
+        </button>
+        <h3 class="text-comfortaa">{{ getScoreOfGame() }}</h3>
+    </div>
+</div>
+
+
+<div ng-class="isGameOn ? '' : 'hidden'">
+    <div ng-show="isGameOn" ng-animate="'fade'">
+
+        <div class="canvas-container">
+            <canvas id="text_area" class="canvas-draw" width="285px" height="285px"></canvas>
+            <canvas id="draw_area" class="canvas-draw" width="285px" height="285px"></canvas>
+        </div>
+
+        <p></p>
+        <p class="text-right">
+            <button type="button"
+                    disabled="disabled"
+                    ng-init="btn_score = 'btn btn-lg '"
+                    ng-class="btn_score + (scoreForSymbol > 4 ? 'btn-success' : 'btn-warning') ">
+                <span>{{ scoreForSymbol }}</span>
+            </button>
+            <button type="button"
+                    ng-init="btn_uncover = 'btn btn-default btn-lg '"
+                    ng-class="btn_uncover + ( isKeyFound() ? 'disabled' : ( hasHint() ? '' : 'disabled'))"
+                    ng-disabled="!hasHint()"
+                    ng-click="uncoverDraw()">
+                <span class="glyphicon glyphicon-eye-open"></span>
+            </button>
+            <button type="button"
+                    ng-init="btn_clear = 'btn btn-lg btn-default '"
+                    ng-class="btn_clear + ( isKeyFound() ? 'disabled' : ( hasHint() ? '' : 'disabled'))"
+                    ng-click="clearDraw()">
+                <span class="glyphicon glyphicon-remove"></span>
+            </button>
+            <button type="button"
+                    ng-init="btn_replay = 'btn btn-lg btn-default '"
+                    ng-class="btn_replay + ( isKeyFound() ? 'disabled' : ( hintsHaveBeenUsed() ? '' : 'disabled'))"
+                    ng-click="replayDraw()">
+                <span class="glyphicon glyphicon-repeat"></span>
+            </button>
+            <button type="button"
+                    ng-init="btn_random_css = 'btn btn-default btn-lg '"
+                    ng-class="btn_random_css + (isRandom ? 'active' : '')"
+                    ng-click="toggleRandom()">
+                <span class="glyphicon glyphicon-random"></span>
+            </button>
+            <button type="button"
+                    ng-init="btn_go_next = 'btn btn-lg '"
+                    ng-class="btn_go_next + ( isKeyFound() ? 'btn-primary' : 'btn-default disabled')"
+                    ng-click="goToNextDraw()">
+                <span class="glyphicon glyphicon-chevron-right"></span>
+            </button>
+        </p>
+
+        <p></p>
+        <div class="alert alert-info text-center" ng-animate="'fade'">{{ valuesText }}</div>
+
+        <hr class="featurette-divider">
+    </div>
+</div>
+
+<languages-toolbar on-select-language="selectLanguage(language)" only-one-character="true"></languages-toolbar>
+
+<div ng-class="showRangeData ? '' : 'hidden'">
+    <div ng-show="showRangeData" ng-animate="'fade'">
+
+        <p class="text-right">
+            <label for="draw_input_from" class="control-label">From </label>
+            <input type="number" ng-model="data_from" class="form-control" id="draw_input_from" style="width: 70px; display: inline-block;">
+            <label for="draw_input_to" class="control-label">to</label>
+            <input type="number" ng-model="data_to" class="form-control" id="draw_input_to" style="width: 70px; display: inline-block;">
+        </p>
+        <p class="text-right">
+            <span ng-class="'lead text-success ' + ( (firstSymbol || lastSymbol) ? '' : 'hidden')"><strong>{{ firstSymbol }} ... {{ lastSymbol }}</strong></span>
+            <button type="button"
+                    ng-init="btn_launch = 'btn btn-lg btn-success '"
+                    ng-class="btn_launch + ( isValidRange() ? '' : 'disabled')"
+                    ng-click="confirmLaunchGame()">
+                <span class="glyphicon glyphicon-ok"></span>
+            </button>
+        </p>
+
+        <hr class="featurette-divider">
+    </div>
+</div>
+
+
+<home-btn on-go-home="onGoHome()"></home-btn>

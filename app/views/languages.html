@@ -2,7 +2,7 @@
 
 <languages-toolbar id="languages_lg_tb" on-select-language="selectLanguage(language)" on-set-info="setInfo(info)"></languages-toolbar>
 
-<div ng-class="shouldShowInfo() ? '' : 'hide'">
+<div ng-class="shouldShowInfo() ? '' : 'hidden'">
     <div ng-show="shouldShowInfo()">
         <p></p>
         <div class="alert alert-info text-center">
@@ -14,7 +14,7 @@
     </div>
 </div>
 
-<div ng-class="shouldShowLanguage() ? '' : 'hide'">
+<div ng-class="shouldShowLanguage() ? '' : 'hidden'">
     <div ng-show="shouldShowLanguage()" ng-animate="'fade'">
 
         <p></p>

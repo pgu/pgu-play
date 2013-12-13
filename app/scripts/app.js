@@ -18,6 +18,10 @@ angular.module('pguPlayApp', []).config([ '$routeProvider', function ($routeProv
         templateUrl: 'views/languages.html',
         controller: 'LanguagesCtrl'
 
+    }).when('/draw', {
+        templateUrl: 'views/draw.html',
+        controller: 'DrawCtrl'
+
     }).otherwise({
         redirectTo: '/'
     });
