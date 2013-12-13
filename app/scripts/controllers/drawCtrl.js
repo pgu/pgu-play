@@ -37,10 +37,8 @@ angular.module('pguPlayApp').controller('DrawCtrl', //
                 draw_canvas.removeEventListener('mouseup', ev_canvas, false);
 
                 draw_canvas.removeEventListener('touchstart', ev_canvas, false);
-                draw_canvas.removeEventListener('touchmove', ev_canvas, false);
+                draw_canvas.removeEventListener('touchmove', touch_move, false);
                 draw_canvas.removeEventListener('touchend', ev_canvas, false);
-
-                draw_canvas.removeEventListener('touchmove', preventDefault, false);
 
                 resetDraw();
             }
@@ -114,10 +112,8 @@ angular.module('pguPlayApp').controller('DrawCtrl', //
                 draw_canvas.addEventListener('mouseup', ev_canvas, false);
 
                 draw_canvas.addEventListener('touchstart', ev_canvas, false);
-                draw_canvas.addEventListener('touchmove', ev_canvas, false);
+                draw_canvas.addEventListener('touchmove', touch_move, false);
                 draw_canvas.addEventListener('touchend', ev_canvas, false);
-
-                draw_canvas.addEventListener('touchmove', preventDefault, false);
             }
 
             function Tool_pencil() {
@@ -151,8 +147,9 @@ angular.module('pguPlayApp').controller('DrawCtrl', //
                 this.touchend = this.mouseup;
             }
 
-            function preventDefault(event) {
+            function touch_move(ev) {                          // TODO
                 event.preventDefault(); // prevent elastic scrolling
+                ev_canvas(ev);
             }
 
             function ev_canvas(ev) {
