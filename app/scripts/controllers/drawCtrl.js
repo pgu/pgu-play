@@ -17,13 +17,14 @@ angular.module('pguPlayApp').controller('DrawCtrl', //
 
             var text_canvas = document.getElementById('text_area');
             var text_ctx = text_canvas.getContext('2d');
-            text_ctx.fillStyle = 'blue';
+            text_ctx.fillStyle = '#2f6f9f';
             text_ctx.font = '180pt Helvetica, sans-serif';
             text_ctx.textAlign = 'center';
             text_ctx.textBaseline = 'middle';
 
             var draw_canvas = document.getElementById('draw_area');
             var draw_ctx = draw_canvas.getContext('2d');
+            draw_ctx.fillStyle = '#d9edf7';
 
             function resetDraw() {
                 $scope.valuesText = '';
@@ -75,6 +76,8 @@ angular.module('pguPlayApp').controller('DrawCtrl', //
 
                 init();
                 drawOneSymbol();
+
+                hlp.scrollToTop();
             };
 
             function drawOneSymbol() {
@@ -91,8 +94,6 @@ angular.module('pguPlayApp').controller('DrawCtrl', //
                 text_ctx.fillText(key, text_canvas.width / 2, text_canvas.height / 2);
 
                 $scope.valuesText = wrap.getValues(item, displayField).join(', ');
-
-                hlp.scrollToTop();
 
                 if (_.isEmpty(poolOfItems)) {
                     poolOfItems = _.shuffle(allItems);
