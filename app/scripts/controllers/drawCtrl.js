@@ -163,7 +163,6 @@ angular.module('pguPlayApp').controller('DrawCtrl', //
 
             }
 
-
             function ev_canvas(ev) {
 
 //                if (ev.layerX || ev.layerX === 0) { // Firefox
