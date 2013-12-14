@@ -31,6 +31,10 @@ angular.module('pguPlayApp').controller('DrawCtrl', //
                 draw_ctx.clearRect(0, 0, draw_canvas.width, draw_canvas.height);
             }
 
+            $scope.clearDraw = function() {
+                draw_ctx.clearRect(0, 0, draw_canvas.width, draw_canvas.height);
+            };
+
             function resetGame() {
                 $scope.isGameOn = false;
 
