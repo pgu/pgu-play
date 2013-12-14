@@ -53,6 +53,7 @@ angular.module('pguPlayApp').controller('DrawCtrl', //
 
             resetGame();
 
+            // TODO prevent selection of youons
             $scope.selectLanguage = function (language) {
 
                 // init
@@ -95,6 +96,7 @@ angular.module('pguPlayApp').controller('DrawCtrl', //
 
                 $scope.valuesText = wrap.getValues(item, displayField).join(', ');
 
+                // TODO btn reset
                 if (_.isEmpty(poolOfItems)) {
                     poolOfItems = _.shuffle(allItems);
                 }
