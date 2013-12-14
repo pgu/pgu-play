@@ -18,7 +18,7 @@ angular.module('pguPlayApp').controller('DrawCtrl', //
             var text_canvas = document.getElementById('text_area');
             var text_ctx = text_canvas.getContext('2d');
             text_ctx.fillStyle = 'blue';
-            text_ctx.font = '96pt Helvetica bold, sans-serif';
+            text_ctx.font = '144pt Helvetica bold, sans-serif';
             text_ctx.textAlign = 'center';
             text_ctx.textBaseline = 'middle';
 

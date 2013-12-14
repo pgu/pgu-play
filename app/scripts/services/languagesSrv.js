@@ -29,8 +29,6 @@ angular.module('pguPlayApp').factory('LanguagesSrv', //
                     new Node('russian|alphabet', 'Alphabet', wiki('Russian_alphabet')),
                     new Node('arabic|alphabet', 'Alphabet', wiki('Arabic_alphabet')),
                     new Node('korean|alphabet', 'Alphabet'),
-                    new Node('japanese|kanji|jouyou', 'Jōyō'),
-                    new Node('japanese|kanji|jouyou|kyouiku', 'Kyōiku'),
                     // leafs
                     //
                     // kana
@@ -40,17 +38,19 @@ angular.module('pguPlayApp').factory('LanguagesSrv', //
                     new Leaf('japanese|kana|youons', 'Yōon', Kanas.getYouons, dataHelper.getCfgKV),
                     // kanji
                     new Leaf('japanese|kanji|radicals', 'Radicals (214)', KanjiRadicals.get, kanjiHelper.getCfg),
+                    new Node('japanese|kanji|jouyou', 'Jōyō'),
                     //
-                    new Leaf('japanese|kanji|jouyou|all', 'All (2136)', Jouyous.getAll, kanjiHelper.getCfg),
+                    new Node('japanese|kanji|jouyou|kyouiku', 'Kyōiku'),
                     new Leaf('japanese|kanji|jouyou|others', 'Others (1130)', Jouyous.getOthers, kanjiHelper.getCfg, 'The Jōyō learned in junior high school'),
+                    new Leaf('japanese|kanji|jouyou|all', 'All (2136)', Jouyous.getAll, kanjiHelper.getCfg),
                     //
-                    new Leaf('japanese|kanji|jouyou|kyouiku|all', 'All (1006)', Jouyous.buildGetKyouikusByGrade(), kanjiHelper.getCfg, 'The Kyōiku taught in Japanese schools'),
                     new Leaf('japanese|kanji|jouyou|kyouiku|grade_1', 'Grade 1', Jouyous.buildGetKyouikusByGrade(1), kanjiHelper.getCfg),
                     new Leaf('japanese|kanji|jouyou|kyouiku|grade_2', 'Grade 2', Jouyous.buildGetKyouikusByGrade(2), kanjiHelper.getCfg),
                     new Leaf('japanese|kanji|jouyou|kyouiku|grade_3', 'Grade 3', Jouyous.buildGetKyouikusByGrade(3), kanjiHelper.getCfg),
                     new Leaf('japanese|kanji|jouyou|kyouiku|grade_4', 'Grade 4', Jouyous.buildGetKyouikusByGrade(4), kanjiHelper.getCfg),
                     new Leaf('japanese|kanji|jouyou|kyouiku|grade_5', 'Grade 5', Jouyous.buildGetKyouikusByGrade(5), kanjiHelper.getCfg),
                     new Leaf('japanese|kanji|jouyou|kyouiku|grade_6', 'Grade 6', Jouyous.buildGetKyouikusByGrade(6), kanjiHelper.getCfg),
+                    new Leaf('japanese|kanji|jouyou|kyouiku|all', 'All (1006)', Jouyous.buildGetKyouikusByGrade(), kanjiHelper.getCfg, 'The Kyōiku taught in Japanese schools'),
                     // russian
                     new Leaf('russian|alphabet|lowercase', 'lowercase', Russian.getAlphabetLower, dataHelper.getCfgKV),
                     new Leaf('russian|alphabet|uppercase', 'Uppercase', Russian.getAlphabetUpper, dataHelper.getCfgKV),
