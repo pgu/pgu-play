@@ -18,7 +18,7 @@ angular.module('pguPlayApp').controller('DrawCtrl', //
             var text_canvas = document.getElementById('text_area');
             var text_ctx = text_canvas.getContext('2d');
             text_ctx.fillStyle = 'blue';
-            text_ctx.font = '144pt Helvetica bold, sans-serif';
+            text_ctx.font = '144pt Helvetica, sans-serif';
             text_ctx.textAlign = 'center';
             text_ctx.textBaseline = 'middle';
 
@@ -163,7 +163,6 @@ angular.module('pguPlayApp').controller('DrawCtrl', //
 
             }
 
-            var rect = draw_canvas.getBoundingClientRect();
 
             function ev_canvas(ev) {
 
@@ -175,6 +174,8 @@ angular.module('pguPlayApp').controller('DrawCtrl', //
 //                    ev._x = ev.offsetX;
 //                    ev._y = ev.offsetY;
 //                }
+
+                var rect = draw_canvas.getBoundingClientRect();
 
                 if (ev.type.indexOf('touch') !== -1) {
                     ev._x = ev.targetTouches[0].pageX - rect.left;
