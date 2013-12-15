@@ -15,16 +15,22 @@ angular.module('pguPlayApp').controller('DrawCtrl', //
 
             var document = $window.document;
 
+            var blue_light = '#d9edf7';
+            var blue_dark = '#2f6f9f';
+
             var text_canvas = document.getElementById('text_area');
             var text_ctx = text_canvas.getContext('2d');
-            text_ctx.fillStyle = '#2f6f9f';
+            text_ctx.fillStyle = blue_dark;
             text_ctx.font = '180pt Helvetica, sans-serif';
             text_ctx.textAlign = 'center';
             text_ctx.textBaseline = 'middle';
 
             var draw_canvas = document.getElementById('draw_area');
             var draw_ctx = draw_canvas.getContext('2d');
-            draw_ctx.fillStyle = '#d9edf7';
+            draw_ctx.fillStyle = blue_light;
+            draw_ctx.font = text_ctx.font;
+            draw_ctx.textAlign = text_ctx.textAlign;
+            draw_ctx.textBaseline = text_ctx.textBaseline;
 
             function resetDraw() {
                 $scope.valuesText = '';
@@ -85,14 +91,20 @@ angular.module('pguPlayApp').controller('DrawCtrl', //
 
                 resetDraw();
 
+                var font_width = text_canvas.width / 2;
+                var font_height = text_canvas.height / 2;
+
                 draw_ctx.fillRect(0, 0, draw_canvas.width, draw_canvas.height);
+                draw_ctx.fillStyle = blue_dark;
+                draw_ctx.fillText('_', font_width, font_height);
+                draw_ctx.fillStyle = blue_light;
 
                 var item = hlp.pickRandom(poolOfItems);
                 poolOfItems = _.without(poolOfItems, item);
 
                 var key = wrap.getKey(item);
 //                console.log(text_ctx.measureText(key));
-                text_ctx.fillText(key, text_canvas.width / 2, text_canvas.height / 2);
+                text_ctx.fillText(key, font_width, font_height);
 
                 $scope.valuesText = wrap.getValues(item, displayField).join(', ');
 
