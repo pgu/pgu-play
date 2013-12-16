@@ -21,7 +21,7 @@ angular.module('pguPlayApp').controller('DrawCtrl', //
             var text_canvas = document.getElementById('text_area');
             var text_ctx = text_canvas.getContext('2d');
             text_ctx.fillStyle = blue_dark;
-            text_ctx.font = '180pt Helvetica, sans-serif';
+            text_ctx.font = '160pt Helvetica, sans-serif';
             text_ctx.textAlign = 'center';
             text_ctx.textBaseline = 'middle';
 
@@ -95,9 +95,6 @@ angular.module('pguPlayApp').controller('DrawCtrl', //
                 var font_height = text_canvas.height / 2;
 
                 draw_ctx.fillRect(0, 0, draw_canvas.width, draw_canvas.height);
-                draw_ctx.fillStyle = blue_dark;
-                draw_ctx.fillText('_', font_width, font_height);
-                draw_ctx.fillStyle = blue_light;
 
                 var item = hlp.pickRandom(poolOfItems);
                 poolOfItems = _.without(poolOfItems, item);
