@@ -35,11 +35,23 @@ angular.module('pguPlayApp').controller('DrawCtrl', //
             function resetDraw() {
                 $scope.valuesText = '';
                 text_ctx.clearRect(0, 0, text_canvas.width, text_canvas.height);
+                clearDrawCtx();
+            }
+
+            function clearDrawCtx() {
                 draw_ctx.clearRect(0, 0, draw_canvas.width, draw_canvas.height);
             }
 
             $scope.clearDraw = function() {
-                draw_ctx.clearRect(0, 0, draw_canvas.width, draw_canvas.height);
+                clearDrawCtx();
+            };
+
+            function fillDrawCtx() {
+                draw_ctx.fillRect(0, 0, draw_canvas.width, draw_canvas.height);
+            }
+
+            $scope.replayDraw = function() {
+                fillDrawCtx();
             };
 
             function resetGame() {
@@ -59,7 +71,6 @@ angular.module('pguPlayApp').controller('DrawCtrl', //
 
             resetGame();
 
-            // TODO prevent selection of youons
             $scope.selectLanguage = function (language) {
 
                 // init
@@ -94,7 +105,7 @@ angular.module('pguPlayApp').controller('DrawCtrl', //
                 var font_width = text_canvas.width / 2;
                 var font_height = text_canvas.height / 2;
 
-                draw_ctx.fillRect(0, 0, draw_canvas.width, draw_canvas.height);
+                fillDrawCtx();
 
                 var item = hlp.pickRandom(poolOfItems);
                 poolOfItems = _.without(poolOfItems, item);
