@@ -18,9 +18,23 @@ angular.module('pguPlayApp').controller('languagesToolbarCtrl', //
     };
 
     var convertToOptions = function(lgNodes, idx) {
-        return _.map(lgNodes, function(lgNode) {
-            return new Option(lgNode, idx);
-        });
+        return _.chain(lgNodes) //
+
+            .filter(function(lgNode) {
+
+                if ($scope.onlyOneCharacter) {
+                    return lgNode.isOneCharacter();
+                }
+
+                return true;
+            }) //
+
+            .map(function(lgNode) {
+                return new Option(lgNode, idx);
+            }) //
+
+            .value()
+            ;
     };
 
     var initLanguages = function() {
@@ -76,8 +90,8 @@ angular.module('pguPlayApp').controller('languagesToolbarCtrl', //
             var languageSubLevel = convertToOptions(directSubLanguages, $scope.languageLevels.length);
             $scope.languageLevels.push(languageSubLevel);
 
-            if (_.size(languageSubLevel) === 1) { // there is only one option, let's select it automatically
-                $scope.selectOption(languageSubLevel[0]);
+            if (_(languageSubLevel).size() === 1) { // there is only one option, let's select it automatically
+                $scope.selectOption(_(languageSubLevel).first());
 
             } else {
                 hlp.scrollToBottom();
@@ -100,7 +114,8 @@ angular.module('pguPlayApp').directive('languagesToolbar', function() {
         templateUrl: 'views/directives/languagesToolbar.html',
         scope: {
             onSelectLanguage: '&?',
-            onSetInfo: '&?'
+            onSetInfo: '&?',
+            onlyOneCharacter: '=?'
         },
         controller: 'languagesToolbarCtrl'
     };
