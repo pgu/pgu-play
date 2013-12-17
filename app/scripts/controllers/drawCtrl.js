@@ -9,32 +9,40 @@ angular.module('pguPlayApp').controller('DrawCtrl', //
             var poolOfItems = [];
             var wrap = null;
             var displayField = null;
+            var uncover_level = 0;
 
             $scope.cfg = null;
             $scope.cfgValues = [];
 
             var document = $window.document;
 
-            var blue_light = '#d9edf7';
-            var blue_dark = '#2f6f9f';
+            var text_color = [47, 111, 159];
+            var draw_color = [217, 237, 247];
 
             var text_canvas = document.getElementById('text_area');
             var text_ctx = text_canvas.getContext('2d');
-            text_ctx.fillStyle = blue_dark;
+            text_ctx.fillStyle = 'rgb(' + text_color.join(',') + ')';
             text_ctx.font = '160pt Helvetica, sans-serif';
             text_ctx.textAlign = 'center';
             text_ctx.textBaseline = 'middle';
 
+            text_ctx.shadowOffsetX = 2;
+            text_ctx.shadowOffsetY = 2;
+            text_ctx.shadowBlur = 4;
+            text_ctx.shadowColor = '#999';
+
             var draw_canvas = document.getElementById('draw_area');
             var draw_ctx = draw_canvas.getContext('2d');
-            draw_ctx.fillStyle = blue_light;
+            draw_ctx.fillStyle = 'rgb(' + draw_color.join(',') + ')';
             draw_ctx.font = text_ctx.font;
             draw_ctx.textAlign = text_ctx.textAlign;
             draw_ctx.textBaseline = text_ctx.textBaseline;
 
-            function resetDraw() {
+            function resetDrawOneSymbol() {
                 $scope.valuesText = '';
                 text_ctx.clearRect(0, 0, text_canvas.width, text_canvas.height);
+
+                uncover_level = 0;
                 clearDrawCtx();
             }
 
@@ -42,7 +50,7 @@ angular.module('pguPlayApp').controller('DrawCtrl', //
                 draw_ctx.clearRect(0, 0, draw_canvas.width, draw_canvas.height);
             }
 
-            $scope.clearDraw = function() {
+            $scope.clearDraw = function () {
                 clearDrawCtx();
             };
 
@@ -50,8 +58,88 @@ angular.module('pguPlayApp').controller('DrawCtrl', //
                 draw_ctx.fillRect(0, 0, draw_canvas.width, draw_canvas.height);
             }
 
-            $scope.replayDraw = function() {
+            $scope.replayDraw = function () {
+                uncover_level = 0;
+                clearDrawCtx();
+
                 fillDrawCtx();
+            };
+
+            function getUncoverConfig(uncover_level) {
+                if (uncover_level === 1) {
+                    return {mode: 'borders', coeff: 0};
+
+                } else if (2 <= uncover_level && uncover_level <= 4) {
+                    return {mode: 'dots', coeff: 1200 / uncover_level };
+
+                }
+                return null;
+            }
+
+            function getPixelIdxsFromText() {
+                var text_pixels = text_ctx.getImageData(0, 0, text_canvas.width, text_canvas.height);
+
+                var text_r = text_color[0];
+                var text_g = text_color[1];
+                var text_b = text_color[2];
+
+                var pixels_idxs = [];
+                for (var i = 0, t = text_pixels.data.length; i < t; i += 4) {
+                    if (text_pixels.data[i] === text_r //
+                        && text_pixels.data[i + 1] === text_g //
+                        && text_pixels.data[i + 2] === text_b) {
+                        pixels_idxs.push(i);
+                    }
+                }
+                return pixels_idxs;
+            }
+
+            $scope.uncoverDraw = function () {
+                uncover_level++;
+
+                var cfg = getUncoverConfig(uncover_level);
+
+                if (!cfg) {
+                    $scope.clearDraw();
+                    return;
+                }
+
+                var pixel_idxs = getPixelIdxsFromText();
+
+                var draw_pixels = draw_ctx.getImageData(0, 0, draw_canvas.width, draw_canvas.height);
+
+                var draw_r = draw_color[0];
+                var draw_g = draw_color[1];
+                var draw_b = draw_color[2];
+
+                var n = draw_pixels.data.length;
+
+                var delta = 50;
+                var border_firsts = delta;
+                var border_lasts = _(pixel_idxs).size() - delta;
+
+                _(pixel_idxs).each(function(pixel_idx, item_idx) {
+
+                    if (pixel_idx < n) {
+                        if (item_idx === 1 //
+                            || (cfg.mode === 'borders' && (item_idx < border_firsts || border_lasts < item_idx)) //
+                            || (cfg.mode === 'dots' && pixel_idx % cfg.coeff === 0) //
+                            ) {
+
+                            if (draw_pixels.data[pixel_idx] === draw_r //
+                                && draw_pixels.data[pixel_idx + 1] === draw_g //
+                                && draw_pixels.data[pixel_idx + 2] === draw_b) {
+
+                                draw_pixels.data[pixel_idx] = 255;
+                                draw_pixels.data[pixel_idx + 1] = 0;
+                                draw_pixels.data[pixel_idx + 2] = 0;
+                            }
+                        }
+                    }
+
+                });
+
+                draw_ctx.putImageData(draw_pixels, 0, 0);
             };
 
             function resetGame() {
@@ -66,7 +154,7 @@ angular.module('pguPlayApp').controller('DrawCtrl', //
                 document.body.removeEventListener('mouseup', ev_canvas, false);
                 document.body.removeEventListener('touchcancel', ev_canvas, false);
 
-                resetDraw();
+                resetDrawOneSymbol();
             }
 
             resetGame();
@@ -100,18 +188,17 @@ angular.module('pguPlayApp').controller('DrawCtrl', //
 
             function drawOneSymbol() {
 
-                resetDraw();
-
-                var font_width = text_canvas.width / 2;
-                var font_height = text_canvas.height / 2;
+                resetDrawOneSymbol();
 
                 fillDrawCtx();
 
                 var item = hlp.pickRandom(poolOfItems);
                 poolOfItems = _.without(poolOfItems, item);
 
+                var font_width = text_canvas.width / 2;
+                var font_height = text_canvas.height / 2;
+
                 var key = wrap.getKey(item);
-//                console.log(text_ctx.measureText(key));
                 text_ctx.fillText(key, font_width, font_height);
 
                 $scope.valuesText = wrap.getValues(item, displayField).join(', ');
@@ -150,7 +237,7 @@ angular.module('pguPlayApp').controller('DrawCtrl', //
                 this.started = false;
 
                 function clearRect(ev) {
-                    draw_ctx.clearRect(ev._x -10, ev._y -10, 20, 20);
+                    draw_ctx.clearRect(ev._x - 10, ev._y - 10, 20, 20);
                 }
 
                 this.mousedown = function (ev) {
@@ -171,19 +258,19 @@ angular.module('pguPlayApp').controller('DrawCtrl', //
                     }
                 };
 
-                this.touchstart = function(ev) {
+                this.touchstart = function (ev) {
                     tool.mousedown(ev);
                 };
 
-                this.touchend = function(ev) {
+                this.touchend = function (ev) {
                     tool.mouseup(ev);
                 };
 
-                this.touchcancel = function(ev) {
+                this.touchcancel = function (ev) {
                     tool.mouseup(ev);
                 };
 
-                this.touchmove = function(ev) {
+                this.touchmove = function (ev) {
                     ev.preventDefault(); // prevent elastic scrolling
                     tool.mousemove(ev);
                 };
@@ -192,14 +279,14 @@ angular.module('pguPlayApp').controller('DrawCtrl', //
 
             function ev_canvas(ev) {
 
-//                if (ev.layerX || ev.layerX === 0) { // Firefox
-//                    ev._x = ev.layerX;
-//                    ev._y = ev.layerY;
-//
-//                } else if (ev.offsetX || ev.offsetX === 0) { // Opera
-//                    ev._x = ev.offsetX;
-//                    ev._y = ev.offsetY;
-//                }
+                //                if (ev.layerX || ev.layerX === 0) { // Firefox
+                //                    ev._x = ev.layerX;
+                //                    ev._y = ev.layerY;
+                //
+                //                } else if (ev.offsetX || ev.offsetX === 0) { // Opera
+                //                    ev._x = ev.offsetX;
+                //                    ev._y = ev.offsetY;
+                //                }
 
                 var rect = draw_canvas.getBoundingClientRect();
 
