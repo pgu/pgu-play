@@ -16,7 +16,7 @@ angular.module('pguPlayApp').controller('DrawCtrl', //
 
             var document = $window.document;
 
-            var text_color = [47, 111, 159];
+            var text_color = [60, 118, 61];
             var draw_color = [217, 237, 247];
 
             var text_canvas = document.getElementById('text_area');
@@ -130,9 +130,9 @@ angular.module('pguPlayApp').controller('DrawCtrl', //
                                 && draw_pixels.data[pixel_idx + 1] === draw_g //
                                 && draw_pixels.data[pixel_idx + 2] === draw_b) {
 
-                                draw_pixels.data[pixel_idx] = 255;
-                                draw_pixels.data[pixel_idx + 1] = 0;
-                                draw_pixels.data[pixel_idx + 2] = 0;
+                                draw_pixels.data[pixel_idx] = 47;
+                                draw_pixels.data[pixel_idx + 1] = 111;
+                                draw_pixels.data[pixel_idx + 2] = 159;
                             }
                         }
                     }
