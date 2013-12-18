@@ -13,10 +13,11 @@ angular.module('pguPlayApp').controller('DrawCtrl', //
 
             $scope.cfg = null;
             $scope.cfgValues = [];
+            $scope.isRandom = false;
 
             var document = $window.document;
 
-            var text_color = [60, 118, 61];
+            var text_color = [ 60, 118,  61];
             var draw_color = [217, 237, 247];
 
             var text_canvas = document.getElementById('text_area');
@@ -166,6 +167,7 @@ angular.module('pguPlayApp').controller('DrawCtrl', //
 
             function resetGame() {
                 $scope.isGameOn = false;
+                $scope.isGameOver = false;
 
                 draw_canvas.removeEventListener('mousedown', ev_canvas, false);
                 draw_canvas.removeEventListener('mousemove', ev_canvas, false);
@@ -181,6 +183,25 @@ angular.module('pguPlayApp').controller('DrawCtrl', //
 
             resetGame();
 
+            $scope.launchGame = function() {
+                // reset
+                resetGame();
+
+                if (!lgKey) {
+                    return;
+                }
+
+                // play
+                poolOfItems = _.clone(allItems);
+//                poolOfItems = _.first(allItems, 3); TEST
+                $scope.isGameOn = true;
+
+                init();
+                drawOneSymbol();
+
+                hlp.scrollToTop();
+            };
+
             $scope.selectLanguage = function (language) {
 
                 // init
@@ -191,24 +212,8 @@ angular.module('pguPlayApp').controller('DrawCtrl', //
                 wrap = language ? hlp.newItemWrapper($scope.cfg) : null;
                 displayField = $scope.cfg ? [ _.first($scope.cfg.getValues()) ] : [];
 
-                // reset
-                resetGame();
-
-                if (!lgKey) {
-                    return;
-                }
-
-                // play
-                poolOfItems = _.clone(allItems);
-                $scope.isGameOn = true;
-
-                init();
-                drawOneSymbol();
-
-                hlp.scrollToTop();
+                $scope.launchGame();
             };
-
-            $scope.isRandom = false;
 
             $scope.toggleRandom = function() {
                 $scope.isRandom = !$scope.isRandom;
@@ -217,6 +222,12 @@ angular.module('pguPlayApp').controller('DrawCtrl', //
             function drawOneSymbol() {
 
                 resetDrawOneSymbol();
+
+                if (_(poolOfItems).isEmpty()) {
+                    $scope.isGameOn = false;
+                    $scope.isGameOver = true;
+                    return;
+                }
 
                 fillDrawCtx();
 
@@ -230,11 +241,6 @@ angular.module('pguPlayApp').controller('DrawCtrl', //
                 text_ctx.fillText(key, font_width, font_height);
 
                 $scope.valuesText = wrap.getValues(item, displayField).join(', ');
-
-                // TODO btn reset
-                if (_.isEmpty(poolOfItems)) {
-                    poolOfItems = _.shuffle(allItems);
-                }
             }
 
             $scope.goToNextDraw = function () {

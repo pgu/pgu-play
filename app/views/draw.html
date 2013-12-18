@@ -1,3 +1,18 @@
+<div ng-class="isGameOver ? '' : 'hide'">
+    <p></p>
+    <div ng-show="isGameOver"
+         ng-animate="'fade'"
+         class="alert alert-block alert-success text-center">
+        <h1 class="text-lobster">Well done!</h1>
+        <button type="button"
+                class="btn btn-lg btn-primary btn-block"
+                ng-click="launchGame()">
+            <span class="glyphicon glyphicon-repeat"></span>
+        </button>
+    </div>
+</div>
+
+
 <div ng-class="isGameOn ? '' : 'hide'">
     <div ng-show="isGameOn" ng-animate="'fade'">
 
