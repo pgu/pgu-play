@@ -237,7 +237,7 @@ angular.module('pguPlayApp').controller('DrawCtrl', //
                 this.started = false;
 
                 function clearRect(ev) {
-                    draw_ctx.clearRect(ev._x - 10, ev._y - 10, 20, 20);
+                    draw_ctx.clearRect(ev._x - 20, ev._y - 20, 30, 30);
                 }
 
                 this.mousedown = function (ev) {
