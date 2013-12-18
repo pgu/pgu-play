@@ -76,6 +76,25 @@ angular.module('pguPlayApp').controller('DrawCtrl', //
                 return null;
             }
 
+            function isDrawAlmostComplete() {
+
+                var draw_r = draw_color[0];
+                var draw_pixels = draw_ctx.getImageData(0, 0, draw_canvas.width, draw_canvas.height);
+                var pixel_idxs = getPixelIdxsFromText();
+
+                var total_pixels = _(pixel_idxs).size();
+                var hidden_pixels = _(pixel_idxs).size();
+
+                return _(pixel_idxs).some(function(pixel_idx) {
+
+                    if (draw_pixels.data[pixel_idx] !== draw_r) {
+                        hidden_pixels--;
+                    }
+
+                    return hidden_pixels / total_pixels <= 0.03;
+                });
+            }
+
             function getPixelIdxsFromText() {
                 var text_pixels = text_ctx.getImageData(0, 0, text_canvas.width, text_canvas.height);
 
@@ -237,7 +256,7 @@ angular.module('pguPlayApp').controller('DrawCtrl', //
                 this.started = false;
 
                 function clearRect(ev) {
-                    draw_ctx.clearRect(ev._x - 20, ev._y - 20, 30, 30);
+                    draw_ctx.clearRect(ev._x - 15, ev._y - 15, 20, 20);
                 }
 
                 this.mousedown = function (ev) {
@@ -255,6 +274,10 @@ angular.module('pguPlayApp').controller('DrawCtrl', //
                     if (tool.started) {
                         tool.mousemove(ev);
                         tool.started = false;
+
+                        if (isDrawAlmostComplete()) {
+                            $scope.clearDraw();
+                        }
                     }
                 };
 
