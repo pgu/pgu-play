@@ -15,13 +15,19 @@
             </button>
             <button type="button"
                     class="btn btn-default btn-lg"
+                    ng-click="clearDraw()">
+                <span class="glyphicon glyphicon-remove"></span>
+            </button>
+            <button type="button"
+                    class="btn btn-default btn-lg"
                     ng-click="replayDraw()">
                 <span class="glyphicon glyphicon-repeat"></span>
             </button>
             <button type="button"
-                    class="btn btn-default btn-lg"
-                    ng-click="clearDraw()">
-                <span class="glyphicon glyphicon-remove"></span>
+                    ng-init="btn_random_css = 'btn btn-default btn-lg '"
+                    ng-class="btn_random_css + (isRandom ? 'active' : '')"
+                    ng-click="toggleRandom()">
+                <span class="glyphicon glyphicon-random"></span>
             </button>
             <button type="button"
                     class="btn btn-primary btn-lg"

@@ -53,14 +53,17 @@
     margin: 0 auto;
     display: block;
 
-    width: 285px;
-    height: 288px;
+    width: 287px;
+    height: 287px;
 }
 
 .canvas-draw {
     position: absolute;
     left: 0;
     top: 0;
+
+    width: 285px;
+    height: 285px;
 
     border: 1px solid #bce8f1;
     border-radius: 4px;

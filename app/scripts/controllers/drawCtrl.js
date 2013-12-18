@@ -20,9 +20,12 @@ angular.module('pguPlayApp').controller('DrawCtrl', //
             var draw_color = [217, 237, 247];
 
             var text_canvas = document.getElementById('text_area');
+            var font_size = Math.floor(text_canvas.height / 1.7);
+            var clear_width = Math.floor(text_canvas.height / 15);
+
             var text_ctx = text_canvas.getContext('2d');
             text_ctx.fillStyle = 'rgb(' + text_color.join(',') + ')';
-            text_ctx.font = '160pt Helvetica, sans-serif';
+            text_ctx.font = font_size + 'px Helvetica, sans-serif';
             text_ctx.textAlign = 'center';
             text_ctx.textBaseline = 'middle';
 
@@ -85,7 +88,7 @@ angular.module('pguPlayApp').controller('DrawCtrl', //
                 var total_pixels = _(pixel_idxs).size();
                 var hidden_pixels = _(pixel_idxs).size();
 
-                return _(pixel_idxs).some(function(pixel_idx) {
+                return _(pixel_idxs).some(function (pixel_idx) {
 
                     if (draw_pixels.data[pixel_idx] !== draw_r) {
                         hidden_pixels--;
@@ -137,7 +140,7 @@ angular.module('pguPlayApp').controller('DrawCtrl', //
                 var border_firsts = delta;
                 var border_lasts = _(pixel_idxs).size() - delta;
 
-                _(pixel_idxs).each(function(pixel_idx, item_idx) {
+                _(pixel_idxs).each(function (pixel_idx, item_idx) {
 
                     if (pixel_idx < n) {
                         if (item_idx === 1 //
@@ -196,7 +199,7 @@ angular.module('pguPlayApp').controller('DrawCtrl', //
                 }
 
                 // play
-                poolOfItems = _.shuffle(allItems);
+                poolOfItems = _.clone(allItems);
                 $scope.isGameOn = true;
 
                 init();
@@ -205,13 +208,19 @@ angular.module('pguPlayApp').controller('DrawCtrl', //
                 hlp.scrollToTop();
             };
 
+            $scope.isRandom = false;
+
+            $scope.toggleRandom = function() {
+                $scope.isRandom = !$scope.isRandom;
+            };
+
             function drawOneSymbol() {
 
                 resetDrawOneSymbol();
 
                 fillDrawCtx();
 
-                var item = hlp.pickRandom(poolOfItems);
+                var item = $scope.isRandom ? hlp.pickRandom(poolOfItems) : _(poolOfItems).first();
                 poolOfItems = _.without(poolOfItems, item);
 
                 var font_width = text_canvas.width / 2;
@@ -254,10 +263,11 @@ angular.module('pguPlayApp').controller('DrawCtrl', //
             function Tool_pencil() {
                 var tool = this;
                 this.started = false;
+                var offset = clear_width / 2;
 
                 function clearRect(ev) {
                     if (ev._x !== null && ev._y !== null) {
-                        draw_ctx.clearRect(ev._x - 20, ev._y - 20, 25, 25);
+                        draw_ctx.clearRect(ev._x - offset, ev._y - offset, clear_width, clear_width);
                     }
                 }
 
