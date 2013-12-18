@@ -256,7 +256,9 @@ angular.module('pguPlayApp').controller('DrawCtrl', //
                 this.started = false;
 
                 function clearRect(ev) {
-                    draw_ctx.clearRect(ev._x - 15, ev._y - 15, 20, 20);
+                    if (ev._x !== null && ev._y !== null) {
+                        draw_ctx.clearRect(ev._x - 20, ev._y - 20, 25, 25);
+                    }
                 }
 
                 this.mousedown = function (ev) {
@@ -302,20 +304,18 @@ angular.module('pguPlayApp').controller('DrawCtrl', //
 
             function ev_canvas(ev) {
 
-                //                if (ev.layerX || ev.layerX === 0) { // Firefox
-                //                    ev._x = ev.layerX;
-                //                    ev._y = ev.layerY;
-                //
-                //                } else if (ev.offsetX || ev.offsetX === 0) { // Opera
-                //                    ev._x = ev.offsetX;
-                //                    ev._y = ev.offsetY;
-                //                }
-
                 var rect = draw_canvas.getBoundingClientRect();
+                var is_touch = ev.type.indexOf('touch') !== -1;
 
-                if (ev.type.indexOf('touch') !== -1) {
-                    ev._x = ev.targetTouches[0].pageX - rect.left;
-                    ev._y = ev.targetTouches[0].pageY - rect.top;
+                if (is_touch) {
+
+                    if (ev.targetTouches.length === 0) {
+                        ev._x = ev._y = null;
+
+                    } else {
+                        ev._x = ev.targetTouches[0].pageX - rect.left;
+                        ev._y = ev.targetTouches[0].pageY - rect.top;
+                    }
 
                 } else {
                     ev._x = ev.clientX - rect.left;
