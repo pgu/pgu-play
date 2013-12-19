@@ -345,7 +345,7 @@ angular.module('pguPlayApp').controller('DrawCtrl', //
                     return;
                 }
 
-                if (input < 1) {
+                if (input < 1 || allItems.length <= input) {
                     $scope.data_from = 1;
                     return;
                 }
@@ -368,7 +368,7 @@ angular.module('pguPlayApp').controller('DrawCtrl', //
                     return;
                 }
 
-                if (allItems.length < input) {
+                if (input <= 1 || allItems.length < input) {
                     $scope.data_to = allItems.length;
                     return;
                 }
