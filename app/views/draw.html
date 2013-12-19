@@ -30,17 +30,21 @@
                 <span>10</span>
             </button>
             <button type="button"
-                    class="btn btn-default btn-lg"
+                    ng-init="btn_uncover = 'btn btn-default btn-lg '"
+                    ng-class="btn_uncover + ( isKeyFound() ? 'disabled' : ( hasHint() ? '' : 'disabled'))"
+                    ng-disabled="!hasHint()"
                     ng-click="uncoverDraw()">
                 <span class="glyphicon glyphicon-eye-open"></span>
             </button>
             <button type="button"
-                    class="btn btn-default btn-lg"
+                    ng-init="btn_clear = 'btn btn-lg btn-default '"
+                    ng-class="btn_clear + ( isKeyFound() ? 'disabled' : ( hasHint() ? '' : 'disabled'))"
                     ng-click="clearDraw()">
                 <span class="glyphicon glyphicon-remove"></span>
             </button>
             <button type="button"
-                    class="btn btn-default btn-lg"
+                    ng-init="btn_replay = 'btn btn-lg btn-default '"
+                    ng-class="btn_replay + ( isKeyFound() ? 'disabled' : ( hintsHaveBeenUsed() ? '' : 'disabled'))"
                     ng-click="replayDraw()">
                 <span class="glyphicon glyphicon-repeat"></span>
             </button>
@@ -51,9 +55,8 @@
                 <span class="glyphicon glyphicon-random"></span>
             </button>
             <button type="button"
-                    ng-init="css_go_next = 'btn btn-lg '"
-                    ng-class="css_go_next + ( theKeyIsFound ? 'btn-primary' : 'btn-default disabled')"
-                    ng-disabled="!theKeyIsFound"
+                    ng-init="btn_go_next = 'btn btn-lg '"
+                    ng-class="btn_go_next + ( isKeyFound() ? 'btn-primary' : 'btn-default disabled')"
                     ng-click="goToNextDraw()">
                 <span class="glyphicon glyphicon-chevron-right"></span>
             </button>

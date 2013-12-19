@@ -4,18 +4,25 @@ angular.module('pguPlayApp').controller('DrawCtrl', //
     [ '$scope', 'hlp', '$window', '$timeout', //
         function ($scope, hlp, $window, $timeout) { //
 
+
             var lgKey = null;
             var allItems = [];
             var poolOfItems = [];
             var wrap = null;
             var displayField = null;
-            var uncover_level = 0;
             var the_key = '';
+
+            var MAX_HINTS = 4;
+            var nb_hints = 0;
 
             $scope.cfg = null;
             $scope.cfgValues = [];
             $scope.isRandom = false;
-            $scope.theKeyIsFound = false;
+
+            // for a round
+            var the_key_is_found = false;
+            $scope.nbHints = 0;
+            var draw_is_on = false;
 
             var document = $window.document;
 
@@ -54,39 +61,39 @@ angular.module('pguPlayApp').controller('DrawCtrl', //
             function resetDrawOneSymbol() {
                 the_key = '';
                 $scope.valuesText = '';
-                updateKeyIsFound(false);
+                updateKeyFound(false);
 
                 text_ctx.clearRect(0, 0, text_canvas.width, text_canvas.height);
 
-                uncover_level = 0;
-                clearDrawCtx();
-            }
-
-            function clearDrawCtx() {
-                draw_ctx.clearRect(0, 0, draw_canvas.width, draw_canvas.height);
+                updateNbHints(0);
             }
 
             $scope.clearDraw = function () {
-                clearDrawCtx();
+                updateNbHints(MAX_HINTS + 1);
+                draw_is_on = false;
+                draw_ctx.clearRect(0, 0, draw_canvas.width, draw_canvas.height);
             };
 
-            function fillDrawCtx() {
+            $scope.hintsHaveBeenUsed = function() {
+                return nb_hints > 0;
+            };
+
+            function fillDraw() {
                 draw_ctx.fillRect(0, 0, draw_canvas.width, draw_canvas.height);
+                draw_is_on = true;
             }
 
             $scope.replayDraw = function () {
-                uncover_level = 0;
-                clearDrawCtx();
-
-                fillDrawCtx();
+                updateNbHints(0);
+                fillDraw();
             };
 
-            function getUncoverConfig(uncover_level) {
-                if (uncover_level === 1) {
+            function getUncoverConfig(nb_hints) {
+                if (nb_hints === 1) {
                     return {mode: 'borders', coeff: 0};
 
-                } else if (2 <= uncover_level && uncover_level <= 4) {
-                    return {mode: 'dots', coeff: 1200 / uncover_level };
+                } else if (2 <= nb_hints && nb_hints <= MAX_HINTS) {
+                    return {mode: 'dots', coeff: 1200 / nb_hints };
 
                 }
                 return null;
@@ -169,23 +176,38 @@ angular.module('pguPlayApp').controller('DrawCtrl', //
                 text_ctx.fillStyle = 'rgb(' + text_color_blue.join(',') + ')';
             }
 
-            function updateKeyIsFound(isFound) {
+            function updateKeyFound(isFound) {
                 $timeout(function () {
-                    $scope.theKeyIsFound = isFound;
+                    the_key_is_found = isFound;
                 }, 0);
             }
+
+            $scope.isKeyFound = function() {
+                return the_key_is_found;
+            };
 
             function finishDraw() {
                 updateColorOnText();
                 $scope.clearDraw();
 
-                updateKeyIsFound(true);
+                updateKeyFound(true);
             }
 
-            $scope.uncoverDraw = function () {
-                uncover_level++;
+            function updateNbHints(nb) {
+                $timeout(function () {
+                    nb_hints = nb;
+                }, 0);
+            }
 
-                var cfg = getUncoverConfig(uncover_level);
+            $scope.hasHint = function() {
+                return nb_hints <= MAX_HINTS;
+            };
+
+            $scope.uncoverDraw = function () {
+                var curr_nb_hints = nb_hints + 1;
+                updateNbHints(curr_nb_hints);
+
+                var cfg = getUncoverConfig(curr_nb_hints);
 
                 if (!cfg) {
                     $scope.clearDraw();
@@ -294,7 +316,7 @@ angular.module('pguPlayApp').controller('DrawCtrl', //
                     return;
                 }
 
-                fillDrawCtx();
+                fillDraw();
 
                 var item = $scope.isRandom ? hlp.pickRandom(poolOfItems) : _(poolOfItems).first();
                 poolOfItems = _.without(poolOfItems, item);
@@ -381,6 +403,10 @@ angular.module('pguPlayApp').controller('DrawCtrl', //
             }
 
             function ev_canvas(ev) {
+
+                if (!draw_is_on) {
+                    return;
+                }
 
                 var rect = draw_canvas.getBoundingClientRect();
                 var is_touch = ev.type.indexOf('touch') !== -1;
