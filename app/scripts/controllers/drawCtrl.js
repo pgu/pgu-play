@@ -10,6 +10,7 @@ angular.module('pguPlayApp').controller('DrawCtrl', //
             var wrap = null;
             var displayField = null;
             var uncover_level = 0;
+            var the_key = '';
 
             $scope.cfg = null;
             $scope.cfgValues = [];
@@ -17,15 +18,22 @@ angular.module('pguPlayApp').controller('DrawCtrl', //
 
             var document = $window.document;
 
-            var text_color = [ 60, 118,  61];
-            var draw_color = [217, 237, 247];
+            var bg_color_green  = [ 223, 240, 216];
+            var bg_color_blue   = [ 217, 237, 247];
+            var bg_color_orange = [ 252, 248, 227];
+
+            var text_color_green  = [  60, 118,  61];
+            var text_color_blue   = [  49, 112, 143];
+            var text_color_orange = [ 138, 109,  59];
+
+            var draw_color = bg_color_blue;
 
             var text_canvas = document.getElementById('text_area');
             var font_size = Math.floor(text_canvas.height / 1.7);
             var clear_width = Math.floor(text_canvas.height / 15);
 
             var text_ctx = text_canvas.getContext('2d');
-            text_ctx.fillStyle = 'rgb(' + text_color.join(',') + ')';
+            text_ctx.fillStyle = 'rgb(' + text_color_blue.join(',') + ')';
             text_ctx.font = font_size + 'px Helvetica, sans-serif';
             text_ctx.textAlign = 'center';
             text_ctx.textBaseline = 'middle';
@@ -43,6 +51,7 @@ angular.module('pguPlayApp').controller('DrawCtrl', //
             draw_ctx.textBaseline = text_ctx.textBaseline;
 
             function resetDrawOneSymbol() {
+                the_key = '';
                 $scope.valuesText = '';
                 text_ctx.clearRect(0, 0, text_canvas.width, text_canvas.height);
 
@@ -102,12 +111,14 @@ angular.module('pguPlayApp').controller('DrawCtrl', //
             function getPixelIdxsFromText() {
                 var text_pixels = text_ctx.getImageData(0, 0, text_canvas.width, text_canvas.height);
 
-                var text_r = text_color[0];
-                var text_g = text_color[1];
-                var text_b = text_color[2];
+                console.log('text pixels ' + text_pixels.data.length);
+
+                var text_r = text_color_blue[0];
+                var text_g = text_color_blue[1];
+                var text_b = text_color_blue[2];
 
                 var pixels_idxs = [];
-                for (var i = 0, t = text_pixels.data.length; i < t; i += 4) {
+                for (var i = 0, n = text_pixels.data.length; i < n; i += 4) {
                     if (text_pixels.data[i] === text_r //
                         && text_pixels.data[i + 1] === text_g //
                         && text_pixels.data[i + 2] === text_b) {
@@ -115,6 +126,51 @@ angular.module('pguPlayApp').controller('DrawCtrl', //
                     }
                 }
                 return pixels_idxs;
+            }
+
+            function updateColorOnText() {
+
+                var text_total_pixels = 3 * _(getPixelIdxsFromText()).size();
+
+                var draw_pixels = draw_ctx.getImageData(0, 0, draw_canvas.width, draw_canvas.height);
+                var canvas_total_pixels = draw_pixels.data.length;
+
+                var draw_r = draw_color[0];
+                var draw_g = draw_color[1];
+                var draw_b = draw_color[2];
+
+                var draw_total_pixels = 0;
+                for (var i = 0, n = draw_pixels.data.length; i < n; i += 4) {
+                    if (draw_pixels.data[i] === draw_r //
+                        && draw_pixels.data[i + 1] === draw_g //
+                        && draw_pixels.data[i + 2] === draw_b) {
+                        draw_total_pixels++;
+                    }
+                }
+                draw_total_pixels = 3 * draw_total_pixels;
+
+                var clear_total_pixels = canvas_total_pixels - draw_total_pixels;
+                var clear_pct = (clear_total_pixels - text_total_pixels) / (canvas_total_pixels - text_total_pixels);
+
+                var is_valid = clear_pct < 0.5;
+
+                // background
+                var bg_color = is_valid ? bg_color_green : bg_color_orange;
+                text_ctx.fillStyle = 'rgb(' + bg_color.join(',') + ')';
+                text_ctx.fillRect(0, 0, text_canvas.width, text_canvas.height);
+
+                // text
+                var text_color = is_valid ? text_color_green : text_color_orange;
+                text_ctx.fillStyle = 'rgb(' + text_color.join(',') + ')';
+                text_ctx.fillText(the_key, text_canvas.width / 2, text_canvas.height / 2);
+
+                // reset color
+                text_ctx.fillStyle = 'rgb(' + text_color_blue.join(',') + ')';
+            }
+
+            function finishDraw() {
+                updateColorOnText();
+                $scope.clearDraw();
             }
 
             $scope.uncoverDraw = function () {
@@ -234,11 +290,8 @@ angular.module('pguPlayApp').controller('DrawCtrl', //
                 var item = $scope.isRandom ? hlp.pickRandom(poolOfItems) : _(poolOfItems).first();
                 poolOfItems = _.without(poolOfItems, item);
 
-                var font_width = text_canvas.width / 2;
-                var font_height = text_canvas.height / 2;
-
-                var key = wrap.getKey(item);
-                text_ctx.fillText(key, font_width, font_height);
+                the_key = wrap.getKey(item);
+                text_ctx.fillText(the_key, text_canvas.width / 2, text_canvas.height / 2);
 
                 $scope.valuesText = wrap.getValues(item, displayField).join(', ');
             }
@@ -294,7 +347,7 @@ angular.module('pguPlayApp').controller('DrawCtrl', //
                         tool.started = false;
 
                         if (isDrawAlmostComplete()) {
-                            $scope.clearDraw();
+                            finishDraw();
                         }
                     }
                 };
