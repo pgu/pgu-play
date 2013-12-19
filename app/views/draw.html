@@ -26,7 +26,8 @@
         <p class="text-right">
             <button type="button"
                     disabled="disabled"
-                    class="btn btn-info btn-lg">
+                    ng-init="btn_score = 'btn btn-lg '"
+                    ng-class="btn_score + (scoreForSymbol > 4 ? 'btn-success' : 'btn-warning') ">
                 <span>{{ scoreForSymbol }}</span>
             </button>
             <button type="button"
