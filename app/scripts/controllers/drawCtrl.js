@@ -21,7 +21,8 @@ angular.module('pguPlayApp').controller('DrawCtrl', //
 
             // for a round
             var the_key_is_found = false;
-            $scope.nbHints = 0;
+            var MAX_SCORE = 10;
+            $scope.scoreForSymbol = 0;
             var draw_is_on = false;
 
             var document = $window.document;
@@ -66,11 +67,17 @@ angular.module('pguPlayApp').controller('DrawCtrl', //
                 text_ctx.clearRect(0, 0, text_canvas.width, text_canvas.height);
 
                 updateNbHints(0);
+                $scope.scoreForSymbol = MAX_SCORE;
             }
 
-            $scope.clearDraw = function () {
+            $scope.clearDraw = function (shouldKeepScore) {
                 updateNbHints(MAX_HINTS + 1);
                 draw_is_on = false;
+
+                if (!shouldKeepScore) {
+                    decrementScoreBy(6);
+                }
+
                 draw_ctx.clearRect(0, 0, draw_canvas.width, draw_canvas.height);
             };
 
@@ -85,6 +92,8 @@ angular.module('pguPlayApp').controller('DrawCtrl', //
 
             $scope.replayDraw = function () {
                 updateNbHints(0);
+                $scope.scoreForSymbol = MAX_SCORE;
+
                 fillDraw();
             };
 
@@ -172,6 +181,12 @@ angular.module('pguPlayApp').controller('DrawCtrl', //
                 text_ctx.fillStyle = 'rgb(' + text_color.join(',') + ')';
                 text_ctx.fillText(the_key, text_canvas.width / 2, text_canvas.height / 2);
 
+                if (is_valid) {
+                    incrementScoreBy(2);
+                } else {
+                    decrementScoreBy(2);
+                }
+
                 // reset color
                 text_ctx.fillStyle = 'rgb(' + text_color_blue.join(',') + ')';
             }
@@ -188,7 +203,7 @@ angular.module('pguPlayApp').controller('DrawCtrl', //
 
             function finishDraw() {
                 updateColorOnText();
-                $scope.clearDraw();
+                $scope.clearDraw(true /* should keep score */);
 
                 updateKeyFound(true);
             }
@@ -206,6 +221,8 @@ angular.module('pguPlayApp').controller('DrawCtrl', //
             $scope.uncoverDraw = function () {
                 var curr_nb_hints = nb_hints + 1;
                 updateNbHints(curr_nb_hints);
+
+                decrementScoreBy(1);
 
                 var cfg = getUncoverConfig(curr_nb_hints);
 
@@ -430,6 +447,34 @@ angular.module('pguPlayApp').controller('DrawCtrl', //
                 if (func) {
                     func(ev);
                 }
+            }
+
+            function decrementScoreBy(points) {
+
+                if ($scope.scoreForSymbol === 0) {
+                    return;
+                }
+
+                if ($scope.scoreForSymbol - points < 0) {
+                    $scope.scoreForSymbol = 0;
+                    return;
+                }
+
+                $scope.scoreForSymbol -= points;
+            }
+
+            function incrementScoreBy(points) {
+
+                if ($scope.scoreForSymbol === 10) {
+                    return;
+                }
+
+                if ($scope.scoreForSymbol + points > 10) {
+                    $scope.scoreForSymbol = 10;
+                    return;
+                }
+
+                $scope.scoreForSymbol += points;
             }
 
         }]);
