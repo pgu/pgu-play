@@ -18,12 +18,14 @@ angular.module('pguPlayApp').controller('DrawCtrl', //
             $scope.cfg = null;
             $scope.cfgValues = [];
             $scope.isRandom = false;
+            var scores = [];
 
             // for a round
             var the_key_is_found = false;
             var MAX_SCORE = 10;
             $scope.scoreForSymbol = 0;
             var draw_is_on = false;
+            var nb_full_clear = 0;
 
             var document = $window.document;
 
@@ -68,14 +70,17 @@ angular.module('pguPlayApp').controller('DrawCtrl', //
 
                 updateNbHints(0);
                 $scope.scoreForSymbol = MAX_SCORE;
+                nb_full_clear = 0;
             }
 
             $scope.clearDraw = function (shouldKeepScore) {
+
                 updateNbHints(MAX_HINTS + 1);
                 draw_is_on = false;
 
                 if (!shouldKeepScore) {
                     decrementScoreBy(6);
+                    nb_full_clear++;
                 }
 
                 draw_ctx.clearRect(0, 0, draw_canvas.width, draw_canvas.height);
@@ -92,7 +97,7 @@ angular.module('pguPlayApp').controller('DrawCtrl', //
 
             $scope.replayDraw = function () {
                 updateNbHints(0);
-                $scope.scoreForSymbol = MAX_SCORE;
+                $scope.scoreForSymbol = nb_full_clear > MAX_SCORE ? 0 : MAX_SCORE - nb_full_clear;
 
                 fillDraw();
             };
@@ -206,6 +211,7 @@ angular.module('pguPlayApp').controller('DrawCtrl', //
                 $scope.clearDraw(true /* should keep score */);
 
                 updateKeyFound(true);
+                scores.push($scope.scoreForSymbol);
             }
 
             function updateNbHints(nb) {
@@ -270,6 +276,8 @@ angular.module('pguPlayApp').controller('DrawCtrl', //
             };
 
             function resetGame() {
+                scores = [];
+
                 $scope.isGameOn = false;
                 $scope.isGameOver = false;
 
@@ -296,8 +304,8 @@ angular.module('pguPlayApp').controller('DrawCtrl', //
                 }
 
                 // play
-                poolOfItems = _.clone(allItems);
-//                poolOfItems = _.first(allItems, 3); TEST
+//                poolOfItems = _.clone(allItems);
+                poolOfItems = _.first(allItems, 3); // TEST
                 $scope.isGameOn = true;
 
                 init();
@@ -476,5 +484,13 @@ angular.module('pguPlayApp').controller('DrawCtrl', //
 
                 $scope.scoreForSymbol += points;
             }
+
+            $scope.getScoreOfGame = function() {
+
+                var score_of_player = _(scores).reduce(function(total, num) { return total + num; }, 0);
+                var score_total = _(scores).size() * MAX_SCORE;
+
+                return score_of_player + ' / ' + score_total + ' pts';
+            };
 
         }]);
