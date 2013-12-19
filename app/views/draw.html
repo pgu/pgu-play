@@ -51,7 +51,9 @@
                 <span class="glyphicon glyphicon-random"></span>
             </button>
             <button type="button"
-                    class="btn btn-primary btn-lg"
+                    ng-init="css_go_next = 'btn btn-lg '"
+                    ng-class="css_go_next + ( theKeyIsFound ? 'btn-primary' : 'btn-default disabled')"
+                    ng-disabled="!theKeyIsFound"
                     ng-click="goToNextDraw()">
                 <span class="glyphicon glyphicon-chevron-right"></span>
             </button>
