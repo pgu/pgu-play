@@ -296,10 +296,7 @@ angular.module('pguPlayApp').controller('DrawCtrl', //
             resetGame();
 
             $scope.confirmLaunchGame = function() {
-
                 $scope.showRangeData = false;
-
-
                 $scope.launchGame();
             };
 
@@ -312,8 +309,7 @@ angular.module('pguPlayApp').controller('DrawCtrl', //
                 }
 
                 // play
-                poolOfItems = _.clone(allItems);
-//                poolOfItems = _.first(allItems, 3); // TEST
+                poolOfItems = allItems.slice($scope.data_from -1, $scope.data_to -1);
                 $scope.isGameOn = true;
 
                 init();
@@ -334,8 +330,12 @@ angular.module('pguPlayApp').controller('DrawCtrl', //
 
                 // range
                 $scope.showRangeData = language !== null;
-                $scope.data_from = 1;
-                $scope.data_to = allItems.length;
+
+                $scope.firstSymbol = language ? getKey(1) : '';
+                $scope.lastSymbol = language ? getKey(allItems.length) : '';
+
+                $scope.data_from = language ? 1 : 0;
+                $scope.data_to = language ? allItems.length : 0;
             };
 
             $scope.$watch('data_from', function() {
@@ -397,7 +397,7 @@ angular.module('pguPlayApp').controller('DrawCtrl', //
             });
 
             function getKey(position) {
-                return wrap.getKey(allItems[ position - 1 ]);
+                return !wrap ? '' : wrap.getKey(allItems[ position - 1 ]);
             }
 
             $scope.toggleRandom = function() {
