@@ -342,47 +342,63 @@ angular.module('pguPlayApp').controller('DrawCtrl', //
                 var input = parseInt($scope.data_from, 10);
 
                 if (_.isNaN(input)) {
+                    $scope.firstSymbol = '';
                     return;
                 }
 
                 if (input < 1 || allItems.length <= input) {
                     $scope.data_from = 1;
+                    $scope.firstSymbol = getKey($scope.data_from);
                     return;
                 }
 
                 var limit_up = parseInt($scope.data_to, 10);
                 if (_.isNaN(limit_up)) {
+                    $scope.firstSymbol = '';
                     return;
                 }
 
                 if (input >= limit_up) {
                     $scope.data_from = $scope.data_to -1;
+                    $scope.firstSymbol = getKey($scope.data_from);
                     return;
                 }
+
+                $scope.firstSymbol = getKey($scope.data_from);
             });
 
             $scope.$watch('data_to', function() {
                 var input = parseInt($scope.data_to, 10);
 
                 if (_.isNaN(input)) {
+                    $scope.lastSymbol = '';
                     return;
                 }
 
                 if (input <= 1 || allItems.length < input) {
                     $scope.data_to = allItems.length;
+                    $scope.lastSymbol = getKey($scope.data_to);
                     return;
                 }
 
                 var limit_down = parseInt($scope.data_from, 10);
                 if (_.isNaN(limit_down)) {
+                    $scope.lastSymbol = '';
                     return;
                 }
 
                 if (input <= limit_down) {
                     $scope.data_to = $scope.data_from +1;
+                    $scope.lastSymbol = getKey($scope.data_to);
                     return;
                 }
+
+                $scope.lastSymbol = getKey($scope.data_to);
             });
+
+            function getKey(position) {
+                return wrap.getKey(allItems[ position - 1 ]);
+            }
 
             $scope.toggleRandom = function() {
                 $scope.isRandom = !$scope.isRandom;
