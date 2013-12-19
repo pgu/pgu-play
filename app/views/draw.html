@@ -72,4 +72,26 @@
 
 <languages-toolbar on-select-language="selectLanguage(language)" only-one-character="true"></languages-toolbar>
 
+<div ng-class="showRangeData ? '' : 'hide'">
+    <div ng-show="showRangeData" ng-animate="'fade'">
+
+        <p class="text-right">
+            <label for="draw_input_from" class="control-label">From</label>
+            <input type="number" ng-model="data_from" class="form-control" id="draw_input_from" style="width: 70px; display: inline-block;">
+            <label for="draw_input_to" class="control-label">to</label>
+            <input type="number" ng-model="data_to" class="form-control" id="draw_input_to" style="width: 70px; display: inline-block;">
+
+            <button type="button"
+                    ng-init="btn_launch = 'btn btn-lg btn-primary '"
+                    ng-class="btn_launch + ( data_to - data_from >= 20 ? '' : 'disabled')"
+                    ng-click="confirmLaunchGame()">
+                <span class="glyphicon glyphicon-ok"></span>
+            </button>
+        </p>
+
+        <hr class="featurette-divider">
+    </div>
+</div>
+
+
 <home-btn on-go-home="onGoHome()"></home-btn>

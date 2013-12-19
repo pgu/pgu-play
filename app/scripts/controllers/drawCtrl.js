@@ -295,6 +295,14 @@ angular.module('pguPlayApp').controller('DrawCtrl', //
 
             resetGame();
 
+            $scope.confirmLaunchGame = function() {
+
+                $scope.showRangeData = false;
+
+
+                $scope.launchGame();
+            };
+
             $scope.launchGame = function() {
                 // reset
                 resetGame();
@@ -304,8 +312,8 @@ angular.module('pguPlayApp').controller('DrawCtrl', //
                 }
 
                 // play
-//                poolOfItems = _.clone(allItems);
-                poolOfItems = _.first(allItems, 3); // TEST
+                poolOfItems = _.clone(allItems);
+//                poolOfItems = _.first(allItems, 3); // TEST
                 $scope.isGameOn = true;
 
                 init();
@@ -324,8 +332,57 @@ angular.module('pguPlayApp').controller('DrawCtrl', //
                 wrap = language ? hlp.newItemWrapper($scope.cfg) : null;
                 displayField = $scope.cfg ? [ _.first($scope.cfg.getValues()) ] : [];
 
-                $scope.launchGame();
+                // range
+                $scope.showRangeData = language !== null;
+                $scope.data_from = 1;
+                $scope.data_to = allItems.length;
             };
+
+            $scope.$watch('data_from', function() {
+                var input = parseInt($scope.data_from, 10);
+
+                if (_.isNaN(input)) {
+                    return;
+                }
+
+                if (input < 1) {
+                    $scope.data_from = 1;
+                    return;
+                }
+
+                var limit_up = parseInt($scope.data_to, 10);
+                if (_.isNaN(limit_up)) {
+                    return;
+                }
+
+                if (input >= limit_up) {
+                    $scope.data_from = $scope.data_to -1;
+                    return;
+                }
+            });
+
+            $scope.$watch('data_to', function() {
+                var input = parseInt($scope.data_to, 10);
+
+                if (_.isNaN(input)) {
+                    return;
+                }
+
+                if (allItems.length < input) {
+                    $scope.data_to = allItems.length;
+                    return;
+                }
+
+                var limit_down = parseInt($scope.data_from, 10);
+                if (_.isNaN(limit_down)) {
+                    return;
+                }
+
+                if (input <= limit_down) {
+                    $scope.data_to = $scope.data_from +1;
+                    return;
+                }
+            });
 
             $scope.toggleRandom = function() {
                 $scope.isRandom = !$scope.isRandom;
