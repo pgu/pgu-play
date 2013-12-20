@@ -252,6 +252,7 @@ module.exports = function (grunt) {
             '*.{ico,txt}',
             '.htaccess',
             'manifest.webapp',
+            'web-app-manifest.webapp',
             'components/**/*',
             'workers/**/*',
             'images/{,*/}*.{gif,webp}',
