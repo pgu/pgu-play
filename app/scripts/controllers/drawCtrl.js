@@ -117,19 +117,19 @@ angular.module('pguPlayApp').controller('DrawCtrl', //
 
                 var draw_r = draw_color[0];
                 var draw_pixels = draw_ctx.getImageData(0, 0, draw_canvas.width, draw_canvas.height);
-                var pixel_idxs = getPixelIdxsFromText();
 
-                var total_pixels = _(pixel_idxs).size();
-                var hidden_pixels = _(pixel_idxs).size();
+                var text_pixel_idxs = getPixelIdxsFromText();
 
-                return _(pixel_idxs).some(function (pixel_idx) {
-
-                    if (draw_pixels.data[pixel_idx] !== draw_r) {
-                        hidden_pixels--;
-                    }
-
-                    return hidden_pixels / total_pixels <= 0.03;
+                var discovered_text_pixel_idxs = _(text_pixel_idxs).filter(function(text_pixel_idx) {
+                    return draw_pixels.data[text_pixel_idx] !== draw_r;
                 });
+
+                var nb_total_text_pixels = _(text_pixel_idxs).size();
+                var nb_disco_text_pixels = _(discovered_text_pixel_idxs).size();
+
+                var limit = _.min([0.03 * nb_total_text_pixels, 80]);
+
+                return nb_total_text_pixels - nb_disco_text_pixels <= limit;
             }
 
             function getPixelIdxsFromText() {
@@ -248,14 +248,14 @@ angular.module('pguPlayApp').controller('DrawCtrl', //
                 var n = draw_pixels.data.length;
 
                 var delta = 50;
-                var border_firsts = delta;
-                var border_lasts = _(pixel_idxs).size() - delta;
+                var firts_pixels = delta;
+                var last_pixels = _(pixel_idxs).size() - delta;
 
                 _(pixel_idxs).each(function (pixel_idx, item_idx) {
 
                     if (pixel_idx < n) {
                         if (item_idx === 1 //
-                            || (cfg.mode === 'borders' && (item_idx < border_firsts || border_lasts < item_idx)) //
+                            || (cfg.mode === 'borders' && (item_idx < firts_pixels || last_pixels < item_idx)) //
                             || (cfg.mode === 'dots' && pixel_idx % cfg.coeff === 0) //
                             ) {
 
