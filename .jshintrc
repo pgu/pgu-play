@@ -20,6 +20,12 @@
         "angular": false,
         "_": false,
         "lunr": false,
-        "$": false
+        "$": false,
+        "beforeEach": false,
+        "inject": false,
+        "describe": false,
+        "it": false,
+        "expect": false,
+        "jasmine": false
     }
 }

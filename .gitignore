@@ -7,4 +7,5 @@ app/WEB-INF/classes
 app/WEB-INF/lib
 libpeerconnection.log
 pgu-play.iml
+coverage
 

@@ -9,18 +9,13 @@ files = [
   JASMINE_ADAPTER,
   'app/components/angular/angular.js',
   'app/components/angular-mocks/angular-mocks.js',
-  'app/scripts/*.js',
+  'app/components/underscore/underscore.js',
   'app/scripts/**/*.js',
-  'test/mock/**/*.js',
   'test/spec/**/*.js'
 ];
 
 // list of files to exclude
 exclude = [];
-
-// test results reporter to use
-// possible values: dots || progress || growl
-reporters = ['progress'];
 
 // web server port
 port = 8080;
@@ -54,3 +49,16 @@ captureTimeout = 5000;
 // Continuous Integration mode
 // if true, it capture browsers, run tests and exit
 singleRun = false;
+
+preprocessors = {
+    'app/scripts/**/*.js': 'coverage'
+};
+
+// test results reporter to use
+// possible values: dots || progress || growl
+reporters = ['progress', 'coverage'];
+
+coverageReporter= {
+    type: 'lcov',
+    dir: 'coverage/'
+};

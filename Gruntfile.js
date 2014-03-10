@@ -63,6 +63,7 @@ module.exports = function (grunt) {
       },
       test: {
         options: {
+          port: 9001,
           middleware: function (connect) {
             return [
               mountFolder(connect, '.tmp'),
@@ -88,7 +89,8 @@ module.exports = function (grunt) {
           ]
         }]
       },
-      server: '.tmp'
+      server: '.tmp',
+      test: ['coverage']
     },
     jshint: {
       options: {
@@ -104,6 +106,17 @@ module.exports = function (grunt) {
         singleRun: true
       }
     },
+      coverage: {
+          options: {
+              thresholds: {
+                  'statements': 1,
+                  'branches': 1,
+                  'functions': 1,
+                  'lines': 1
+              },
+              dir: 'coverage'
+          }
+      },
     coffee: {
       dist: {
         files: [{
@@ -278,11 +291,12 @@ module.exports = function (grunt) {
   ]);
 
   grunt.registerTask('test', [
-    'clean:server',
+    'clean:test',
     'coffee',
     'compass',
     'connect:test',
-    'karma'
+    'karma:unit',
+      'coverage'
   ]);
 
   grunt.registerTask('build', [
