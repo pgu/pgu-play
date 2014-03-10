@@ -17,15 +17,22 @@
     "trailing": true,
     "smarttabs": true,
     "globals": {
+        // APP
         "angular": false,
         "_": false,
         "lunr": false,
         "$": false,
+        // TU
         "beforeEach": false,
         "inject": false,
         "describe": false,
         "it": false,
         "expect": false,
-        "jasmine": false
+        "jasmine": false,
+        // E2E
+        "protractor": false,
+        "browser": false,
+        "element": false,
+        "by": false
     }
 }
