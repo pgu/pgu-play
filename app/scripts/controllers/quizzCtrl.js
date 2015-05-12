@@ -1,8 +1,10 @@
 'use strict';
 
 angular.module('pguPlayApp').controller('QuizzCtrl', //
-    [ '$scope', 'hlp', '$timeout', 'Kanas', //
-        function ($scope, hlp, $timeout, Kanas) { //
+    [ '$scope', 'hlp', '$timeout', 'Kanas', 'MixpanelService', //
+        function ($scope, hlp, $timeout, Kanas, MixpanelService) { //
+
+            MixpanelService.track('open quizz');
 
             $scope.NB_OF_QUESTIONS = 10; // 20
 

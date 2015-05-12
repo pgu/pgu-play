@@ -1,8 +1,10 @@
 'use strict';
 
 angular.module('pguPlayApp').controller('MemoCtrl', //
-    [ '$scope', 'hlp', '$timeout', 'Kanas', //
-        function ($scope, hlp, $timeout, Kanas) { //
+    [ '$scope', 'hlp', '$timeout', 'Kanas', 'MixpanelService', //
+        function ($scope, hlp, $timeout, Kanas, MixpanelService) { //
+
+            MixpanelService.track('open memo');
 
             var HIDDEN_DISPLAY = '&nbsp;';
 

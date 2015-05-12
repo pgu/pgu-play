@@ -1,9 +1,10 @@
 'use strict';
 
 angular.module('pguPlayApp').controller('DrawCtrl', //
-    [ '$scope', 'hlp', '$window', '$timeout', //
-        function ($scope, hlp, $window, $timeout) { //
+    [ '$scope', 'hlp', '$window', '$timeout', 'MixpanelService', //
+        function ($scope, hlp, $window, $timeout, MixpanelService) { //
 
+            MixpanelService.track('open draw');
 
             var lgKey = null;
             var allItems = [];
