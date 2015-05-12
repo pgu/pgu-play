@@ -405,6 +405,8 @@ angular.module('pguPlayApp').controller('DrawCtrl', //
                 if (_(poolOfItems).isEmpty()) {
                     $scope.isGameOn = false;
                     $scope.isGameOver = true;
+
+                    MixpanelService.track('finish draw');
                     return;
                 }
 

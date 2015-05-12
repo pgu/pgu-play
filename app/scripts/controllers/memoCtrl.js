@@ -197,6 +197,8 @@ angular.module('pguPlayApp').controller('MemoCtrl', //
                     if (gameIsOver) {
                         $scope.elapsedTimeInMs = Date.now() - startTime;
 
+                        MixpanelService.track('finish memo');
+
                         resetGame();
                         return;
                     }

@@ -132,6 +132,8 @@ angular.module('pguPlayApp').controller('QuizzCtrl', //
                 if (gameIsOver) {
                     $scope.elapsedTimeInMs = Date.now() - startTime;
 
+                    MixpanelService.track('finish quizz');
+
                     resetGame();
                     return;
                 }
