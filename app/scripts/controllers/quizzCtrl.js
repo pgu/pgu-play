@@ -1,8 +1,10 @@
 'use strict';
 
 angular.module('pguPlayApp').controller('QuizzCtrl', //
-    [ '$scope', 'hlp', '$timeout', 'Kanas', //
-        function ($scope, hlp, $timeout, Kanas) { //
+    [ '$scope', 'hlp', '$timeout', 'Kanas', 'MixpanelService', //
+        function ($scope, hlp, $timeout, Kanas, MixpanelService) { //
+
+            MixpanelService.track('open quizz');
 
             $scope.NB_OF_QUESTIONS = 10; // 20
 
@@ -129,6 +131,8 @@ angular.module('pguPlayApp').controller('QuizzCtrl', //
                 var gameIsOver = itemsOfGame.length === 0;
                 if (gameIsOver) {
                     $scope.elapsedTimeInMs = Date.now() - startTime;
+
+                    MixpanelService.track('finish quizz');
 
                     resetGame();
                     return;

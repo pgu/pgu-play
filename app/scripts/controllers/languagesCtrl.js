@@ -1,8 +1,10 @@
 'use strict';
 
 angular.module('pguPlayApp').controller('LanguagesCtrl', //
-    [ '$scope', 'hlp', 'lunrSrv', '$timeout', //
-        function ($scope, hlp, lunrSrv, $timeout) { //
+    [ '$scope', 'hlp', 'lunrSrv', '$timeout', 'MixpanelService', //
+        function ($scope, hlp, lunrSrv, $timeout, MixpanelService) { //
+
+            MixpanelService.track('open languages');
 
             var NB_ITEMS_BY_PAGE = 20;
 
