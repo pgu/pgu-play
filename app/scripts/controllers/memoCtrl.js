@@ -1,8 +1,10 @@
 'use strict';
 
 angular.module('pguPlayApp').controller('MemoCtrl', //
-    [ '$scope', 'hlp', '$timeout', 'Kanas', //
-        function ($scope, hlp, $timeout, Kanas) { //
+    [ '$scope', 'hlp', '$timeout', 'Kanas', 'MixpanelService', //
+        function ($scope, hlp, $timeout, Kanas, MixpanelService) { //
+
+            MixpanelService.track('open memo');
 
             var HIDDEN_DISPLAY = '&nbsp;';
 
@@ -194,6 +196,8 @@ angular.module('pguPlayApp').controller('MemoCtrl', //
 
                     if (gameIsOver) {
                         $scope.elapsedTimeInMs = Date.now() - startTime;
+
+                        MixpanelService.track('finish memo');
 
                         resetGame();
                         return;

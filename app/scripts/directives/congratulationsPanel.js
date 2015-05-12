@@ -1,8 +1,13 @@
 'use strict';
 
 angular.module('pguPlayApp').controller('congratulationsPanelCtrl', //
-    ['$scope', 'hlp', //
-        function($scope, hlp) { //
+    ['$scope', 'hlp', 'MixpanelService', //
+        function($scope, hlp, MixpanelService) { //
+
+            $scope.repeatGame = function() {
+              MixpanelService.track('repeat game');
+              $scope.onRepeatGame();
+            };
 
             $scope.$watch('elapsedTimeOfGameInMs', function() {
                 $scope.fmtTimeOfGame = $scope.elapsedTimeOfGameInMs > 0 ? hlp.formatTime($scope.elapsedTimeOfGameInMs) : undefined;

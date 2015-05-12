@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('pguPlayApp').controller('languagesToolbarCtrl', //
-    ['$scope', 'LanguagesSrv', 'hlp', //
-        function($scope, LanguagesSrv, hlp) { //
+    ['$scope', 'LanguagesSrv', 'hlp', 'MixpanelService', //
+        function($scope, LanguagesSrv, hlp, MixpanelService) { //
 
     var languages = LanguagesSrv.getLanguages();
 
@@ -66,6 +66,7 @@ angular.module('pguPlayApp').controller('languagesToolbarCtrl', //
         //
         languageOption.isSelected = true;
         var language = languageOption.getOption();
+        MixpanelService.track(language.getKey());
 
         $scope.onSetInfo({ info: language.getInfo() });
 
