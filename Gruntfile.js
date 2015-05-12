@@ -257,7 +257,8 @@ module.exports = function (grunt) {
             'workers/**/*',
             'images/{,*/}*.{gif,webp}',
             'styles/fonts/*',
-            'js/*.min.js',
+            'js/lunr.min.js',
+            'js/mixpanel.js',
             'WEB-INF/**/*'
           ]
         }]
