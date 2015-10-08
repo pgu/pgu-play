@@ -5,6 +5,12 @@ Website
 ---
 [<strong>&#8594; Play!</strong>](http://pgu-play.appspot.com/#/)
 
+![](game-quizz.gif)
+
+![](game-memo.gif)
+
+![](game-writing.gif)
+
 Purpose
 ---
 Games for learning new alphabets and languages.
@@ -21,4 +27,3 @@ Built with:
 - [Grunt](http://gruntjs.com/)
 - [App Engine](https://developers.google.com/appengine/)
 - [Firefox OS](https://developer.mozilla.org/en/docs/Mozilla/Firefox_OS)
-
